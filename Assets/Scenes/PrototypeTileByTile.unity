@@ -1568,7 +1568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5440157052116569270, guid: ebe54073339457d438b72a666ed3ac27, type: 3}
       propertyPath: tileType
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5440157052116569290, guid: ebe54073339457d438b72a666ed3ac27, type: 3}
       propertyPath: m_RootOrder
@@ -1617,7 +1617,7 @@ PrefabInstance:
     - target: {fileID: 5440157052325515669, guid: ebe54073339457d438b72a666ed3ac27, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 8bca9abf59a9b624e8b1768b8945a70f, type: 2}
+      objectReference: {fileID: 2100000, guid: f292efad185df144ba03fb8e7456fabb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebe54073339457d438b72a666ed3ac27, type: 3}
 --- !u!4 &1539882187 stripped
