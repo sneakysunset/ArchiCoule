@@ -8,6 +8,8 @@ public class TileFunctions : MonoBehaviour
     GridTileEdit tileE;
     Renderer meshR;
     Collider col;
+
+    //Recupère références
     private void Awake()
     {
         t = GetComponent<GridTile>();
@@ -18,6 +20,7 @@ public class TileFunctions : MonoBehaviour
 
     private void Start()
     {
+        //Désactive les tiles disabled
         if (t.tileType == GridTile.tileTypes.Disabled)
         {
             t.walkable = false;
@@ -31,6 +34,7 @@ public class TileFunctions : MonoBehaviour
 
     public void ChangeTileType(GridTile.tileTypes tType)
     {
+        //Change les ta couleurs des tiles
         t.tileType = tType;
         switch (t.tileType)
         {

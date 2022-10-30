@@ -9,6 +9,7 @@ public class CameraBehavior : MonoBehaviour
     public float smooth;
     private void LateUpdate()
     {
+        //La caméra suit le joueur avec un court délai.
         transform.position = Vector3.SmoothDamp(transform.position, PlayerT.position, ref velocity, smooth);
     }
 }

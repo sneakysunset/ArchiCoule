@@ -12,6 +12,7 @@ public struct InputKey
     public UnityEvent InputEvent;
 }
 
+//Events lancés quand le joueur appuie sur un input.
 public class InputManager : MonoBehaviour
 {
     public List<InputKey> Inputs;

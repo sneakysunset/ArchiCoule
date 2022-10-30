@@ -4,12 +4,15 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
+//Ce script ne s'execute que dans l'éditeur en dehors du play mode
 [ExecuteInEditMode]
 public class GridTileEdit : MonoBehaviour
 {
 
     GridTile tile;
     [HideInInspector] GridTile.tileTypes currentType;
+    [HideInInspector] bool currentOgPos;
     Renderer meshR;
 
     [Space(5)] [Header("Materials")] [Space(3)]
@@ -17,6 +20,7 @@ public class GridTileEdit : MonoBehaviour
     public Material T1_Mat;
     public Material T2_Mat;
     public Material Disabled_Mat;
+    public GameObject ogPosItem;
 
 #if UNITY_EDITOR
 
@@ -30,15 +34,33 @@ public class GridTileEdit : MonoBehaviour
     void Update()
     {
         TilePositionRestrictions();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            print(1);
-        }
 
+        //Check si le type de tile est le même qu'à la frame précédente
         if (currentType != tile.tileType)
         {
             currentType = tile.tileType;
+            //Si le type de tile à été changé depuis la dernière frame change les matériels.
             ChangeMaterial();
+        }
+
+        if(currentOgPos != tile.ogPos)
+        {
+            currentOgPos = tile.ogPos;
+            gridTileParameterChanges(ogPosItem, "Original Position", .51f);
+        }
+    }
+
+
+    private void gridTileParameterChanges(GameObject obj, string name, float yPos)
+    {
+        if (transform.Find(name))
+        {
+            DestroyImmediate(transform.Find(name).gameObject);
+        }
+        else
+        {
+            var inst = Instantiate(obj, transform.position + new Vector3(0, yPos, 0), Quaternion.identity, transform);
+            inst.name = name;
         }
     }
 
@@ -63,6 +85,8 @@ public class GridTileEdit : MonoBehaviour
         }
     }
 
+    //Les tiles ne peuvent pas etre positionnée en position flotantes (que des positions à valeurs entieres)
+    //Elles ne peuvent pas aussi avoir de position négative ou être trop éloignée du centre.
     private void TilePositionRestrictions()
     {
         transform.position = new Vector3(

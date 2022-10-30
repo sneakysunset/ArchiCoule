@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PrototypeTileByTile.unity
     guid: dfb9fec24ec87fd44a43632e9d3c2997
+  - enabled: 1
+    path: Assets/Scenes/Protorype FreeRun.unity
+    guid: a8521adbf5f2f4141a316bef27a6eb84
   m_configObjects: {}

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+//Scripts avec des events appelés lorsque l'objet à une collision ou sort d'un collider.
+
 [System.Serializable]
 public struct Event
 {

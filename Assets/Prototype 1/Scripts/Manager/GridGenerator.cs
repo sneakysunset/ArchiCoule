@@ -11,7 +11,7 @@ public class GridGenerator : MonoBehaviour
     public GridTile?[,] grid;
     [SerializeField] public bool instantiateGrid = false;
     public GameObject Tile;
-    Transform playerT;
+    public Transform playerT;
     public static GridGenerator Instance { get; private set; }
     Transform tileHolder;
 
@@ -25,6 +25,7 @@ public class GridGenerator : MonoBehaviour
 
     void Awake()
     {
+        //Un truc pour empêcher d'avoir plusieurs singleton dans une scene.
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -35,21 +36,13 @@ public class GridGenerator : MonoBehaviour
         }
 
         instantiateGrid = false;
-        
-        GridTile[] list = FindObjectsOfType<GridTile>();
 
-        grid = new GridTile[raws + 1, columns + 1];
-        for (int i = 0; i < list.Length; i++)
-        {
-            int x = (int)list[i].transform.position.x / (int)list[i].transform.localScale.x;
-            int y = (int)list[i].transform.position.z / (int)list[i].transform.localScale.y;
-            grid[x, y] = list[i];
-            grid[x, y].name = "tiles " + x + " " + y;
-        }
+        generateGrid();
 
     }
     private void Start()
     {
+        //Place le joueur sur la tile avec le bool ogPos activé.
         foreach (GridTile obj in grid)
         {
             if (obj.ogPos)
@@ -62,15 +55,18 @@ public class GridGenerator : MonoBehaviour
 
     public void generateGrid()
     {
-        GridTile[] list = FindObjectsOfType<GridTile>();
-        if (list.Length != 0)
+        //Trouve toutes les tiles existant dans la scène et les met dans un tableau temporaire et pas classé.
+        GridTile[] tempGrid = FindObjectsOfType<GridTile>();
+
+        //Ordonne dans un nouveau tableau toutes les tiles en fonction de leur position et les renomme.
+        if(tempGrid.Length > 0)
         {
             grid = new GridTile[raws + 1, columns + 1];
-            for (int i = 0; i < list.Length; i++)
+            for (int i = 0; i < tempGrid.Length; i++)
             {
-                int x = (int)list[i].transform.position.x / (int)list[i].transform.localScale.x;
-                int y = (int)list[i].transform.position.z / (int)list[i].transform.localScale.y;
-                grid[x, y] = list[i];
+                int x = (int)tempGrid[i].transform.position.x / (int)tempGrid[i].transform.localScale.x;
+                int y = (int)tempGrid[i].transform.position.z / (int)tempGrid[i].transform.localScale.y;
+                grid[x, y] = tempGrid[i];
                 grid[x, y].name = "tiles " + x + " " + y;
             }
         }
@@ -81,29 +77,32 @@ public class GridGenerator : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        //Fonction called en inspector quand le booléen instantiateGrid est appelé.
         if (instantiateGrid)
         {
             tileHolder = GameObject.FindGameObjectWithTag("Grid").transform; 
 
-            GridTile[] list = FindObjectsOfType<GridTile>();
+            GridTile[] tempGrid = FindObjectsOfType<GridTile>();
             grid = new GridTile[raws + 1, columns + 1];
-            for (int i = 0; i < list.Length; i++)
+            for (int i = 0; i < tempGrid.Length; i++)
             {
-                if(list[i].transform.position.x > raws || list[i].transform.position.z > columns)
+                //Si une tile est en dehors des dimension de la grille la détruit.
+                if(tempGrid[i].transform.position.x > raws || tempGrid[i].transform.position.z > columns)
                 {
-                    DestroyImmediate(list[i].gameObject);
+                    DestroyImmediate(tempGrid[i].gameObject);
                     return;
                 }
                 else
                 {
-                    int x = (int)list[i].transform.position.x / (int)list[i].transform.localScale.x;
-                    int y = (int)list[i].transform.position.z / (int)list[i].transform.localScale.y;
-                    grid[x, y] = list[i];
+                    int x = (int)tempGrid[i].transform.position.x / (int)tempGrid[i].transform.localScale.x;
+                    int y = (int)tempGrid[i].transform.position.z / (int)tempGrid[i].transform.localScale.y;
+                    grid[x, y] = tempGrid[i];
                     grid[x, y].name = "tiles " + x + " " + y;
                 }
             }
 
 
+            //Si une tile n'existe pas dans les dimension de la grille l'instantie.
             for (int x = 0; x < raws + 1; x++)
             {
                 for (int y = 0; y < columns + 1; y++)
@@ -126,7 +125,7 @@ public class GridGenerator : MonoBehaviour
                     }
                 }
             }
-
+            //Met fin à la génération de grille.
             instantiateGrid = false;
 
         }

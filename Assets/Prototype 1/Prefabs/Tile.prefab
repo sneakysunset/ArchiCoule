@@ -151,6 +151,7 @@ MonoBehaviour:
   T1_Mat: {fileID: 2100000, guid: 9fac8319958acba4998ace9051e26c17, type: 2}
   T2_Mat: {fileID: 2100000, guid: 0f583462abef89e4bbba66ca8dce25ef, type: 2}
   Disabled_Mat: {fileID: 2100000, guid: 8bca9abf59a9b624e8b1768b8945a70f, type: 2}
+  ogPosItem: {fileID: 2289198198823947323, guid: adeb77aac136a49429ff7130c5af596f, type: 3}
 --- !u!114 &1699720419968180223
 MonoBehaviour:
   m_ObjectHideFlags: 0
