@@ -8,9 +8,22 @@ public class CollisionPainter : MonoBehaviour{
     public float hardness = 1;
 
     private void OnCollisionStay(Collision other) {
+
         Paintable p = other.collider.GetComponent<Paintable>();
         if(p != null){
             Vector3 pos = other.contacts[0].point;
+            PaintManager.instance.paint(p, pos, radius, hardness, strength, paintColor);
+        }
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        
+        Paintable p = hit.collider.GetComponent<Paintable>();
+        if (p != null)
+        {
+            Vector3 pos = hit.point;
+            
             PaintManager.instance.paint(p, pos, radius, hardness, strength, paintColor);
         }
     }
