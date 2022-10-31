@@ -13,10 +13,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - ColliderJ1
+  - Player1
+  - ColliderJ2
+  - Player2
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: edge
+    uniqueID: 2797769707
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
