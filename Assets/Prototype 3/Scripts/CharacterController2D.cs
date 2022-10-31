@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.ReorderableList;
+//using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 
 public class CharacterController2D : MonoBehaviour
@@ -28,7 +28,7 @@ public class CharacterController2D : MonoBehaviour
             case Team.J1:
                 pRend.color = colorJ1;
                 horizontal = "HorizontalJ1";
-                jumpKey = KeyCode.Space;
+                jumpKey = KeyCode.W;
                 break;
             case Team.J2:
                 pRend.color = colorJ2;

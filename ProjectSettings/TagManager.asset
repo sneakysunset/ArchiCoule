@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Grid
   - Tile
+  - EdgeCollider
+  - Resp
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - Player1
   - ColliderJ2
   - Player2
-  - 
+  - EdgeCollider
   - 
   - 
   - 
