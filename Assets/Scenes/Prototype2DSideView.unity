@@ -1325,6 +1325,10 @@ PrefabInstance:
       propertyPath: meshFilter
       value: 
       objectReference: {fileID: 8690375781749565989, guid: 8b022f7186b437443ba7ea22e280029c, type: 3}
+    - target: {fileID: 8651767175390452977, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: distanceToCreateNewMesh
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 895075337816810323, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 68e705da722cadc4facc4552e86f197c, type: 3}

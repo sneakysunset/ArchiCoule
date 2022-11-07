@@ -10,9 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1775201043333655789}
   - component: {fileID: 8651767175390452977}
-  - component: {fileID: 17652742492518415}
   - component: {fileID: 1775201043333655794}
-  - component: {fileID: 895075337816810323}
   - component: {fileID: 1775201043333655790}
   m_Layer: 0
   m_Name: J1
@@ -50,23 +48,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a57bef8fcc03a04592fdd389476e0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 0.3
-  meshFilter: {fileID: 0}
---- !u!114 &17652742492518415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775201043333655785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6dd3497e5566054f8c447349e7e7176, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  meshPrefab: {fileID: 8690375781749565991, guid: 8b022f7186b437443ba7ea22e280029c, type: 3}
   distanceToAddPoint: 0.5
   distanceToCreateNewMesh: 2
+  width: 0.3
+  lineYOffSet: 0
 --- !u!114 &1775201043333655794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,21 +74,6 @@ MonoBehaviour:
   moveSpeed: 5
   gravityStrength: 5
   horizontal: 0
---- !u!114 &895075337816810323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775201043333655785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f50db772559e2c468b919a1f09571ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lineR: {fileID: 0}
-  distanceToAddPoint: 0.5
-  player1: 0
 --- !u!50 &1775201043333655790
 Rigidbody2D:
   serializedVersion: 4
