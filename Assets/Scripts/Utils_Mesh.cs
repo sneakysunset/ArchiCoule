@@ -149,8 +149,8 @@ public static class Utils_Mesh
             else
             {
                 int pI = (i - 1) / 2;
-                vertices[i] = pointList[pI] + new Vector2(0, lineWidth);
-                //vertices[i] = ParallelePoint(pointList[pI], pointList[pI - 1], pointList[pI + 1], lineWidth);
+                //vertices[i] = pointList[pI] + new Vector2(0, lineWidth);
+                vertices[i] = ParallelePoint(pointList[pI], pointList[pI - 1], pointList[pI + 1], lineWidth);
 
             }
         }

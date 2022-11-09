@@ -88,14 +88,19 @@ public class CharacterController2D : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-/*        groundCheck = false;
+        groundCheck = false;
         for (int i = 0; i < collision.contacts.Length; i++)
         {
-            if (collision.contacts[i].normal.y > normalYmaxInclinasion) 
-            {  
+            if (collision.contacts[i].normal.y > normalYmaxInclinasion)
+            {
                 groundCheck = true;
+                if (groundCheckEnum != null)
+                {
+                    StopCoroutine(groundCheckEnum);
+                    groundCheckEnum = null;
+                }
             }
-        }*/
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
