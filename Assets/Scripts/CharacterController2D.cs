@@ -18,7 +18,7 @@ public class CharacterController2D : MonoBehaviour
     public float gravityStrength;
     private float ogGravity;
     public string horizontal;
-    KeyCode jumpKey;
+    public KeyCode jumpKey;
     [Range(-1f, 1f)] public float yNormalLineCollision;
     private Vector3 prevVelocity;
     private void Start()
@@ -32,12 +32,11 @@ public class CharacterController2D : MonoBehaviour
                 pRend.material.color = colorJ1;
                 col = colorJ1;
                 horizontal = "HorizontalJ1";
-                jumpKey = KeyCode.W;
                 break;
             case Team.J2:
                 pRend.material.color = colorJ2;
                 col = colorJ2;
-                jumpKey = KeyCode.UpArrow;
+
                 horizontal = "HorizontalJ2";
                 break;
             default:
