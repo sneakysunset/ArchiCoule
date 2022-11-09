@@ -21,6 +21,7 @@ public class CharacterController2D : MonoBehaviour
     public KeyCode jumpKey;
     [Range(-1f, 1f)] public float yNormalLineCollision;
     private Vector3 prevVelocity;
+    public float ghostInputTimer;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -36,7 +37,6 @@ public class CharacterController2D : MonoBehaviour
             case Team.J2:
                 pRend.material.color = colorJ2;
                 col = colorJ2;
-
                 horizontal = "HorizontalJ2";
                 break;
             default:
@@ -54,14 +54,19 @@ public class CharacterController2D : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
-        
         Move();
         if (jumping)
         {
             rb.mass = ogGravity;
             rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+
             jumping = false;
+            groundCheck = false;
+            if (groundCheckEnum != null)
+            {
+                StopCoroutine(groundCheckEnum);
+                groundCheckEnum = null;
+            }
         }
         else if(!groundCheck)
         {
@@ -83,14 +88,14 @@ public class CharacterController2D : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        groundCheck = false;
+/*        groundCheck = false;
         for (int i = 0; i < collision.contacts.Length; i++)
         {
             if (collision.contacts[i].normal.y > normalYmaxInclinasion) 
-            {
+            {  
                 groundCheck = true;
             }
-        }
+        }*/
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -99,13 +104,26 @@ public class CharacterController2D : MonoBehaviour
         {
             collision.gameObject.layer = LayerMask.NameToLayer("NoCollisionPlayer");
             rb.velocity = prevVelocity;
-            //collision.collider.enabled = false;
+        }
+
+        for (int i = 0; i < collision.contacts.Length; i++)
+        {
+            if (collision.contacts[i].normal.y > normalYmaxInclinasion)
+            {
+                groundCheck = true;
+                if (groundCheckEnum != null)
+                {
+                    StopCoroutine(groundCheckEnum);
+                    groundCheckEnum = null;
+                }
+            }
         }
     }
-
+    IEnumerator groundCheckEnum;
     private void OnCollisionExit(Collision collision)
     {
-        groundCheck = false;
+        groundCheckEnum = waitForGroundCheckOff(ghostInputTimer);
+        StartCoroutine(groundCheckEnum);
     }
 
     private void OnTriggerExit(Collider other)
@@ -117,9 +135,16 @@ public class CharacterController2D : MonoBehaviour
         }
     }
 
+    IEnumerator waitForGroundCheckOff(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        groundCheck = false;
+    }
+
     IEnumerator WaitForPhysics()
     {
         yield return new WaitForFixedUpdate();
         prevVelocity = rb.velocity;
+
     }
 }

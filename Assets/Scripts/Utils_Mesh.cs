@@ -92,17 +92,17 @@ public static class Utils_Mesh
     }
 
 
-    public static void AddPoints(float[] pointArray, List<Vector2> pointList, float closestVertice, Vector2 currentPosition, float minDistance)
+    public static void AddPoints(float[] pointArray, List<Vector2> pointList, float closestVertice, Vector2 currentPosition, float minDistance, float offSetY)
     {
-        float playerPoint = closestPoint(pointArray, currentPosition.x);
-        float temp = Mathf.Abs(playerPoint - closestVertice);
+        float playerPointX = closestPoint(pointArray, currentPosition.x);
+        float temp = Mathf.Abs(playerPointX - closestVertice);
         float prevY = pointList[pointList.Count-1].y;
-
-        if(playerPoint - closestVertice < 0)
+ 
+        if(playerPointX - closestVertice < 0)
         {
             for (float i = temp - minDistance; i > 0; i -= minDistance)
             {
-                float xPos = playerPoint + i;
+                float xPos = playerPointX + i;
                 float yPos = currentPosition.y - ((currentPosition.y - prevY) * i / temp);
                 Vector2 newPoint = new Vector2(xPos, yPos);
                 pointList.Add(newPoint);
@@ -112,13 +112,13 @@ public static class Utils_Mesh
         {
             for (float i = temp - minDistance; i > 0; i -= minDistance)
             {
-                float xPos = playerPoint - i;
+                float xPos = playerPointX - i;
                 float yPos = currentPosition.y - ((currentPosition.y - prevY) * i / temp);
                 Vector2 newPoint = new Vector2(xPos, yPos);
                 pointList.Add(newPoint);
             }
         }
-        pointList.Add(new Vector2(playerPoint, currentPosition.y));
+        pointList.Add(new Vector2(playerPointX, currentPosition.y));
     }
 
     public static void UpdatePointsPos(List<Vector2> pointList, int closestPointIndex, Vector2 currentPosition, float offSetY)
