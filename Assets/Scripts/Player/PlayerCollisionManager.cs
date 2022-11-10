@@ -22,7 +22,6 @@ public class PlayerCollisionManager : MonoBehaviour
         StartCoroutine(WaitForPhysics());
     }
 
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "LineCollider" && collision.contacts[0].normal.y < yNormalLineCollision)
@@ -67,8 +66,6 @@ public class PlayerCollisionManager : MonoBehaviour
         groundCheckEnum = waitForGroundCheckOff(charC.ghostInputTimer);
         StartCoroutine(groundCheckEnum);
     }
-
-
 
     public IEnumerator waitForGroundCheckOff(float timer)
     {

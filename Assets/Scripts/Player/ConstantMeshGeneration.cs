@@ -6,9 +6,8 @@ using System;
 public class ConstantMeshGeneration : MonoBehaviour
 {
     #region Variables
-    [SerializeField] private float[] pointArray;
+    /*[SerializeField]*/ private float[] pointArray;
     private List<Vector2> pointList = new List<Vector2>();
-    public List<Vector2> linelists;
     private Color col;
     public GameObject meshPrefab;
     private CharacterController2D charC;
@@ -60,9 +59,6 @@ public class ConstantMeshGeneration : MonoBehaviour
 
         Mesh m = new Mesh();
         m.name = "trailMesh";
-
-        linelists.Clear();
-        linelists = list;
 
         Utils_Mesh.UpdateMeshVertices(list, width, m);
         Utils_Mesh.UpdateMeshTriangles(list.Count, m);

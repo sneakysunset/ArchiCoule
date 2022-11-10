@@ -82,6 +82,7 @@ public class CharacterController2D : MonoBehaviour
         float horizontalAxis = Input.GetAxis(horizontal);
         rb.velocity = new Vector2(horizontalAxis * moveSpeed * Time.deltaTime * 100, rb.velocity.y) ;
     }
+
     public IEnumerator WaitForPhysics()
     {
         yield return new WaitForFixedUpdate();
@@ -100,6 +101,7 @@ public class CharacterController2D : MonoBehaviour
                 print(2);
             }
         }
+
     }
 }
 

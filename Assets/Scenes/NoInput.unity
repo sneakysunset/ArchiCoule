@@ -672,8 +672,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d7ea0969dbadf49810b8221ae0190e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointArray: []
-  linelists: []
   meshPrefab: {fileID: 8690375781749565991, guid: 5f7adfa98344606418ff89658eac1cbd, type: 3}
   lineResolution: 0.2
   lineBeginningX: -30
@@ -1090,8 +1088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d7ea0969dbadf49810b8221ae0190e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointArray: []
-  linelists: []
   meshPrefab: {fileID: 8690375781749565991, guid: 5f7adfa98344606418ff89658eac1cbd, type: 3}
   lineResolution: 0.2
   lineBeginningX: -30
@@ -1647,8 +1643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d7ea0969dbadf49810b8221ae0190e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointArray: []
-  linelists: []
   meshPrefab: {fileID: 8690375781749565991, guid: 8b022f7186b437443ba7ea22e280029c, type: 3}
   lineResolution: 0.2
   lineBeginningX: -30
@@ -1708,8 +1702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d7ea0969dbadf49810b8221ae0190e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointArray: []
-  linelists: []
   meshPrefab: {fileID: 8690375781749565991, guid: 8b022f7186b437443ba7ea22e280029c, type: 3}
   lineResolution: 0.2
   lineBeginningX: -30
@@ -2174,7 +2166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5824794149158706298}
   - component: {fileID: 2583037686925042121}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: PassThrough
   m_TagString: Untagged
   m_Icon: {fileID: 0}
