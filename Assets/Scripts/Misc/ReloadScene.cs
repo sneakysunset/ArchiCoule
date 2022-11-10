@@ -9,4 +9,14 @@ public class ReloadScene : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void withScene()
+    {
+        SceneManager.LoadScene("WithInput");
+    }
+
+    public void withoutScene()
+    {
+        SceneManager.LoadScene("NoInput");
+    }
 }

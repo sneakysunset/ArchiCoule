@@ -24,6 +24,7 @@ public class CharacterController2D : MonoBehaviour
     [HideInInspector] public float gravityStrength;
     [HideInInspector] public KeyCode jumpKey;
     [HideInInspector] public float ghostInputTimer;
+    [HideInInspector] public float movementScaler;
     IEnumerator movingEnum;
     private void Start()
     {
@@ -174,6 +175,9 @@ public class OnGUIEditorHide : Editor
 
         GUILayout.Label("Timer before the player can't jump after leaving the ground", parameter);
         script.ghostInputTimer = EditorGUILayout.FloatField("Ghost Input Timer", script.ghostInputTimer);
+
+        GUILayout.Label("The Speed at which the player scales down when creating line points", parameter);
+        script.movementScaler = EditorGUILayout.FloatField("Movement Scaler", script.movementScaler);
 
         EditorUtility.SetDirty(script); 
     }

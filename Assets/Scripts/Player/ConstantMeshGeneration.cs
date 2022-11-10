@@ -16,11 +16,13 @@ public class ConstantMeshGeneration : MonoBehaviour
     private MeshCollider meshC;
     private MeshRenderer meshR;
     [Space(20)]
+    public KeyCode absorbLineKey;
     [Range(.001f, 1)] public float lineResolution = .5f;
     public float lineBeginningX = -13f;
     public float lineEndX = 13f;
     public float width = .3f;
     public float lineYOffSet = 0;
+    public int numberOfPointAbsorbed;
     #endregion
 
     private void Start()
@@ -32,8 +34,16 @@ public class ConstantMeshGeneration : MonoBehaviour
         var firstPoint = new Vector2(Utils_Mesh.closestPoint(pointArray, transform.position.x), transform.position.y);
         pointList.Add(firstPoint);
         InstantiateMesh();
+    }
 
-        //InvokeRepeating("MeshCreator", 0, 0.005f);
+    bool absorbing;
+    private void Update()
+    {
+        if (Input.GetKey(absorbLineKey))
+        {
+            absorbing = true;
+        }
+        else absorbing = false;
     }
 
     private void InstantiateMesh()
@@ -47,8 +57,30 @@ public class ConstantMeshGeneration : MonoBehaviour
         charC.meshObj = temp;
     }
 
+    bool absorbFlag = false;
+    public float absorbRate;
     private void FixedUpdate()
     {
+        if (absorbing && pointList.Count > 1 && !absorbFlag)
+        {
+            StartCoroutine(MeshAbsorption(absorbRate));
+            absorbFlag = true;
+        }
+        else MeshCreator();
+    }
+
+    IEnumerator MeshAbsorption(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        int i = 0;
+        while (i < numberOfPointAbsorbed)
+        {
+            i++;
+            pointList.RemoveAt(0);
+            charC.transform.localScale += Vector3.one * charC.movementScaler * Time.deltaTime;
+        }
+
+        absorbFlag = false;
         MeshCreator();
     }
 
@@ -87,13 +119,14 @@ public class ConstantMeshGeneration : MonoBehaviour
             if (Mathf.Abs(pointList[i].x - pointList[i - 1].x) < lineResolution * .9f)
             {
                 pointList.RemoveAt(i);
+                charC.transform.localScale += Vector3.one * charC.movementScaler / 100;
                 return;
             }
         }
         bool condition2 = Mathf.Abs(transform.position.x - closestVertexX) > lineResolution;
 
         if (condition2)
-            Utils_Mesh.AddPoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet);
+            Utils_Mesh.AddPoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet, charC);
         else if (!condition2)
             Utils_Mesh.UpdatePointsPos(pointList, closestVertexIndex, transform.position, lineYOffSet);
     }

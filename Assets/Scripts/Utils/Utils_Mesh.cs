@@ -92,7 +92,7 @@ public static class Utils_Mesh
     }
 
 
-    public static void AddPoints(float[] pointArray, List<Vector2> pointList, float closestVertice, Vector2 currentPosition, float minDistance, float offSetY)
+    public static void AddPoints(float[] pointArray, List<Vector2> pointList, float closestVertice, Vector2 currentPosition, float minDistance, float offSetY, CharacterController2D charC)
     {
         float playerPointX = closestPoint(pointArray, currentPosition.x);
         float temp = Mathf.Abs(playerPointX - closestVertice);
@@ -106,6 +106,8 @@ public static class Utils_Mesh
                 float yPos = currentPosition.y - ((currentPosition.y - prevY) * i / temp);
                 Vector2 newPoint = new Vector2(xPos, yPos);
                 pointList.Add(newPoint);
+                charC.transform.localScale -= Vector3.one * charC.movementScaler / 100;
+
             }
         }
         else
@@ -116,9 +118,12 @@ public static class Utils_Mesh
                 float yPos = currentPosition.y - ((currentPosition.y - prevY) * i / temp);
                 Vector2 newPoint = new Vector2(xPos, yPos);
                 pointList.Add(newPoint);
+                charC.transform.localScale -= Vector3.one * charC.movementScaler / 100;
             }
         }
         pointList.Add(new Vector2(playerPointX, currentPosition.y));
+        charC.transform.localScale -= Vector3.one * charC.movementScaler / 100;
+
     }
 
     public static void UpdatePointsPos(List<Vector2> pointList, int closestPointIndex, Vector2 currentPosition, float offSetY)
