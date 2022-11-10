@@ -1638,7 +1638,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1843692075}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56d7ea0969dbadf49810b8221ae0190e, type: 3}
   m_Name: 
@@ -2183,7 +2183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6298531074214747162}
   - component: {fileID: 1309638674028727044}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: PassThrough
   m_TagString: Untagged
   m_Icon: {fileID: 0}

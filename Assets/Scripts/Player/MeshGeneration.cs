@@ -57,7 +57,8 @@ public class MeshGeneration : MonoBehaviour
 
         if (list.Count < 4) return;
 
-        FMODUnity.RuntimeManager.PlayOneShot("event:/Mouvement Corde/Tirage corde");
+        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
+        //FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/Landcorde");
         Mesh m = new Mesh();
         m.name = "trailMesh";
 

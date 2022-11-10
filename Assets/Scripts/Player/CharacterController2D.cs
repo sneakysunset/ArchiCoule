@@ -23,7 +23,7 @@ public class CharacterController2D : MonoBehaviour
     [HideInInspector] public float gravityStrength;
     [HideInInspector] public KeyCode jumpKey;
     [HideInInspector] public float ghostInputTimer;
-
+    IEnumerator movingEnum;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -54,17 +54,42 @@ public class CharacterController2D : MonoBehaviour
         if (groundCheck && Input.GetKeyDown(jumpKey))
             jumping = true;
     }
-
+    bool moveFlag = true;
+    bool moving;
     private void FixedUpdate()
     {
+        if (moveFlag && moving)
+        {
+            if(movingEnum == null)
+            {
+                movingEnum = moveSound(.3f);
+                StartCoroutine(movingEnum);
+            }
+            moveFlag = false;
+        }
         Move();
         if (jumping) Jump();
         else if (!groundCheck) rb.mass += Time.deltaTime * gravityStrength;
 
     }
-
+    IEnumerator moveSound(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Deplacement");
+        if (moving)
+        {
+            movingEnum = moveSound(timer);
+            StartCoroutine(movingEnum);
+        }
+        else
+        {
+            movingEnum = null;
+            moveFlag = true;
+        }
+    }
     private void Jump()
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Jump");
         jumping = false;
         rb.mass = ogGravity;
         rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
@@ -80,6 +105,15 @@ public class CharacterController2D : MonoBehaviour
     private void Move()
     {
         float horizontalAxis = Input.GetAxis(horizontal);
+        if (horizontalAxis != 0 && groundCheck)
+        {
+            moving = true;
+        }
+        else
+        {
+            moveFlag = true;
+            moving = false;
+        } 
         rb.velocity = new Vector2(horizontalAxis * moveSpeed * Time.deltaTime * 100, rb.velocity.y) ;
     }
 

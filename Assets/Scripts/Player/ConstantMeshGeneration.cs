@@ -54,7 +54,7 @@ public class ConstantMeshGeneration : MonoBehaviour
     {
         var list = pointList.OrderBy(v => v.x).ToList();
         UpdatePointList();
-
+        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
         if (list.Count < 4) return;
 
         Mesh m = new Mesh();
