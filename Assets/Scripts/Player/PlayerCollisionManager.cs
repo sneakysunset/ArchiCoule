@@ -15,6 +15,7 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         charC = GetComponent<CharacterController2D>();
         rb = GetComponent<Rigidbody>();
+        //print(LayerMask.NameToLayer("Collider" + charC.playerType.ToString()));
     }
 
     private void FixedUpdate()
@@ -24,7 +25,7 @@ public class PlayerCollisionManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "LineCollider" && collision.contacts[0].normal.y < yNormalLineCollision)
+        if (collision.gameObject.tag == "LineCollider" && collision.contacts[0].normal.y < yNormalLineCollision && collision.gameObject != charC.meshObj)
         {
             collision.gameObject.layer = LayerMask.NameToLayer("NoCollisionPlayer");
             rb.velocity = prevVelocity;
@@ -77,5 +78,18 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         prevVelocity = rb.velocity;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        //if (other.tag == "LineCollider") print(other.name);
+        if (other.tag == "LineCollider" && other.gameObject.layer != LayerMask.NameToLayer("Collider" + charC.playerType.ToString()) && other.gameObject != charC.meshObj)
+        {
+            other.gameObject.layer = LayerMask.NameToLayer("ColliderJ" + 1);
+            if (charC.playerType == CharacterController2D.Team.J1)
+            {
+                other.gameObject.layer = LayerMask.NameToLayer("ColliderJ" + 2);
+            }
+        }
     }
 }

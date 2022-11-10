@@ -6,9 +6,9 @@ using System.Linq;
 public class MeshGeneration : MonoBehaviour
 {
     #region Variables
-    [SerializeField]private float[] pointArray;
+    /*[SerializeField]*/private float[] pointArray;
     private List<List<Vector2>> lineList = new List<List<Vector2>>();
-    public List<Vector2> linelists;
+
     private List<MeshFilter> meshsF = new List<MeshFilter>();
     private List<MeshCollider> meshsC = new List<MeshCollider>();
     private List<MeshRenderer> meshsR = new List<MeshRenderer>();
@@ -20,7 +20,6 @@ public class MeshGeneration : MonoBehaviour
     [Range(.001f, 1)] public float lineResolution = .5f;
     public float lineBeginningX = -13f;
     public float lineEndX = 13f;
-    //public float distanceToAddPoint = .5f;
     public float distanceToCreateNewMesh = 2;
     public float width = .3f;
     public float lineYOffSet = 0;
@@ -33,7 +32,7 @@ public class MeshGeneration : MonoBehaviour
         charC = GetComponent<CharacterController2D>();
         pointArray = Utils_Mesh.GeneratePointArray(pointArray, lineBeginningX, lineEndX, lineResolution);
         col = charC.col;
-        //InvokeRepeating("Inputer", 0, 0.005f);
+
     }
 
     private void Update()
@@ -45,11 +44,12 @@ public class MeshGeneration : MonoBehaviour
     bool input;
     private void FixedUpdate()
     {
-        if (input) MeshCreator();
+        if (input) 
+            MeshCreator();
     }
 
     void MeshCreator()
-    {
+    { 
         int listIndex = Utils_Mesh.CurrentListIndex(pointArray, lineList, transform.position, distanceToCreateNewMesh, InstantiateMesh);
         var list = lineList[listIndex];
         list = list.OrderBy(v => v.x).ToList();
@@ -58,12 +58,8 @@ public class MeshGeneration : MonoBehaviour
         if (list.Count < 4) return;
 
         FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
-        //FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/Landcorde");
         Mesh m = new Mesh();
         m.name = "trailMesh";
-
-        linelists.Clear() ;
-        linelists = list;
 
         Utils_Mesh.UpdateMeshVertices(list, width, m);
         Utils_Mesh.UpdateMeshTriangles(list.Count, m);
@@ -99,20 +95,13 @@ public class MeshGeneration : MonoBehaviour
             Utils_Mesh.UpdatePointsPos(lineList[listIndex], closestVertexIndex, transform.position, lineYOffSet);
     }
 
-    void Inputer()
-    {
-        if (Input.GetKey(KeyCode.Space)) MeshCreator();
-    }
-
     void InstantiateMesh()
     {
         GameObject temp = Instantiate(meshPrefab, meshFolder);
         meshsF.Add(temp.GetComponent<MeshFilter>());
         meshsC.Add(temp.GetComponent<MeshCollider>());
         meshsR.Add(temp.GetComponent<MeshRenderer>());
+        meshsR[meshsR.Count - 1].material.color = col;
         temp.name = "Mesh " + charC.playerType.ToString() + "N." + (meshsF.Count - 1);
     }
-
-
-
 }

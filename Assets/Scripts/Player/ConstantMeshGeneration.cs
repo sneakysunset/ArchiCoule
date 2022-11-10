@@ -32,6 +32,7 @@ public class ConstantMeshGeneration : MonoBehaviour
         var firstPoint = new Vector2(Utils_Mesh.closestPoint(pointArray, transform.position.x), transform.position.y);
         pointList.Add(firstPoint);
         InstantiateMesh();
+
         //InvokeRepeating("MeshCreator", 0, 0.005f);
     }
 
@@ -43,6 +44,7 @@ public class ConstantMeshGeneration : MonoBehaviour
         meshR = temp.GetComponent<MeshRenderer>();
         meshR.material.color = col;
         temp.name = "Mesh " + charC.playerType.ToString();
+        charC.meshObj = temp;
     }
 
     private void FixedUpdate()
@@ -52,11 +54,13 @@ public class ConstantMeshGeneration : MonoBehaviour
 
     void MeshCreator()
     {
-        var list = pointList.OrderBy(v => v.x).ToList();
+        var list = pointList;
+        list = pointList.OrderBy(v => v.x).ToList();
         UpdatePointList();
-        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
-        if (list.Count < 4) return;
 
+        if (list.Count < 4 || meshF.gameObject.layer == 10) return;
+
+        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
         Mesh m = new Mesh();
         m.name = "trailMesh";
 

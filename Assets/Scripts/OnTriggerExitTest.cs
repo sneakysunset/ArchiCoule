@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class OnTriggerExitTest : MonoBehaviour
 {
-    private void OnTriggerExit(Collider other)
+
+    private void Update()
     {
-        print(1);
+
     }
 }

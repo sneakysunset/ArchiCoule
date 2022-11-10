@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1775201043333655789}
-  - component: {fileID: 8651767175390452977}
   - component: {fileID: 1775201043333655794}
+  - component: {fileID: 8651767175390452977}
   - component: {fileID: 7081149557659283005}
   - component: {fileID: 1074573358669061575}
   m_Layer: 0
@@ -38,28 +38,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8651767175390452977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775201043333655785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a57bef8fcc03a04592fdd389476e0a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointArray: []
-  linelists: []
-  meshPrefab: {fileID: 8690375781749565991, guid: 8b022f7186b437443ba7ea22e280029c, type: 3}
-  lineResolution: 0.2
-  lineBeginningX: -13
-  lineEndX: 13
-  distanceToCreateNewMesh: 2
-  width: 0.2
-  lineYOffSet: 0
-  renderKey: 0
 --- !u!114 &1775201043333655794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +61,26 @@ MonoBehaviour:
   gravityStrength: 5
   jumpKey: 119
   ghostInputTimer: 0.3
+--- !u!114 &8651767175390452977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775201043333655785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a57bef8fcc03a04592fdd389476e0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshPrefab: {fileID: 8690375781749565991, guid: 8b022f7186b437443ba7ea22e280029c, type: 3}
+  lineResolution: 0.2
+  lineBeginningX: -13
+  lineEndX: 13
+  distanceToCreateNewMesh: 2
+  width: 0.2
+  lineYOffSet: 0
+  renderKey: 0
 --- !u!54 &7081149557659283005
 Rigidbody:
   m_ObjectHideFlags: 0

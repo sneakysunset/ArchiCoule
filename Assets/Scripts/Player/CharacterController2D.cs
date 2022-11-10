@@ -15,6 +15,7 @@ public class CharacterController2D : MonoBehaviour
     PlayerCollisionManager collManager;
     string horizontal;
     [HideInInspector] public bool jumping;
+    [HideInInspector] public GameObject meshObj;
 
     [HideInInspector] public Team playerType;
     [HideInInspector] public float jumpStrength;
@@ -121,21 +122,6 @@ public class CharacterController2D : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         groundCheck = false;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "LineCollider" && other.gameObject.layer != LayerMask.NameToLayer("Collider" + playerType.ToString()))
-        {
-            print(1);
-            other.gameObject.layer = LayerMask.NameToLayer("ColliderJ" + 1);
-            if (playerType == CharacterController2D.Team.J1)
-            {
-                other.gameObject.layer = LayerMask.NameToLayer("ColliderJ" + 2);
-                print(2);
-            }
-        }
-
     }
 }
 
