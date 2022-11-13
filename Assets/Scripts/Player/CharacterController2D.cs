@@ -7,16 +7,17 @@ using UnityEditor;
 
 public class CharacterController2D : MonoBehaviour
 {
+    PlayerCollisionManager collManager;
     public enum Team { J1, J2 };
     private Rigidbody rb;
     [HideInInspector] public Color col;
     /*[HideInInspector]*/ public bool groundCheck = false;
     private float ogGravity;
-    PlayerCollisionManager collManager;
+    bool moveFlag = true;
+    bool moving;
     string horizontal;
     [HideInInspector] public bool jumping;
     [HideInInspector] public GameObject meshObj;
-
     [HideInInspector] public Team playerType;
     [HideInInspector] public float jumpStrength;
     [HideInInspector] public Color colorJ1, colorJ2;
@@ -26,6 +27,7 @@ public class CharacterController2D : MonoBehaviour
     [HideInInspector] public float ghostInputTimer;
     [HideInInspector] public float movementScaler;
     IEnumerator movingEnum;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -56,39 +58,16 @@ public class CharacterController2D : MonoBehaviour
         if (groundCheck && Input.GetKeyDown(jumpKey))
             jumping = true;
     }
-    bool moveFlag = true;
-    bool moving;
+
     private void FixedUpdate()
     {
-        if (moveFlag && moving)
-        {
-            if(movingEnum == null)
-            {
-                movingEnum = moveSound(.3f);
-                StartCoroutine(movingEnum);
-            }
-            moveFlag = false;
-        }
+
         Move();
         if (jumping) Jump();
         else if (!groundCheck) rb.mass += Time.deltaTime * gravityStrength;
 
     }
-    IEnumerator moveSound(float timer)
-    {
-        yield return new WaitForSeconds(timer);
-        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Deplacement");
-        if (moving)
-        {
-            movingEnum = moveSound(timer);
-            StartCoroutine(movingEnum);
-        }
-        else
-        {
-            movingEnum = null;
-            moveFlag = true;
-        }
-    }
+
     private void Jump()
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Jump");
@@ -106,6 +85,16 @@ public class CharacterController2D : MonoBehaviour
 
     private void Move()
     {
+        if (moveFlag && moving)
+        {
+            if (movingEnum == null)
+            {
+                movingEnum = moveSound(.3f);
+                StartCoroutine(movingEnum);
+            }
+            moveFlag = false;
+        }
+
         float horizontalAxis = Input.GetAxis(horizontal);
         if (horizontalAxis != 0 && groundCheck)
         {
@@ -123,6 +112,22 @@ public class CharacterController2D : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         groundCheck = false;
+    }
+
+    IEnumerator moveSound(float timer)
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Deplacement");
+        yield return new WaitForSeconds(timer);
+        if (moving)
+        {
+            movingEnum = moveSound(timer);
+            StartCoroutine(movingEnum);
+        }
+        else
+        {
+            movingEnum = null;
+            moveFlag = true;
+        }
     }
 }
 

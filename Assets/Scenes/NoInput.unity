@@ -372,7 +372,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344976801}
   m_LocalRotation: {x: 0.05950705, y: -0, z: -0, w: 0.99822795}
-  m_LocalPosition: {x: 0, y: 4.8, z: -16}
+  m_LocalPosition: {x: 0, y: 8.32, z: -16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -805,50 +805,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d7ea0969dbadf49810b8221ae0190e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointList: []
   meshPrefab: {fileID: 8690375781749565991, guid: 5f7adfa98344606418ff89658eac1cbd, type: 3}
-  absorbLineKey: 303
   lineResolution: 0.2
   lineBeginningX: -100
   lineEndX: 100
   width: 0.2
   lineYOffSet: 0
-  numberOfPointAbsorbed: 1
   threshHoldToUpdatePoints: 0.1
-  absorbRate: 0.05
-  anim:
+  updateSoundFrequency: 0
+  updateAnim:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.071337886
-      value: 0.77964365
-      inSlope: 3.9898288
-      outSlope: 3.9898288
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.3077631
-      outWeight: 0.058453828
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  animSpeed: 0
+  updateAnimSpeed: 0
+--- !u!114 &612092954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612092948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 847891646a8b39944ac8c9729c0789b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  absorbLineKey: 303
+  numberOfPointAbsorbed: 1
+  absorbRate: 0.05
 --- !u!1 &727409889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,50 +1931,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d7ea0969dbadf49810b8221ae0190e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointList: []
   meshPrefab: {fileID: 8690375781749565991, guid: 8b022f7186b437443ba7ea22e280029c, type: 3}
-  absorbLineKey: 32
   lineResolution: 0.2
   lineBeginningX: -100
   lineEndX: 100
   width: 0.2
   lineYOffSet: 0
-  numberOfPointAbsorbed: 1
   threshHoldToUpdatePoints: 0.1
-  absorbRate: 0.05
-  anim:
+  updateSoundFrequency: 0
+  updateAnim:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.81692386
-      value: 0.25689873
-      inSlope: 1.1611845
-      outSlope: 1.1611845
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  animSpeed: 0
+  updateAnimSpeed: 0
+--- !u!114 &1643993302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643993296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 847891646a8b39944ac8c9729c0789b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  absorbLineKey: 32
+  numberOfPointAbsorbed: 1
+  absorbRate: 0.05
 --- !u!1 &1811669180
 GameObject:
   m_ObjectHideFlags: 0

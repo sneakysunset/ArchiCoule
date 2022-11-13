@@ -7,85 +7,39 @@ public class ConstantMeshGeneration : MonoBehaviour
 {
     #region Variables
     /*[SerializeField]*/ private float[] pointArray;
-    private List<Vector2> pointList = new List<Vector2>();
+    public List<Vector2> pointList = new List<Vector2>();
     private Color col;
-    public GameObject meshPrefab;
     private CharacterController2D charC;
     Transform meshFolder;
     private MeshFilter meshF;
     private MeshCollider meshC;
     private MeshRenderer meshR;
-    [Space(20)]
-    public KeyCode absorbLineKey;
+
+    [Header("Components")]
+    [Space(5)]
+    public GameObject meshPrefab;
+
+
+
+    [Space(10)]
+    [Header("Line Variables")]
+    [Space (5)]
     [Range(.001f, 1)] public float lineResolution = .5f;
     public float lineBeginningX = -13f;
     public float lineEndX = 13f;
     public float width = .3f;
     public float lineYOffSet = 0;
-    public int numberOfPointAbsorbed;
+
+    [Space(10)]
+    [Header("Refresh Variables")]
+    [Space(5)]
     public float threshHoldToUpdatePoints;
+    public float updateSoundFrequency;
+    public AnimationCurve updateAnim;
+    public float updateAnimSpeed;
     #endregion
 
-    private void Start()
-    {
-        meshFolder = GameObject.FindGameObjectWithTag("MeshFolder").transform;
-        charC = GetComponent<CharacterController2D>();
-        pointArray = Utils_Mesh.GeneratePointArray(pointArray, lineBeginningX, lineEndX, lineResolution);
-        col = charC.col;
-        var firstPoint = new Vector2(Utils_Mesh.closestPoint(pointArray, transform.position.x), transform.position.y);
-        pointList.Add(firstPoint);
-        InstantiateMesh();
-    }
-
-    bool absorbing;
-    private void Update()
-    {
-        if (Input.GetKey(absorbLineKey))
-        {
-            absorbing = true;
-        }
-        else absorbing = false;
-    }
-
-    private void InstantiateMesh()
-    {
-        GameObject temp = Instantiate(meshPrefab, meshFolder);
-        meshF = temp.GetComponent<MeshFilter>();
-        meshC = temp.GetComponent<MeshCollider>();
-        meshR = temp.GetComponent<MeshRenderer>();
-        meshR.material.color = col;
-        temp.name = "Mesh " + charC.playerType.ToString();
-        charC.meshObj = temp;
-    }
-
-    bool absorbFlag = false;
-    public float absorbRate;
-    private void FixedUpdate()
-    {
-        if (absorbing && pointList.Count > 1 && !absorbFlag)
-        {
-            StartCoroutine(MeshAbsorption(absorbRate));
-            absorbFlag = true;
-        }
-        else MeshCreator();
-    }
-
-    IEnumerator MeshAbsorption(float timer)
-    {
-        yield return new WaitForSeconds(timer);
-        int i = 0;
-        while (i < numberOfPointAbsorbed)
-        {
-            i++;
-            pointList.RemoveAt(0);
-            charC.transform.localScale += Vector3.one * charC.movementScaler * Time.deltaTime;
-        }
-
-        absorbFlag = false;
-        MeshCreator();
-    }
-
-    void MeshCreator()
+    public void MeshCreator()
     {
         var list = pointList;
         list = pointList.OrderBy(v => v.x).ToList();
@@ -111,38 +65,35 @@ public class ConstantMeshGeneration : MonoBehaviour
         meshC.sharedMesh = m;
     }
 
-    public AnimationCurve anim;
-    public float animSpeed;
     public bool UpdatePointList()
     {
-        int closestVertexIndex = Utils_Mesh.ClosestPointInList(pointList, transform.position.x, pointArray);
+        int closestVertexIndex = Utils_Points.ClosestPointInList(pointList, transform.position.x, pointArray);
         float closestVertexX = pointList[closestVertexIndex].x;
-        
+
         BandAidRemovePoints();
 
-        closestVertexIndex = Utils_Mesh.ClosestPointInList(pointList, transform.position.x, pointArray);
+        closestVertexIndex = Utils_Points.ClosestPointInList(pointList, transform.position.x, pointArray);
         closestVertexX = pointList[closestVertexIndex].x;
 
         bool condition2 = false;
         bool condition1 = Mathf.Abs(transform.position.x - closestVertexX) > lineResolution;
-        if(pointList.Count > 4)
+        if (pointList.Count > 4)
         {
-            condition2 =  Mathf.Abs(transform.position.y - pointList[closestVertexIndex].y) > threshHoldToUpdatePoints;
+            condition2 = Mathf.Abs(transform.position.y - pointList[closestVertexIndex].y) > threshHoldToUpdatePoints;
         }
 
 
         if (condition1)
         {
-            Utils_Mesh.AddPoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet, charC);
+            Utils_Points.AddPoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet, charC);
             FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
             return true;
         }
         else if (!condition1 && condition2)
         {
-            StartCoroutine(AnimationLerp(pointList[closestVertexIndex].y, transform.position.y - lineYOffSet, anim, closestVertexIndex, animSpeed));
-            //Remplacer par son de Update de corde;
-            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/Refresh");
-            //Utils_Mesh.UpdatePointsPos(pointList, closestVertexIndex, transform.position, lineYOffSet);
+            var startPos = pointList[closestVertexIndex];
+            var endPos = (Vector2)transform.position - (Vector2.up * lineYOffSet);
+            StartCoroutine(Utils_Anim.AnimationLerp(startPos, endPos, endPos, updateAnim, updateAnimSpeed, returnValue => { pointList[closestVertexIndex] = returnValue; }));
             return true;
         }
         else
@@ -150,23 +101,28 @@ public class ConstantMeshGeneration : MonoBehaviour
             return false;
         }
     }
-    IEnumerator AnimationLerp(float startPos, float endPos, AnimationCurve anim, int i, float speed, Action onLerpEnd = null)
-    {
-        float j = 0;
-        while (j < 1)
-        {
-            j += Time.deltaTime * (1 / speed);
-            var Vec = pointList[i];
-            Vec.y = Mathf.Lerp(startPos, endPos, anim.Evaluate(j));
-            pointList[i] = Vec;
-            yield return new WaitForEndOfFrame();
-        }
 
-        pointList[i] = new Vector2(pointList[i].x, endPos);
-        onLerpEnd?.Invoke();
-        yield return null;
+    private void Start()
+    {
+        meshFolder = GameObject.FindGameObjectWithTag("MeshFolder").transform;
+        charC = GetComponent<CharacterController2D>();
+        pointArray = Utils_Points.GeneratePointArray(pointArray, lineBeginningX, lineEndX, lineResolution);
+        col = charC.col;
+        var firstPoint = new Vector2(Utils_Points.closestPoint(pointArray, transform.position.x), transform.position.y);
+        pointList.Add(firstPoint);
+        InstantiateMesh();
     }
 
+    private void InstantiateMesh()
+    {
+        GameObject temp = Instantiate(meshPrefab, meshFolder);
+        meshF = temp.GetComponent<MeshFilter>();
+        meshC = temp.GetComponent<MeshCollider>();
+        meshR = temp.GetComponent<MeshRenderer>();
+        meshR.material.color = col;
+        temp.name = "Mesh " + charC.playerType.ToString();
+        charC.meshObj = temp;
+    }
 
     //Enleve les doublons, il faut trouver une alternative
     void BandAidRemovePoints()

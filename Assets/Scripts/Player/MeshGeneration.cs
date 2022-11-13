@@ -30,7 +30,7 @@ public class MeshGeneration : MonoBehaviour
     {
         meshFolder = GameObject.FindGameObjectWithTag("MeshFolder").transform;
         charC = GetComponent<CharacterController2D>();
-        pointArray = Utils_Mesh.GeneratePointArray(pointArray, lineBeginningX, lineEndX, lineResolution);
+        pointArray = Utils_Points.GeneratePointArray(pointArray, lineBeginningX, lineEndX, lineResolution);
         col = charC.col;
 
     }
@@ -50,7 +50,7 @@ public class MeshGeneration : MonoBehaviour
 
     void MeshCreator()
     { 
-        int listIndex = Utils_Mesh.CurrentListIndex(pointArray, lineList, transform.position, distanceToCreateNewMesh, InstantiateMesh);
+        int listIndex = Utils_Points.CurrentListIndex(pointArray, lineList, transform.position, distanceToCreateNewMesh, InstantiateMesh);
         var list = lineList[listIndex];
         list = list.OrderBy(v => v.x).ToList();
         UpdatePointList(listIndex);
@@ -76,7 +76,7 @@ public class MeshGeneration : MonoBehaviour
 
     public void UpdatePointList(int listIndex)
     {
-        int closestVertexIndex = Utils_Mesh.ClosestPointInList(lineList[listIndex], transform.position.x, pointArray);
+        int closestVertexIndex = Utils_Points.ClosestPointInList(lineList[listIndex], transform.position.x, pointArray);
         float closestVertexX = lineList[listIndex][closestVertexIndex].x;
         //Enleve les doublons, il faut trouver une alternative
         for (int i = 1; i < lineList[listIndex].Count; i++)
@@ -90,9 +90,9 @@ public class MeshGeneration : MonoBehaviour
         bool condition2 = Mathf.Abs(transform.position.x - closestVertexX) > lineResolution;
       
         if (condition2)
-            Utils_Mesh.AddPoints(pointArray ,lineList[listIndex], closestVertexX, transform.position -  Vector3.up * lineYOffSet, lineResolution, lineYOffSet, charC);
+            Utils_Points.AddPoints(pointArray ,lineList[listIndex], closestVertexX, transform.position -  Vector3.up * lineYOffSet, lineResolution, lineYOffSet, charC);
         else if (!condition2)
-            Utils_Mesh.UpdatePointsPos(lineList[listIndex], closestVertexIndex, transform.position, lineYOffSet);
+            Utils_Points.UpdatePointsPos(lineList[listIndex], closestVertexIndex, transform.position, lineYOffSet);
     }
 
     void InstantiateMesh()
