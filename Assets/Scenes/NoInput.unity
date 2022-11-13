@@ -813,7 +813,7 @@ MonoBehaviour:
   width: 0.2
   lineYOffSet: 0
   numberOfPointAbsorbed: 1
-  threshHoldToUpdatePoints: 0.5
+  threshHoldToUpdatePoints: 0.1
   absorbRate: 0.05
   anim:
     serializedVersion: 2
@@ -1952,7 +1952,7 @@ MonoBehaviour:
   width: 0.2
   lineYOffSet: 0
   numberOfPointAbsorbed: 1
-  threshHoldToUpdatePoints: 0.5
+  threshHoldToUpdatePoints: 0.1
   absorbRate: 0.05
   anim:
     serializedVersion: 2

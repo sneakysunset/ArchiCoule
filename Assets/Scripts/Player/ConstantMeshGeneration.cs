@@ -141,7 +141,7 @@ public class ConstantMeshGeneration : MonoBehaviour
         {
             StartCoroutine(AnimationLerp(pointList[closestVertexIndex].y, transform.position.y - lineYOffSet, anim, closestVertexIndex, animSpeed));
             //Remplacer par son de Update de corde;
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
+            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/Refresh");
             //Utils_Mesh.UpdatePointsPos(pointList, closestVertexIndex, transform.position, lineYOffSet);
             return true;
         }
