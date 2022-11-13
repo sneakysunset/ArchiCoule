@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{ab8585cf-5628-4525-88ad-de3c71b2b38b}">
 		<property name="name">
-			<value>TirageCorde</value>
+			<value>Tiragecorde</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
