@@ -23,6 +23,7 @@ public class ConstantMeshGeneration : MonoBehaviour
     public float width = .3f;
     public float lineYOffSet = 0;
     public int numberOfPointAbsorbed;
+    public float threshHoldToUpdatePoints;
     #endregion
 
     private void Start()
@@ -88,11 +89,12 @@ public class ConstantMeshGeneration : MonoBehaviour
     {
         var list = pointList;
         list = pointList.OrderBy(v => v.x).ToList();
-        UpdatePointList();
+
+        if (!UpdatePointList()) return;
 
         if (list.Count < 4 || meshF.gameObject.layer == 10) return;
 
-        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
+        
         Mesh m = new Mesh();
         m.name = "trailMesh";
 
@@ -109,11 +111,66 @@ public class ConstantMeshGeneration : MonoBehaviour
         meshC.sharedMesh = m;
     }
 
-    public void UpdatePointList()
+    public AnimationCurve anim;
+    public float animSpeed;
+    public bool UpdatePointList()
     {
         int closestVertexIndex = Utils_Mesh.ClosestPointInList(pointList, transform.position.x, pointArray);
         float closestVertexX = pointList[closestVertexIndex].x;
-        //Enleve les doublons, il faut trouver une alternative
+        
+        BandAidRemovePoints();
+
+        closestVertexIndex = Utils_Mesh.ClosestPointInList(pointList, transform.position.x, pointArray);
+        closestVertexX = pointList[closestVertexIndex].x;
+
+        bool condition2 = false;
+        bool condition1 = Mathf.Abs(transform.position.x - closestVertexX) > lineResolution;
+        if(pointList.Count > 4)
+        {
+            condition2 =  Mathf.Abs(transform.position.y - pointList[closestVertexIndex].y) > threshHoldToUpdatePoints;
+        }
+
+
+        if (condition1)
+        {
+            Utils_Mesh.AddPoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet, charC);
+            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
+            return true;
+        }
+        else if (!condition1 && condition2)
+        {
+            StartCoroutine(AnimationLerp(pointList[closestVertexIndex].y, transform.position.y - lineYOffSet, anim, closestVertexIndex, animSpeed));
+            //Remplacer par son de Update de corde;
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
+            //Utils_Mesh.UpdatePointsPos(pointList, closestVertexIndex, transform.position, lineYOffSet);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    IEnumerator AnimationLerp(float startPos, float endPos, AnimationCurve anim, int i, float speed, Action onLerpEnd = null)
+    {
+        float j = 0;
+        while (j < 1)
+        {
+            j += Time.deltaTime * (1 / speed);
+            var Vec = pointList[i];
+            Vec.y = Mathf.Lerp(startPos, endPos, anim.Evaluate(j));
+            pointList[i] = Vec;
+            yield return new WaitForEndOfFrame();
+        }
+
+        pointList[i] = new Vector2(pointList[i].x, endPos);
+        onLerpEnd?.Invoke();
+        yield return null;
+    }
+
+
+    //Enleve les doublons, il faut trouver une alternative
+    void BandAidRemovePoints()
+    {
         for (int i = 1; i < pointList.Count; i++)
         {
             if (Mathf.Abs(pointList[i].x - pointList[i - 1].x) < lineResolution * .9f)
@@ -123,11 +180,5 @@ public class ConstantMeshGeneration : MonoBehaviour
                 return;
             }
         }
-        bool condition2 = Mathf.Abs(transform.position.x - closestVertexX) > lineResolution;
-
-        if (condition2)
-            Utils_Mesh.AddPoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet, charC);
-        else if (!condition2)
-            Utils_Mesh.UpdatePointsPos(pointList, closestVertexIndex, transform.position, lineYOffSet);
     }
 }

@@ -23,12 +23,25 @@ public class PlayerCollisionManager : MonoBehaviour
         StartCoroutine(WaitForPhysics());
     }
 
+    bool enterAgain;
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "LineCollider" && collision.contacts[0].normal.y < yNormalLineCollision && collision.gameObject != charC.meshObj)
         {
             collision.gameObject.layer = LayerMask.NameToLayer("NoCollisionPlayer");
             rb.velocity = prevVelocity;
+            
+            
+        }
+        else if (collision.gameObject.tag == "LineCollider" && collision.contacts[0].normal.y >= yNormalLineCollision && collision.gameObject != charC.meshObj && enterAgain)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/Landcorde");
+            enterAgain = false;
+        }
+        else if(collision.gameObject.tag != "LineCollider")
+        {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Land");
         }
 
         for (int i = 0; i < collision.contacts.Length; i++)
@@ -66,6 +79,13 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         groundCheckEnum = waitForGroundCheckOff(charC.ghostInputTimer);
         StartCoroutine(groundCheckEnum);
+        StartCoroutine(WaitForSeconds(.2f));
+    }
+
+    IEnumerator WaitForSeconds(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        enterAgain = true;
     }
 
     public IEnumerator waitForGroundCheckOff(float timer)

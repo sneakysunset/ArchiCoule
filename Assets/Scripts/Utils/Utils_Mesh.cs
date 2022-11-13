@@ -128,6 +128,7 @@ public static class Utils_Mesh
 
     public static void UpdatePointsPos(List<Vector2> pointList, int closestPointIndex, Vector2 currentPosition, float offSetY)
     {
+        
         pointList[closestPointIndex] = new Vector2(pointList[closestPointIndex].x, currentPosition.y - offSetY);
     }
 
@@ -192,12 +193,22 @@ public static class Utils_Mesh
 
     private static Vector3 ParallelePoint(Vector3 currentPoint, Vector3 previousPoint, Vector3 nextPoint, float lineWidth)
     {
-        float angle = Vector3.Angle(currentPoint - previousPoint, currentPoint - nextPoint);
+        float angle = Vector3.Angle(previousPoint - currentPoint, nextPoint - currentPoint);
         //Debug.Log(angle);
         angle /= 2;
-        Vector3 bissectriceVector = Quaternion.AngleAxis(angle, Vector3.forward) * (currentPoint - previousPoint);
+        Vector3 bissectriceVector = Quaternion.AngleAxis(angle, Vector3.forward) * (nextPoint - currentPoint);
+        /*if (bissectriceVector.y <= 0)
+            Debug.Log("< " + angle);*/
+            //bissectriceVector = Quaternion.AngleAxis(angle, Vector3.forward) * (nextPoint - currentPoint);
         Vector3 parallelePoint = currentPoint + (bissectriceVector.normalized * lineWidth);
         return parallelePoint;
     }
+    #endregion
+
+    #region lerps
+
+
+
+
     #endregion
 }

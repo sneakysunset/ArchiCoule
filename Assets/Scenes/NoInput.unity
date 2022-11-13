@@ -347,7 +347,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 8.59
   m_Depth: -1
   m_CullingMask:
@@ -811,9 +811,44 @@ MonoBehaviour:
   lineBeginningX: -100
   lineEndX: 100
   width: 0.2
-  lineYOffSet: 0.52
-  numberOfPointAbsorbed: 0
+  lineYOffSet: 0
+  numberOfPointAbsorbed: 1
+  threshHoldToUpdatePoints: 0.5
   absorbRate: 0.05
+  anim:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.071337886
+      value: 0.77964365
+      inSlope: 3.9898288
+      outSlope: 3.9898288
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3077631
+      outWeight: 0.058453828
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animSpeed: 0
 --- !u!1 &727409889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1915,9 +1950,44 @@ MonoBehaviour:
   lineBeginningX: -100
   lineEndX: 100
   width: 0.2
-  lineYOffSet: 0.52
-  numberOfPointAbsorbed: 0
+  lineYOffSet: 0
+  numberOfPointAbsorbed: 1
+  threshHoldToUpdatePoints: 0.5
   absorbRate: 0.05
+  anim:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.81692386
+      value: 0.25689873
+      inSlope: 1.1611845
+      outSlope: 1.1611845
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animSpeed: 0
 --- !u!1 &1811669180
 GameObject:
   m_ObjectHideFlags: 0
