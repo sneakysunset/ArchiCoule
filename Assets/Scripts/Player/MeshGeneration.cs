@@ -90,7 +90,7 @@ public class MeshGeneration : MonoBehaviour
         bool condition2 = Mathf.Abs(transform.position.x - closestVertexX) > lineResolution;
       
         if (condition2)
-            Utils_Points.AddPoints(pointArray ,lineList[listIndex], closestVertexX, transform.position -  Vector3.up * lineYOffSet, lineResolution, lineYOffSet, charC);
+            Utils_Points.AddPoints(pointArray ,lineList[listIndex], closestVertexX, transform.position -  Vector3.up * lineYOffSet, lineResolution, lineYOffSet);
         else if (!condition2)
             Utils_Points.UpdatePointsPos(lineList[listIndex], closestVertexIndex, transform.position, lineYOffSet);
     }

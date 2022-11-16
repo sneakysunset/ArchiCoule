@@ -10,6 +10,9 @@ public class PlayerCollisionManager : MonoBehaviour
     public float normalYmaxInclinasion;
     Vector3 prevVelocity;
     [HideInInspector] public IEnumerator groundCheckEnum;
+    public List<Transform> holdableObjects;
+    [HideInInspector] public bool holdingBall = false;
+    public float moveX;
 
     private void Start()
     {
@@ -21,20 +24,29 @@ public class PlayerCollisionManager : MonoBehaviour
     private void FixedUpdate()
     {
         StartCoroutine(WaitForPhysics());
+        moveX = charC.moveValue.x;
     }
 
     bool enterAgain;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "LineCollider" && collision.contacts[0].normal.y < yNormalLineCollision && collision.gameObject != charC.meshObj)
+        if(holdingBall && collision.gameObject.tag == "LineCollider")
+        {
+            //collision.gameObject.layer = LayerMask.NameToLayer("NoCollisionPlayer");
+            collision.gameObject.layer = LayerMask.NameToLayer("ColliderJ" + 1);
+            if (charC.playerType == CharacterController2D.Team.J2)
+            {
+                collision.gameObject.layer = LayerMask.NameToLayer("ColliderJ" + 2);
+            }
+        }
+
+        if (collision.gameObject.tag == "LineCollider" && collision.contacts[0].normal.y < yNormalLineCollision && (collision.gameObject != charC.meshObj || /*holdingBall ||*/ collision.gameObject.layer == 12 ))
         {
             collision.gameObject.layer = LayerMask.NameToLayer("NoCollisionPlayer");
             rb.velocity = prevVelocity;
-            
-            
         }
-        else if (collision.gameObject.tag == "LineCollider" && collision.contacts[0].normal.y >= yNormalLineCollision && collision.gameObject != charC.meshObj && enterAgain)
+        else if (collision.gameObject.tag == "LineCollider" && collision.contacts[0].normal.y >= yNormalLineCollision && (collision.gameObject != charC.meshObj/* || holdingBall*/ || collision.gameObject.layer == 12) && enterAgain)
         {
             FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/Landcorde");
             enterAgain = false;
@@ -72,7 +84,13 @@ public class PlayerCollisionManager : MonoBehaviour
                     groundCheckEnum = null;
                 }
             }
+
         }
+        if (collision.contacts[0].normal.y > -0.1 && collision.contacts[0].normal.y < 0.1 && collision.gameObject.CompareTag("Jumpable"))
+        {
+            charC.jumpable = collision.contacts[0].normal.x;
+        }
+
     }
 
     private void OnCollisionExit(Collision collision)
@@ -80,8 +98,45 @@ public class PlayerCollisionManager : MonoBehaviour
         groundCheckEnum = waitForGroundCheckOff(charC.ghostInputTimer);
         StartCoroutine(groundCheckEnum);
         StartCoroutine(WaitForSeconds(.2f));
+
+        charC.jumpable = 0;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Ball"))
+        {
+            other.transform.parent.Find("Highlight").gameObject.SetActive(true);
+            holdableObjects.Add(other.transform.parent);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.CompareTag("Ball"))
+        {
+            other.transform.parent.Find("Highlight").gameObject.SetActive(false);
+            holdableObjects.Remove(other.transform.parent);
+        }
+
+
+        if (other.tag == "LineCollider" && other.gameObject.layer != LayerMask.NameToLayer("Collider" + charC.playerType.ToString()) && other.gameObject != charC.meshObj)
+        {
+            other.gameObject.layer = LayerMask.NameToLayer("ColliderJ" + 1);
+            if (charC.playerType == CharacterController2D.Team.J1)
+            {
+                other.gameObject.layer = LayerMask.NameToLayer("ColliderJ" + 2);
+            }
+            else if(other.name == "Mesh Ball Off")
+            {
+                other.gameObject.layer = 12;
+            }
+        }
+    }
+    
+    
+    
+    
     IEnumerator WaitForSeconds(float timer)
     {
         yield return new WaitForSeconds(timer);
@@ -100,16 +155,4 @@ public class PlayerCollisionManager : MonoBehaviour
         prevVelocity = rb.velocity;
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        //if (other.tag == "LineCollider") print(other.name);
-        if (other.tag == "LineCollider" && other.gameObject.layer != LayerMask.NameToLayer("Collider" + charC.playerType.ToString()) && other.gameObject != charC.meshObj)
-        {
-            other.gameObject.layer = LayerMask.NameToLayer("ColliderJ" + 1);
-            if (charC.playerType == CharacterController2D.Team.J1)
-            {
-                other.gameObject.layer = LayerMask.NameToLayer("ColliderJ" + 2);
-            }
-        }
-    }
 }

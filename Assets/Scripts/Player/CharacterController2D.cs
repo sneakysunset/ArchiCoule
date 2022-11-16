@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -8,25 +9,32 @@ using UnityEditor;
 public class CharacterController2D : MonoBehaviour
 {
     PlayerCollisionManager collManager;
-    public enum Team { J1, J2 };
+    public enum Team { J1, J2, Ball };
     private Rigidbody rb;
     [HideInInspector] public Color col;
     /*[HideInInspector]*/ public bool groundCheck = false;
     private float ogGravity;
     bool moveFlag = true;
     bool moving;
-    string horizontal;
-    [HideInInspector] public bool jumping;
+    private Vector2 playerVelocity;
+    [HideInInspector] public float ax = 20;
+    [HideInInspector] public float dx = 8;
+    [HideInInspector] public float dashStrength = 10;
+    [HideInInspector] public float dashCoolDown = 1;
     [HideInInspector] public GameObject meshObj;
     [HideInInspector] public Team playerType;
     [HideInInspector] public float jumpStrength;
     [HideInInspector] public Color colorJ1, colorJ2;
     [HideInInspector] public float moveSpeed;
     [HideInInspector] public float gravityStrength;
-    [HideInInspector] public KeyCode jumpKey;
     [HideInInspector] public float ghostInputTimer;
     [HideInInspector] public float movementScaler;
     IEnumerator movingEnum;
+    bool jumping;
+    [HideInInspector] public Vector2 moveValue;
+    bool dashing;
+    bool dashCDOver = true;
+    [HideInInspector] public float jumpable;
 
     private void Start()
     {
@@ -43,37 +51,53 @@ public class CharacterController2D : MonoBehaviour
         {
             pRend.material.color = colorJ1;
             col = colorJ1;
-            horizontal = "HorizontalJ1";
         }
         else
         {
             pRend.material.color = colorJ2;
             col = colorJ2;
-            horizontal = "HorizontalJ2";
+        }
+    }
+    
+
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.started && (groundCheck || jumpable != 0))
+        {
+            jumping = true;
         }
     }
 
-    private void Update()
+    public void OnMove(InputAction.CallbackContext value) => moveValue = value.ReadValue<Vector2>();
+
+
+    public void OnDash(InputAction.CallbackContext context)
     {
-        if (groundCheck && Input.GetKeyDown(jumpKey))
-            jumping = true;
+        if(dashCDOver && !dashing && moveValue != Vector2.zero && context.started)
+            dashing = true;
     }
 
     private void FixedUpdate()
     {
-
         Move();
-        if (jumping) Jump();
-        else if (!groundCheck) rb.mass += Time.deltaTime * gravityStrength;
 
+        if (jumping && (groundCheck || jumpable != 0)) Jump();
+        else if (!groundCheck) rb.velocity -= Vector3.up * Time.deltaTime * gravityStrength;
+
+        if (moveValue.x < 0) transform.rotation = Quaternion.Euler(0, 180, 0);
+        if (moveValue.x > 0) transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        if (dashing) Dash();
     }
 
-    private void Jump()
-    {
+   void Jump()
+   {
         FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Jump");
-        jumping = false;
+        
         rb.mass = ogGravity;
-        rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * jumpStrength + Vector3.right * jumpable * jumpStrength /** 2*/, ForceMode.Impulse);
+        
         groundCheck = false;
         StartCoroutine(WaitForPhysics());
         if (collManager.groundCheckEnum != null)
@@ -81,10 +105,38 @@ public class CharacterController2D : MonoBehaviour
             StopCoroutine(collManager.groundCheckEnum);
             collManager.groundCheckEnum = null;
         }
+        jumping = false;
+   }
+
+    private void Dash()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Jump");
+
+        rb.mass = ogGravity;
+        
+        rb.AddForce(Vector2.right * moveValue.x * dashStrength * ax/ 5, ForceMode.Impulse);
+        dashing = false;
+        dashCDOver = false;
+        StartCoroutine(dashCD());
     }
 
     private void Move()
     {
+        Vector2 movementVector = Vector2.zero;
+        movementVector.x = moveValue.x * moveSpeed * Time.deltaTime;
+        var acc = movementVector.x != 0 ? ax : dx;
+
+
+        playerVelocity = Vector2.Lerp(rb.velocity, movementVector, acc * Time.deltaTime);
+        playerVelocity.y = rb.velocity.y;
+        rb.velocity = playerVelocity;
+
+        if (moveValue != Vector2.zero && groundCheck) moving = true;
+        else
+        {
+            moving = false;
+            moveFlag = true;
+        }
         if (moveFlag && moving)
         {
             if (movingEnum == null)
@@ -93,20 +145,9 @@ public class CharacterController2D : MonoBehaviour
                 StartCoroutine(movingEnum);
             }
             moveFlag = false;
-        }
-
-        float horizontalAxis = Input.GetAxis(horizontal);
-        if (horizontalAxis != 0 && groundCheck)
-        {
-            moving = true;
-        }
-        else
-        {
-            moveFlag = true;
-            moving = false;
         } 
-        rb.velocity = new Vector2(horizontalAxis * moveSpeed * Time.deltaTime * 100, rb.velocity.y) ;
     }
+
 
     public IEnumerator WaitForPhysics()
     {
@@ -128,6 +169,12 @@ public class CharacterController2D : MonoBehaviour
             movingEnum = null;
             moveFlag = true;
         }
+    }
+
+    IEnumerator dashCD()
+    {
+        yield return new WaitForSeconds(dashCoolDown);
+        dashCDOver = true;
     }
 }
 
@@ -155,10 +202,6 @@ public class OnGUIEditorHide : Editor
         script.playerType = (CharacterController2D.Team)EditorGUILayout.EnumPopup("Player Type", script.playerType);
         EditorGUILayout.Space(spaceBetweenParameters);
 
-        GUILayout.Label("Input that triggers the player jump", parameter);
-        script.jumpKey = (KeyCode)EditorGUILayout.EnumPopup("Jump Key", script.jumpKey);
-        EditorGUILayout.Space(spaceBetweenParameters);
-
 
         bool condition = script.playerType == CharacterController2D.Team.J1;
         GUILayout.Label("The Color of this player material", parameter);
@@ -166,12 +209,25 @@ public class OnGUIEditorHide : Editor
         else script.colorJ1 = EditorGUILayout.ColorField("Color of Player", script.colorJ2);
         EditorGUILayout.Space(spaceBetweenParameters);
 
-        GUILayout.Label("The Strength of this player jump", parameter);
+        GUILayout.Label("The Strength of this player's Jump", parameter);
         script.jumpStrength = EditorGUILayout.FloatField("Jump Strength", script.jumpStrength);
+        EditorGUILayout.Space(spaceBetweenParameters);
+
+        GUILayout.Label("The Strength of this player's Dash", parameter);
+        script.dashStrength = EditorGUILayout.FloatField("Dash Strength", script.dashStrength);
+        EditorGUILayout.Space(spaceBetweenParameters);
+
+        GUILayout.Label("The Length of this player's Dash's Cooldown", parameter);
+        script.dashCoolDown = EditorGUILayout.FloatField("Dash Cooldown", script.dashCoolDown);
         EditorGUILayout.Space(spaceBetweenParameters);
 
         GUILayout.Label("The Movement Speed of the player", parameter);
         script.moveSpeed = EditorGUILayout.FloatField("Move Speed", script.moveSpeed);
+        EditorGUILayout.Space(spaceBetweenParameters);
+
+        GUILayout.Label("Acceleration and Deceleration of movement. \n 0 disables the movement and 1 makes it 1 second to reach max speed or immobility", parameter);
+        script.ax = EditorGUILayout.FloatField("Acceleration", script.ax);
+        script.dx = EditorGUILayout.FloatField("Decceleration", script.dx);
         EditorGUILayout.Space(spaceBetweenParameters);
 
         GUILayout.Label("The higher this value is the faster the player will fall to the ground", parameter);

@@ -7,6 +7,9 @@ TagManager:
   - Resp
   - MeshFolder
   - LineCollider
+  - Ball
+  - Held
+  - Jumpable
   layers:
   - Default
   - TransparentFX
@@ -19,8 +22,8 @@ TagManager:
   - ColliderJ2
   - Player2
   - NoCollisionPlayer
-  - 
-  - 
+  - Ball
+  - ColliderBall
   - 
   - 
   - 

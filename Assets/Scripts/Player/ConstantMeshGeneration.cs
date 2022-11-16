@@ -11,10 +11,11 @@ public class ConstantMeshGeneration : MonoBehaviour
     private Color col;
     private CharacterController2D charC;
     Transform meshFolder;
-    private MeshFilter meshF;
+    [HideInInspector] public MeshFilter meshF;
     private MeshCollider meshC;
     private MeshRenderer meshR;
-
+    private CharacterController2D.Team pType;
+    Collider coll;
     [Header("Components")]
     [Space(5)]
     public GameObject meshPrefab;
@@ -38,6 +39,23 @@ public class ConstantMeshGeneration : MonoBehaviour
     public AnimationCurve updateAnim;
     public float updateAnimSpeed;
     #endregion
+
+    private void Start()
+    {
+        meshFolder = GameObject.FindGameObjectWithTag("MeshFolder").transform;
+        pointArray = Utils_Points.GeneratePointArray(pointArray, lineBeginningX, lineEndX, lineResolution);
+        if (GetComponent<CharacterController2D>())
+        {
+            charC = GetComponent<CharacterController2D>();
+            col = charC.col;
+            pType = charC.playerType;
+        }
+        else pType = CharacterController2D.Team.Ball;
+
+        var firstPoint = new Vector2(Utils_Points.closestPoint(pointArray, transform.position.x), transform.position.y);
+        pointList.Add(firstPoint);
+        InstantiateMesh();
+    }
 
     public void MeshCreator()
     {
@@ -85,7 +103,9 @@ public class ConstantMeshGeneration : MonoBehaviour
 
         if (condition1)
         {
-            Utils_Points.AddPoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet, charC);
+            int numOfPointAdded = Utils_Points.AddPoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet);
+            if(pType != CharacterController2D.Team.Ball)
+                charC.transform.localScale -= Vector3.one * charC.movementScaler / 100 * numOfPointAdded;
             FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
             return true;
         }
@@ -102,16 +122,6 @@ public class ConstantMeshGeneration : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        meshFolder = GameObject.FindGameObjectWithTag("MeshFolder").transform;
-        charC = GetComponent<CharacterController2D>();
-        pointArray = Utils_Points.GeneratePointArray(pointArray, lineBeginningX, lineEndX, lineResolution);
-        col = charC.col;
-        var firstPoint = new Vector2(Utils_Points.closestPoint(pointArray, transform.position.x), transform.position.y);
-        pointList.Add(firstPoint);
-        InstantiateMesh();
-    }
 
     private void InstantiateMesh()
     {
@@ -120,8 +130,9 @@ public class ConstantMeshGeneration : MonoBehaviour
         meshC = temp.GetComponent<MeshCollider>();
         meshR = temp.GetComponent<MeshRenderer>();
         meshR.material.color = col;
-        temp.name = "Mesh " + charC.playerType.ToString();
-        charC.meshObj = temp;
+        temp.name = "Mesh " + pType.ToString() + " Off";
+        if(pType != CharacterController2D.Team.Ball)
+            charC.meshObj = temp;
     }
 
     //Enleve les doublons, il faut trouver une alternative
@@ -132,7 +143,8 @@ public class ConstantMeshGeneration : MonoBehaviour
             if (Mathf.Abs(pointList[i].x - pointList[i - 1].x) < lineResolution * .9f)
             {
                 pointList.RemoveAt(i);
-                charC.transform.localScale += Vector3.one * charC.movementScaler / 100;
+                if(pType != CharacterController2D.Team.Ball)
+                    charC.transform.localScale += Vector3.one * charC.movementScaler / 100;
                 return;
             }
         }

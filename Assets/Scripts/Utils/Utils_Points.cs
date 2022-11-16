@@ -88,12 +88,12 @@ public class Utils_Points
         return pointX;
     }
 
-    public static void AddPoints(float[] pointArray, List<Vector2> pointList, float closestVertice, Vector2 currentPosition, float minDistance, float offSetY, CharacterController2D charC)
+    public static int AddPoints(float[] pointArray, List<Vector2> pointList, float closestVertice, Vector2 currentPosition, float minDistance, float offSetY)
     {
         float playerPointX = closestPoint(pointArray, currentPosition.x);
         float temp = Mathf.Abs(playerPointX - closestVertice);
         float prevY = pointList[pointList.Count - 1].y;
-
+        int numOfPointsAdded = 0;
         if (playerPointX - closestVertice < 0)
         {
             for (float i = temp - minDistance; i > 0; i -= minDistance)
@@ -102,8 +102,8 @@ public class Utils_Points
                 float yPos = currentPosition.y - ((currentPosition.y - prevY) * i / temp);
                 Vector2 newPoint = new Vector2(xPos, yPos);
                 pointList.Add(newPoint);
-                charC.transform.localScale -= Vector3.one * charC.movementScaler / 100;
-
+                numOfPointsAdded++;
+                //charC.transform.localScale -= Vector3.one * charC.movementScaler / 100;
             }
         }
         else
@@ -114,11 +114,15 @@ public class Utils_Points
                 float yPos = currentPosition.y - ((currentPosition.y - prevY) * i / temp);
                 Vector2 newPoint = new Vector2(xPos, yPos);
                 pointList.Add(newPoint);
-                charC.transform.localScale -= Vector3.one * charC.movementScaler / 100;
+                numOfPointsAdded++;
+
+                //charC.transform.localScale -= Vector3.one * charC.movementScaler / 100;
             }
         }
         pointList.Add(new Vector2(playerPointX, currentPosition.y));
-        charC.transform.localScale -= Vector3.one * charC.movementScaler / 100;
+        numOfPointsAdded++;
+        return numOfPointsAdded;
+        //charC.transform.localScale -= Vector3.one * charC.movementScaler / 100;
 
     }
 
