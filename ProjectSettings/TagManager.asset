@@ -17,13 +17,13 @@ TagManager:
   - 
   - Water
   - UI
-  - ColliderJ1
-  - Player1
-  - ColliderJ2
-  - Player2
-  - NoCollisionPlayer
+  - LineCollider
   - Ball
-  - ColliderBall
+  - Player
+  - PlayerOff
+  - BallDetector
+  - 
+  - 
   - 
   - 
   - 

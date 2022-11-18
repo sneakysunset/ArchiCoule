@@ -32,18 +32,18 @@ public class HoldBall : MonoBehaviour
                 bB.GetComponentInChildren<Collider>().tag = "Ball";
             }
             playerCollisionM.holdableObjects.Add(bB);
-            cMG.meshF.gameObject.layer = 12;
-            cMG.meshF.name = "Mesh Ball Off";
+            cMG.meshF.name = "Mesh Ball Free";
             bB = null;
             bRb = null;
             cMG = null;
+            playerCollisionM.coll.layer = LayerMask.NameToLayer("PlayerOff");
         }
         else if (playerCollisionM.holdableObjects.Count > 0 && context.started)
         {
             bB = closestItemFinder(playerCollisionM.holdableObjects);
             bCol = bB.GetComponentInChildren<Collider>();
             cMG = bB.GetComponent<ConstantMeshGeneration>();
-            cMG.meshF.name = "Mesh Ball";
+            cMG.meshF.name = "Mesh Ball Held";
             bCol.isTrigger = true;
             bB.tag = "Held";
             bB.GetComponentInChildren<Collider>().tag = "Held";
@@ -73,6 +73,7 @@ public class HoldBall : MonoBehaviour
         {
             bB.transform.position = holdPoint.position;
             playerCollisionM.holdingBall = true;
+            playerCollisionM.coll.layer = LayerMask.NameToLayer("PlayerOff");
         }
         else
         {
@@ -88,9 +89,9 @@ public class HoldBall : MonoBehaviour
             bRb.isKinematic = false;
             bCol.isTrigger = false;
             bB.tag = "Ball";
-            if (playerCollisionM.inLine) cMG.meshF.gameObject.layer = LayerMask.NameToLayer("Collider" + playerCollisionM.charC.playerType.ToString());
+            //if (playerCollisionM.inLine) cMG.meshF.gameObject.layer = LayerMask.NameToLayer("Collider" + playerCollisionM.charC.playerType.ToString());
             playerCollisionM.holdableObjects.Add(bB);
-            bB.GetComponent<ConstantMeshGeneration>().meshF.gameObject.layer = 12;
+            //bB.GetComponent<ConstantMeshGeneration>().meshF.gameObject.layer = 12;
             bB = null;
             bRb.AddForce(GetComponent<CharacterController2D>().moveValue * ThrowStrength);
 

@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1638003312}
   - component: {fileID: 1638003313}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: DetectionSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ MonoBehaviour:
   ghostInputTimer: 0.3
   movementScaler: 0.3
   moveValue: {x: 0, y: 0}
-  jumpable: 0
+  wallJumpable: 0
 --- !u!114 &1074573358669061575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,11 +158,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e6d7172c3100e48af4cdd87325038f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charC: {fileID: 0}
   yNormalLineCollision: -0.15
   normalYmaxInclinasion: 0.7
   holdableObjects: []
   holdingBall: 0
   moveX: 0
+  inLine: 0
 --- !u!114 &6984929972057871670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,7 +403,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1775201044604555546}
   - component: {fileID: 6796055593876848534}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -8,6 +8,7 @@ using UnityEditor;
 
 public class CharacterController2D : MonoBehaviour
 {
+    #region variables non Valued
     PlayerCollisionManager collManager;
     public enum Team { J1, J2, Ball };
     private Rigidbody rb;
@@ -17,6 +18,16 @@ public class CharacterController2D : MonoBehaviour
     bool moveFlag = true;
     bool moving;
     private Vector2 playerVelocity;
+    IEnumerator movingEnum;
+    bool jumping;
+    [HideInInspector]public Vector2 moveValue;
+    bool dashing;
+    bool dashCDOver = true;
+    [HideInInspector] public float wallJumpable;
+    #endregion
+    #region public variables
+    [HideInInspector] public float maxXVelocity = 20;
+    [HideInInspector] public float maxYVelocity = 20;
     [HideInInspector] public float ax = 20;
     [HideInInspector] public float dx = 8;
     [HideInInspector] public float dashStrength = 10;
@@ -29,12 +40,7 @@ public class CharacterController2D : MonoBehaviour
     [HideInInspector] public float gravityStrength;
     [HideInInspector] public float ghostInputTimer;
     [HideInInspector] public float movementScaler;
-    IEnumerator movingEnum;
-    bool jumping;
-   /* [HideInInspector] */public Vector2 moveValue;
-    bool dashing;
-    bool dashCDOver = true;
-    [HideInInspector] public float jumpable;
+    #endregion
 
     private void Start()
     {
@@ -59,18 +65,15 @@ public class CharacterController2D : MonoBehaviour
         }
     }
     
-
-
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && (groundCheck || jumpable != 0))
+        if (context.started && (groundCheck || wallJumpable != 0))
         {
             jumping = true;
         }
     }
 
     public void OnMove(InputAction.CallbackContext value) => moveValue = value.ReadValue<Vector2>();
-
 
     public void OnDash(InputAction.CallbackContext context)
     {
@@ -82,13 +85,19 @@ public class CharacterController2D : MonoBehaviour
     {
         Move();
 
-        if (jumping && (groundCheck || jumpable != 0)) Jump();
-        else if (!groundCheck) rb.velocity -= Vector3.up * Time.deltaTime * gravityStrength;
+        if (jumping && (groundCheck || wallJumpable != 0)) Jump();
+        else if (!groundCheck)
+        {
+            rb.velocity -= Vector3.up * Time.deltaTime * gravityStrength;
+            if (moveValue.y < -.5f) rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(rb.velocity.x, -100), Time.deltaTime * 2);
+        }
 
         if (moveValue.x < 0) transform.rotation = Quaternion.Euler(0, 180, 0);
         if (moveValue.x > 0) transform.rotation = Quaternion.Euler(0, 0, 0);
 
         if (dashing) Dash();
+
+        rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxXVelocity, maxXVelocity), Mathf.Clamp(rb.velocity.y, -1000, maxYVelocity));
     }
 
    void Jump()
@@ -96,7 +105,7 @@ public class CharacterController2D : MonoBehaviour
         FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Jump");
         
         rb.mass = ogGravity;
-        rb.AddForce(Vector3.up * jumpStrength + Vector3.right * jumpable * jumpStrength /** 2*/, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * jumpStrength + Vector3.right * wallJumpable * jumpStrength, ForceMode.Impulse);
         
         groundCheck = false;
         StartCoroutine(WaitForPhysics());
@@ -232,6 +241,11 @@ public class OnGUIEditorHide : Editor
 
         GUILayout.Label("The higher this value is the faster the player will fall to the ground", parameter);
         script.gravityStrength = EditorGUILayout.FloatField("Gravity Strength", script.gravityStrength);
+        EditorGUILayout.Space(spaceBetweenParameters);
+
+        GUILayout.Label("The Max Velocity the player can reach", parameter);
+        script.maxXVelocity = EditorGUILayout.FloatField("Max X Velocity", script.maxXVelocity);
+        script.maxYVelocity = EditorGUILayout.FloatField("Max Y Velocity", script.maxYVelocity);
         EditorGUILayout.Space(spaceBetweenParameters);
 
         GUILayout.Label("Timer before the player can't jump after leaving the ground", parameter);

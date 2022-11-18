@@ -131,16 +131,18 @@ public class Utils_Points
         pointList[closestPointIndex] = new Vector2(pointList[closestPointIndex].x, currentPosition.y - offSetY);
     }
 
-    public static Vector3 GetParallelePoint(Vector3 currentPoint, Vector3 previousPoint, Vector3 nextPoint, float lineWidth)
+    public static Vector3 GetParallelePoint(Vector3 p, Vector3 p1, Vector3 p2, float distance)
     {
-        float angle = Vector3.Angle(previousPoint - currentPoint, nextPoint - currentPoint);
-        //Debug.Log(angle);
-        angle /= 2;
-        Vector3 bissectriceVector = Quaternion.AngleAxis(angle, Vector3.forward) * (nextPoint - currentPoint);
-        /*if (bissectriceVector.y <= 0)
-            Debug.Log("< " + angle);*/
-        //bissectriceVector = Quaternion.AngleAxis(angle, Vector3.forward) * (nextPoint - currentPoint);
-        Vector3 parallelePoint = currentPoint + (bissectriceVector.normalized * lineWidth);
-        return parallelePoint;
+        var targetPos = p + ((p - p1).normalized + (p - p2).normalized).normalized * distance;
+        if (targetPos.y < p.y)
+        {
+            targetPos = p - ((p - p1).normalized + (p - p2).normalized).normalized * distance;
+        }
+
+        if (targetPos - p == Vector3.zero) targetPos.y += distance;
+        Debug.DrawLine(p, targetPos, Color.blue, .1f);
+        Debug.DrawLine(p, p1, Color.red, .1f);
+        Debug.DrawLine(p, p2, Color.red, .1f);
+        return targetPos;
     }
 }
