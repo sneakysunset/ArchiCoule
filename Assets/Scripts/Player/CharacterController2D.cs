@@ -31,7 +31,7 @@ public class CharacterController2D : MonoBehaviour
     [HideInInspector] public float movementScaler;
     IEnumerator movingEnum;
     bool jumping;
-    [HideInInspector] public Vector2 moveValue;
+   /* [HideInInspector] */public Vector2 moveValue;
     bool dashing;
     bool dashCDOver = true;
     [HideInInspector] public float jumpable;

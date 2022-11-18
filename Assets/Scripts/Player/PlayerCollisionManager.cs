@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCollisionManager : MonoBehaviour
 {
-    private CharacterController2D charC;
+    [HideInInspector] public CharacterController2D charC;
     private Rigidbody rb;
     [Range(-1f, 1f)] public float yNormalLineCollision;
     public float normalYmaxInclinasion;
@@ -13,7 +13,7 @@ public class PlayerCollisionManager : MonoBehaviour
     public List<Transform> holdableObjects;
     [HideInInspector] public bool holdingBall = false;
     public float moveX;
-
+    public bool inLine;
     private void Start()
     {
         charC = GetComponent<CharacterController2D>();
@@ -111,6 +111,14 @@ public class PlayerCollisionManager : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.tag == "LineCollider")
+        {
+            inLine = true;
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.transform.CompareTag("Ball"))
@@ -119,6 +127,7 @@ public class PlayerCollisionManager : MonoBehaviour
             holdableObjects.Remove(other.transform.parent);
         }
 
+        if (other.tag == "LineCollider") inLine = false;
 
         if (other.tag == "LineCollider" && other.gameObject.layer != LayerMask.NameToLayer("Collider" + charC.playerType.ToString()) && other.gameObject != charC.meshObj)
         {

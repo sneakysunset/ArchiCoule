@@ -88,6 +88,7 @@ public class HoldBall : MonoBehaviour
             bRb.isKinematic = false;
             bCol.isTrigger = false;
             bB.tag = "Ball";
+            if (playerCollisionM.inLine) cMG.meshF.gameObject.layer = LayerMask.NameToLayer("Collider" + playerCollisionM.charC.playerType.ToString());
             playerCollisionM.holdableObjects.Add(bB);
             bB.GetComponent<ConstantMeshGeneration>().meshF.gameObject.layer = 12;
             bB = null;
