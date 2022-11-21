@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class BallBehavior : MonoBehaviour
 {
-    private ConstantMeshGeneration meshG;
-    Collider coll;
+    private LineCreator lineC;
+    Collider2D coll;
     private void Awake()
     {
-        meshG = GetComponent<ConstantMeshGeneration>();
-        coll = GetComponentInChildren<Collider>();
+        lineC = GetComponent<LineCreator>();
+        coll = GetComponentInChildren<Collider2D>();
     }
 
     private void FixedUpdate()
     {
-
-        meshG.MeshCreator();
+        lineC.LineUpdater();
     }
 
 }

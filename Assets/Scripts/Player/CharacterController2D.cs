@@ -11,7 +11,7 @@ public class CharacterController2D : MonoBehaviour
     #region variables non Valued
     PlayerCollisionManager collManager;
     public enum Team { J1, J2, Ball };
-    private Rigidbody rb;
+    private Rigidbody2D rb;
     [HideInInspector] public Color col;
     /*[HideInInspector]*/ public bool groundCheck = false;
     private float ogGravity;
@@ -44,7 +44,7 @@ public class CharacterController2D : MonoBehaviour
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
         collManager = GetComponent<PlayerCollisionManager>();
         ogGravity = rb.mass;
         playerTypeChange();
@@ -88,7 +88,7 @@ public class CharacterController2D : MonoBehaviour
         if (jumping && (groundCheck || wallJumpable != 0)) Jump();
         else if (!groundCheck)
         {
-            rb.velocity -= Vector3.up * Time.deltaTime * gravityStrength;
+            rb.velocity -= Vector2.up * Time.deltaTime * gravityStrength;
             if (moveValue.y < -.5f) rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(rb.velocity.x, -100), Time.deltaTime * 2);
         }
 
@@ -105,7 +105,7 @@ public class CharacterController2D : MonoBehaviour
         FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Jump");
         
         rb.mass = ogGravity;
-        rb.AddForce(Vector3.up * jumpStrength + Vector3.right * wallJumpable * jumpStrength, ForceMode.Impulse);
+        rb.AddForce(Vector2.up * jumpStrength + Vector2.right * wallJumpable * jumpStrength, ForceMode2D.Impulse);
         
         groundCheck = false;
         StartCoroutine(WaitForPhysics());
@@ -123,7 +123,7 @@ public class CharacterController2D : MonoBehaviour
 
         rb.mass = ogGravity;
         
-        rb.AddForce(Vector2.right * moveValue.x * dashStrength * ax/ 5, ForceMode.Impulse);
+        rb.AddForce(Vector2.right * moveValue.x * dashStrength * ax/ 5, ForceMode2D.Impulse);
         dashing = false;
         dashCDOver = false;
         StartCoroutine(dashCD());

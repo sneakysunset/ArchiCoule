@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 public class HoldBall : MonoBehaviour
 {
     [HideInInspector] public Transform bB;
-    private Rigidbody bRb;
-    private Collider bCol;
-    private ConstantMeshGeneration cMG;
+    private Rigidbody2D bRb;
+    private Collider2D bCol;
+    private LineCreator lineC;
     private PlayerCollisionManager playerCollisionM;
     
     public Transform holdPoint;
@@ -29,25 +29,25 @@ public class HoldBall : MonoBehaviour
             if (bB != null)
             {
                 bB.tag = "Ball";
-                bB.GetComponentInChildren<Collider>().tag = "Ball";
+                bB.GetComponentInChildren<Collider2D>().tag = "Ball";
             }
             playerCollisionM.holdableObjects.Add(bB);
-            cMG.meshF.name = "Mesh Ball Free";
+            lineC.lineT.name = "Mesh Ball Free";
             bB = null;
             bRb = null;
-            cMG = null;
+            lineC = null;
             playerCollisionM.coll.layer = LayerMask.NameToLayer("PlayerOff");
         }
         else if (playerCollisionM.holdableObjects.Count > 0 && context.started)
         {
             bB = closestItemFinder(playerCollisionM.holdableObjects);
-            bCol = bB.GetComponentInChildren<Collider>();
-            cMG = bB.GetComponent<ConstantMeshGeneration>();
-            cMG.meshF.name = "Mesh Ball Held";
+            bCol = bB.GetComponentInChildren<Collider2D>();
+            lineC = bB.GetComponent<LineCreator>();
+            lineC.lineT.name = "Mesh Ball Held";
             bCol.isTrigger = true;
             bB.tag = "Held";
-            bB.GetComponentInChildren<Collider>().tag = "Held";
-            bRb = bB.GetComponent<Rigidbody>();
+            bB.GetComponentInChildren<Collider2D>().tag = "Held";
+            bRb = bB.GetComponent<Rigidbody2D>();
             bRb.isKinematic = true;
             playerCollisionM.holdableObjects.Remove(bB);
         }
@@ -93,7 +93,7 @@ public class HoldBall : MonoBehaviour
             playerCollisionM.holdableObjects.Add(bB);
             //bB.GetComponent<ConstantMeshGeneration>().meshF.gameObject.layer = 12;
             bB = null;
-            bRb.AddForce(GetComponent<CharacterController2D>().moveValue * ThrowStrength);
+            bRb.AddForce(GetComponent<CharacterController2D>().moveValue * ThrowStrength, ForceMode2D.Impulse);
 
 
             bRb = null;

@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerCollisionManager : MonoBehaviour
 {
     [HideInInspector] public CharacterController2D charC;
-    private Rigidbody rb;
+    private Rigidbody2D rb;
     [HideInInspector] public GameObject coll;
-    Vector3 prevVelocity;
+    Vector2 prevVelocity;
     [HideInInspector] public IEnumerator groundCheckEnum;
     [HideInInspector] public List<Transform> holdableObjects;
     [HideInInspector] public bool holdingBall = false;
@@ -18,7 +18,7 @@ public class PlayerCollisionManager : MonoBehaviour
     private void Start()
     {
         charC = GetComponent<CharacterController2D>();
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
         coll = transform.Find("Collider").gameObject;
     }
 
@@ -29,13 +29,13 @@ public class PlayerCollisionManager : MonoBehaviour
 
     bool enterAgain;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         LineCollisionEnter(collision);
         GroundCheckCollisionEnter(collision);
     }
 
-    private void LineCollisionEnter(Collision collision)
+    private void LineCollisionEnter(Collision2D collision)
     {
         bool condition1 = collision.gameObject.tag == "LineCollider";
         bool condition2 = collision.contacts[0].normal.y < yNormalLineCollision;
@@ -56,7 +56,7 @@ public class PlayerCollisionManager : MonoBehaviour
         }
     }
 
-    private void GroundCheckCollisionEnter(Collision collision)
+    private void GroundCheckCollisionEnter(Collision2D collision)
     {
         if (collision.contacts[0].normal.y > normalYmaxInclinasion)
         {
@@ -69,13 +69,13 @@ public class PlayerCollisionManager : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         GroundCheckCollisionStay(collision);
         WallJumpCollisionStay(collision);
     }
 
-    void GroundCheckCollisionStay(Collision collision)
+    void GroundCheckCollisionStay(Collision2D collision)
     {
         charC.groundCheck = false;
         if (collision.contacts[0].normal.y > normalYmaxInclinasion)
@@ -89,7 +89,7 @@ public class PlayerCollisionManager : MonoBehaviour
         }
     }
 
-    void WallJumpCollisionStay(Collision collision)
+    void WallJumpCollisionStay(Collision2D collision)
     {
         if (collision.contacts[0].normal.y > -0.3 && collision.contacts[0].normal.y < 0.3 && collision.gameObject.CompareTag("Jumpable") || collision.gameObject.CompareTag("LineCollider"))
         {
@@ -97,7 +97,7 @@ public class PlayerCollisionManager : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
         groundCheckEnum = waitForGroundCheckOff(charC.ghostInputTimer);
         StartCoroutine(groundCheckEnum);
@@ -106,12 +106,12 @@ public class PlayerCollisionManager : MonoBehaviour
         charC.wallJumpable = 0;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         GetBallOnTriggerEnter(other);
     }
 
-    void GetBallOnTriggerEnter(Collider other)
+    void GetBallOnTriggerEnter(Collider2D other)
     {
         if (other.transform.CompareTag("Ball"))
         {
@@ -120,7 +120,7 @@ public class PlayerCollisionManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if(other.tag == "LineCollider")
         {
@@ -128,13 +128,13 @@ public class PlayerCollisionManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         RemoveBallTriggerExit(other);
         ExitLineTriggerExit(other);
     }
 
-    void RemoveBallTriggerExit(Collider other)
+    void RemoveBallTriggerExit(Collider2D other)
     {
         if (other.transform.CompareTag("Ball"))
         {
@@ -143,7 +143,7 @@ public class PlayerCollisionManager : MonoBehaviour
         }
     }
     
-    void ExitLineTriggerExit(Collider other)
+    void ExitLineTriggerExit(Collider2D other)
     {
         bool condition1 = other.tag == "LineCollider";
         if (condition1)
