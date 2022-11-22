@@ -121,6 +121,7 @@ public class Utils_Points
         }
         pointList.Add(new Vector2(playerPointX, currentPosition.y));
         numOfPointsAdded++;
+        
         return numOfPointsAdded;
         //charC.transform.localScale -= Vector3.one * charC.movementScaler / 100;
 

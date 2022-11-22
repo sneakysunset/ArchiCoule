@@ -116,7 +116,6 @@ public class PlayerCollisionManager : MonoBehaviour
 
     void GetBallOnTriggerEnter(Collider2D other)
     {
-         print(other.name);
          other.transform.parent.Find("Highlight").gameObject.SetActive(true);
          holdableObjects.Add(other.transform.parent);
     }
