@@ -131,6 +131,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   col: {r: 0, g: 0, b: 0, a: 0}
   groundCheck: 0
+  moveValue: {x: 0, y: 0}
+  wallJumpable: 0
+  maxXVelocity: 20
+  maxYVelocity: 20
   ax: 20
   dx: 8
   dashStrength: 10
@@ -144,8 +148,6 @@ MonoBehaviour:
   gravityStrength: 5
   ghostInputTimer: 0.3
   movementScaler: 0.3
-  moveValue: {x: 0, y: 0}
-  wallJumpable: 0
 --- !u!114 &1074573358669061575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,12 +161,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charC: {fileID: 0}
-  yNormalLineCollision: -0.15
-  normalYmaxInclinasion: 0.7
+  coll: {fileID: 0}
   holdableObjects: []
   holdingBall: 0
-  moveX: 0
-  inLine: 0
+  yNormalLineCollision: -0.15
+  normalYmaxInclinasion: 0.7
 --- !u!114 &6984929972057871670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +275,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0add1625-4890-49ce-9ce2-ca63e4be52eb
     m_ActionName: Movement/Throw[/DualSenseGamepadHID/buttonEast,/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2c911e0d-1cb3-49c7-acfc-8865eb20cf97
+    m_ActionName: UI/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Movement

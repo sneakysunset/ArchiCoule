@@ -108,16 +108,17 @@ public class PlayerCollisionManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        GetBallOnTriggerEnter(other);
+        if (other.transform.CompareTag("Ball"))
+        {
+            GetBallOnTriggerEnter(other);
+        }
     }
 
     void GetBallOnTriggerEnter(Collider2D other)
     {
-        if (other.transform.CompareTag("Ball"))
-        {
-            other.transform.parent.Find("Highlight").gameObject.SetActive(true);
-            holdableObjects.Add(other.transform.parent);
-        }
+         print(other.name);
+         other.transform.parent.Find("Highlight").gameObject.SetActive(true);
+         holdableObjects.Add(other.transform.parent);
     }
 
     private void OnTriggerStay2D(Collider2D other)

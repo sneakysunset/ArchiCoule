@@ -10,7 +10,7 @@ public class LineCreator : MonoBehaviour
     public List<Vector2> pointList = new List<Vector2>();
     private Color col;
     private CharacterController2D charC;
-    Transform meshFolder;
+    Transform lineFolder;
     [HideInInspector] public LineRenderer lineR;
     [HideInInspector] public EdgeCollider2D edgeC;
     [HideInInspector] public Transform lineT;
@@ -43,7 +43,7 @@ public class LineCreator : MonoBehaviour
 
     private void Start()
     {
-        meshFolder = GameObject.FindGameObjectWithTag("MeshFolder").transform;
+        lineFolder = GameObject.FindGameObjectWithTag("LineFolder").transform;
         pointArray = Utils_Points.GeneratePointArray(pointArray, lineBeginningX, lineEndX, lineResolution);
         if (GetComponent<CharacterController2D>())
         {
@@ -130,7 +130,7 @@ public class LineCreator : MonoBehaviour
 
     private void InstantiateLine()
     {
-        lineT = Instantiate(linePrefab, meshFolder).transform;
+        lineT = Instantiate(linePrefab, lineFolder).transform;
         lineR = lineT.GetComponentInChildren<LineRenderer>();
         edgeC = lineT.GetComponentInChildren<EdgeCollider2D>();
         lineR.material.color = col;

@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2783821950464963716}
+  - component: {fileID: 4729965341885652071}
   - component: {fileID: 2783821950464963715}
   - component: {fileID: 2783821950464963714}
   - component: {fileID: 2783821950464963717}
   m_Layer: 0
-  m_Name: WallJump Platfrom
+  m_Name: WallJump
   m_TagString: Jumpable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,14 +28,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2783821950464963719}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.05, y: 7.5469, z: 0}
-  m_LocalScale: {x: 5, y: 5.7861, z: 1}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalScale: {x: 3, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2783821951331835303}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4729965341885652071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2783821950464963719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11bc48dd5b196f84db317d8529efb713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freeMove: 0
+  freeScale: 0
 --- !u!65 &2783821950464963715
 BoxCollider:
   m_ObjectHideFlags: 0
