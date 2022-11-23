@@ -36,6 +36,8 @@ public class HoldBall : MonoBehaviour
             bB = null;
             bRb = null;
             lineC = null;
+            bCol.tag = "Ball";
+
             playerCollisionM.coll.layer = LayerMask.NameToLayer("PlayerOff");
         }
         else if (playerCollisionM.holdableObjects.Count > 0 && context.started)
@@ -46,6 +48,7 @@ public class HoldBall : MonoBehaviour
             lineC.lineT.name = "Mesh Ball Held";
             bCol.isTrigger = true;
             bB.tag = "Held";
+            bCol.tag = "Held";
             bB.GetComponentInChildren<Collider2D>().tag = "Held";
             bRb = bB.GetComponent<Rigidbody2D>();
             bRb.isKinematic = true;
@@ -89,6 +92,7 @@ public class HoldBall : MonoBehaviour
             bRb.isKinematic = false;
             bCol.isTrigger = false;
             bB.tag = "Ball";
+            bCol.tag = "Ball";
             //if (playerCollisionM.inLine) cMG.meshF.gameObject.layer = LayerMask.NameToLayer("Collider" + playerCollisionM.charC.playerType.ToString());
             playerCollisionM.holdableObjects.Add(bB);
             //bB.GetComponent<ConstantMeshGeneration>().meshF.gameObject.layer = 12;

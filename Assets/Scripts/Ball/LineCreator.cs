@@ -157,6 +157,7 @@ public class LineCreator : MonoBehaviour
 
     private void OnDestroy()
     {
-        Destroy(lineT.gameObject);
+        if(lineT)
+        Destroy(lineT?.gameObject);
     }
 }
