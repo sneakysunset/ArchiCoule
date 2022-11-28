@@ -20,6 +20,8 @@ public class LineCreator : MonoBehaviour
     [Header("Components")]
     [Space(5)]
     public GameObject linePrefab;
+    Vector2 ogPos;
+    public GameObject ballPrefab;
 
 
 
@@ -43,6 +45,7 @@ public class LineCreator : MonoBehaviour
 
     private void Start()
     {
+        prevPos = transform.position;
         lineFolder = GameObject.FindGameObjectWithTag("LineFolder").transform;
         pointArray = Utils_Points.GeneratePointArray(pointArray, lineBeginningX, lineEndX, lineResolution);
         if (GetComponent<CharacterController2D>())
@@ -52,7 +55,7 @@ public class LineCreator : MonoBehaviour
             pType = charC.playerType;
         }
         else pType = CharacterController2D.Team.Ball;
-
+        ogPos = transform.position;
         var firstPoint = new Vector2(Utils_Points.closestPoint(pointArray, transform.position.x), transform.position.y);
         pointList.Add(firstPoint);
         InstantiateLine();
@@ -81,11 +84,7 @@ public class LineCreator : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         edgeC.SetPoints(list);
-    }
-
-    public Vector2 getV3fromV2(Vector2 v2)
-    {
-        return new Vector3(v2.x, v2.y, 0);
+        prevPos = transform.position;
     }
 
     public bool UpdatePointList()
@@ -116,9 +115,10 @@ public class LineCreator : MonoBehaviour
         }
         else if (!condition1 && condition2)
         {
-            var startPos = pointList[closestVertexIndex];
-            var endPos = (Vector2)transform.position - (Vector2.up * lineYOffSet);
-            StartCoroutine(Utils_Anim.AnimationLerp(startPos, endPos, endPos, updateAnim, updateAnimSpeed, returnValue => { pointList[closestVertexIndex] = returnValue; }));
+            //var startPos = pointList[closestVertexIndex];
+            //var endPos = (Vector2)transform.position - (Vector2.up * lineYOffSet);
+            Utils_Points.UpdatePoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet, prevPos);
+            //StartCoroutine(Utils_Anim.AnimationLerp(startPos, endPos, endPos, updateAnim, updateAnimSpeed, returnValue => { pointList[closestVertexIndex] = returnValue; }));
             return true;
         }
         else
@@ -127,7 +127,7 @@ public class LineCreator : MonoBehaviour
         }
     }
 
-
+    private Vector2 prevPos;
     private void InstantiateLine()
     {
         lineT = Instantiate(linePrefab, lineFolder).transform;
@@ -158,6 +158,8 @@ public class LineCreator : MonoBehaviour
     private void OnDestroy()
     {
         if(lineT)
-        Destroy(lineT?.gameObject);
+        Destroy(lineT.gameObject);
+
+        Instantiate(ballPrefab, ogPos, Quaternion.identity);
     }
 }
