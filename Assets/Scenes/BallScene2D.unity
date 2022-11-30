@@ -140,15 +140,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 11
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -525,15 +525,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 11
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -884,7 +884,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919358328
 GameObject:
@@ -1226,7 +1226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775201043333655789, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1775201043333655789, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1277,6 +1277,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: moveSpeed
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: canFastFall
       value: 1
       objectReference: {fileID: 0}
@@ -1285,8 +1289,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
-      propertyPath: wallJumpStrength
+      propertyPath: dashStrength
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: jumpStrength
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: maxXVelocity
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: wallJumpStrength
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6984929972057871670, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -1966,6 +1982,14 @@ PrefabInstance:
       value: 0.9150943
       objectReference: {fileID: 0}
     - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: moveSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: playerType
       value: 1
       objectReference: {fileID: 0}
@@ -2379,6 +2403,7 @@ MonoBehaviour:
   edgeC: {fileID: 0}
   lineT: {fileID: 0}
   linePrefab: {fileID: 8470138877869589839, guid: ff770ce5c4b76214ab8f01110640449d, type: 3}
+  ballPrefab: {fileID: 0}
   lineResolution: 0.2
   lineBeginningX: -100
   lineEndX: 100

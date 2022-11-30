@@ -132,6 +132,39 @@ public class Utils_Points
         pointList[closestPointIndex] = new Vector2(pointList[closestPointIndex].x, currentPosition.y - offSetY);
     }
 
+    public static void UpdatePoints(float[] pointArray, List<Vector2> pointList, float closestVertice, Vector2 currentPosition, float minDistance, float offSetY, Vector2 prevPos)
+    {
+        float playerPointX = closestPoint(pointArray, currentPosition.x);
+        float prevPosX = closestPoint(pointArray, prevPos.x);
+        float temp = Mathf.Abs(playerPointX - prevPosX);
+        float prevY = pointList[ClosestPointInList(pointList, prevPosX, pointArray)].y;
+        
+        if (playerPointX - prevPosX < 0)
+        {
+            for (float i = temp - minDistance; i > 0; i -= minDistance)
+            {
+                float xPos = playerPointX + i;
+                float yPos = currentPosition.y - ((currentPosition.y - prevY) * i / temp);
+                Vector2 nPoint = new Vector2(xPos, yPos);
+                pointList[ClosestPointInList(pointList, xPos, pointArray)] = nPoint;
+            }
+        }
+        else
+        {
+            for (float i = temp - minDistance; i > 0; i -= minDistance)
+            {
+                float xPos = playerPointX - i;
+                float yPos = currentPosition.y - ((currentPosition.y - prevY) * i / temp);
+                Vector2 nPoint = new Vector2(xPos, yPos);
+                pointList[ClosestPointInList(pointList, xPos, pointArray)] = nPoint;
+            }
+        }
+        Vector2 nePoint = new Vector2(playerPointX, currentPosition.y);
+        pointList[ClosestPointInList(pointList, playerPointX, pointArray)] = nePoint;
+
+
+    }
+
     public static Vector3 GetParallelePoint(Vector3 p, Vector3 p1, Vector3 p2, float distance)
     {
         var targetPos = p + ((p - p1).normalized + (p - p2).normalized).normalized * distance;
