@@ -58,6 +58,7 @@ public class CharacterController2D : MonoBehaviour
         collManager = GetComponent<PlayerCollisionManager>();
         ogGravity = rb.mass;
         playerTypeChange();
+        canMove = true;
         //if (!canJump) canWallJump = false;
     }
 
@@ -91,9 +92,11 @@ public class CharacterController2D : MonoBehaviour
         if(dashCDOver && !dashing && moveValue != Vector2.zero && context.started)
             dashing = true;
     }
-
+    bool flag;
+    [HideInInspector] public bool canMove = true;
     private void FixedUpdate()
     {
+        if(canMove)
         Move();
 
 
@@ -102,7 +105,7 @@ public class CharacterController2D : MonoBehaviour
             axx = ax;
             dxx = dx;
         }
-        else if(!groundCheck)
+        else if(!groundCheck && wallJumpable != 0)
         {
             axx = wJax;
             dxx = wJdx;

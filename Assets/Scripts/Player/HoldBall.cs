@@ -2,20 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+
 public class HoldBall : MonoBehaviour
 {
     [HideInInspector] public Transform bB;
     private Rigidbody2D bRb;
     private Collider2D bCol;
     private LineCreator lineC;
+    private ThrowPreview bBT;
+    private CharacterController2D charC;
     private PlayerCollisionManager playerCollisionM;
-    
     public Transform holdPoint;
     public float ThrowStrength = 5;
 
     private void Awake()
     {
         playerCollisionM = GetComponent<PlayerCollisionManager>();
+        charC = GetComponent<CharacterController2D>();
         bB = null;
     }
 
@@ -36,6 +40,7 @@ public class HoldBall : MonoBehaviour
             bB = null;
             bRb = null;
             lineC = null;
+            bBT = null;
             bCol.tag = "Ball";
 
             playerCollisionM.coll.layer = LayerMask.NameToLayer("PlayerOff");
@@ -45,6 +50,7 @@ public class HoldBall : MonoBehaviour
             bB = closestItemFinder(playerCollisionM.holdableObjects);
             bCol = bB.GetComponentInChildren<Collider2D>();
             lineC = bB.GetComponent<LineCreator>();
+            bBT = bB.GetComponent<ThrowPreview>();
             lineC.lineT.name = "Mesh Ball Held";
             bCol.isTrigger = true;
             bB.tag = "Held";
@@ -85,27 +91,35 @@ public class HoldBall : MonoBehaviour
         }
     }
 
+    bool sim;
     public void OnThrow(InputAction.CallbackContext context)
     {
-        if(bB != null && context.performed)
+        if (bB != null && context.started)
+        {
+            sim = true;
+            charC.canMove = false;
+        }
+        else if(bB != null && (context.performed || context.canceled))
         {
             bRb.isKinematic = false;
             bCol.isTrigger = false;
             bB.tag = "Ball";
             bCol.tag = "Ball";
-            //if (playerCollisionM.inLine) cMG.meshF.gameObject.layer = LayerMask.NameToLayer("Collider" + playerCollisionM.charC.playerType.ToString());
             playerCollisionM.holdableObjects.Add(bB);
-            //bB.GetComponent<ConstantMeshGeneration>().meshF.gameObject.layer = 12;
+            bBT._line.positionCount = 1;
             bB = null;
+            bBT = null;
             bRb.AddForce(GetComponent<CharacterController2D>().moveValue * ThrowStrength, ForceMode2D.Impulse);
-
-
+            sim = false;
             bRb = null;
+            charC.canMove = true;
         }
-        else if(bB != null)
-        {
-            //Preview de la simulation de la courbe de lancé
-        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (sim) bBT.Sim(ThrowStrength * charC.moveValue) ;
+        //print(sim + name);
     }
 
     public void OnDrop(InputAction.CallbackContext context)
