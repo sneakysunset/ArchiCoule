@@ -47,7 +47,7 @@
                     "id": "0add1625-4890-49ce-9ce2-ca63e4be52eb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold(duration=2)",
                     "initialStateCheck": false
                 }
             ],
@@ -190,7 +190,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controller",
                     "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -201,7 +201,7 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyBoard And Mouse",
                     "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false

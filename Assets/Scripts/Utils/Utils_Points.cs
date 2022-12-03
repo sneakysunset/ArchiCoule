@@ -66,7 +66,6 @@ public class Utils_Points
 
     public static int ClosestPointInList(List<Vector2> pointList, float currentPositionX, float[] pointArray)
     {
-        //int closestVertexIndex = 0;
         int pointX = 0;
         float distance = 1000;
         for (int i = 0; i < pointList.Count; i++)
@@ -78,15 +77,27 @@ public class Utils_Points
                 pointX = i;
                 distance = tempDistance;
             }
-            /*            float distancePrev = Mathf.Abs(closestPoint(pointArray, currentPositionX) - pointList[i - 1].x);
-                        float distanceCurr = Mathf.Abs(closestPoint(pointArray, currentPositionX) - pointList[i].x);
-                        bool condition = distanceCurr < distancePrev;
-
-                        if (condition) closestVertexIndex = i;*/
         }
-        //return closestVertexIndex;
         return pointX;
     }
+
+    public static float ClosestFloatPointInList(List<Vector2> pointList, float currentPositionX, float[] pointArray)
+    {
+        int pointX = 0;
+        float distance = 1000;
+        for (int i = 0; i < pointList.Count; i++)
+        {
+            float tempDistance = Mathf.Abs(currentPositionX - pointList[i].x);
+
+            if (tempDistance < distance)
+            {
+                pointX = i;
+                distance = tempDistance;
+            }
+        }
+        return pointList[pointX].x;
+    }
+
 
     public static int AddPoints(float[] pointArray, List<Vector2> pointList, float closestVertice, Vector2 currentPosition, float minDistance, float offSetY)
     {
