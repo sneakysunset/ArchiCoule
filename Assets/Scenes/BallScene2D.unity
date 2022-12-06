@@ -448,7 +448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1339753458846042091, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
       propertyPath: m_LinearDrag
-      value: 0.98
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1339753458846042091, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
       propertyPath: m_Constraints
@@ -461,7 +461,7 @@ PrefabInstance:
     - target: {fileID: 1339753458846042092, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6200000, guid: 77af3e31c246fda4f935c88763c3764c, type: 2}
     - target: {fileID: 1339753458846042098, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
       propertyPath: ballPrefab
       value: 
