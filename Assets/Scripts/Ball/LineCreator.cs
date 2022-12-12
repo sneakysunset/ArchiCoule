@@ -107,7 +107,6 @@ public class LineCreator : MonoBehaviour
 
         if (condition1)
         {
-            print(1);
             int numOfPointAdded = Utils_Points.AddPoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet);
             if (pType != CharacterController2D.Team.Ball)
                 charC.transform.localScale -= Vector3.one * charC.movementScaler / 100 * numOfPointAdded;
@@ -116,7 +115,6 @@ public class LineCreator : MonoBehaviour
         }
         else if (!condition1 && condition2)
         {
-            print(2);
             //var startPos = pointList[closestVertexIndex];
             //var endPos = (Vector2)transform.position - (Vector2.up * lineYOffSet);
             Utils_Points.UpdatePoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet, prevPos);
@@ -159,8 +157,8 @@ public class LineCreator : MonoBehaviour
 
     private void OnDestroy()
     {
-        //if(lineT)
-        //Destroy(lineT.gameObject);
+        if(lineT)
+            Destroy(lineT.gameObject);
 
        // Instantiate(ballPrefab, ogPos, Quaternion.identity);
     }
