@@ -23,8 +23,8 @@ TagManager:
   - PlayerOff
   - BallDetector
   - Pass Through
-  - 
-  - 
+  - BallWall
+  - PlayerWall
   - 
   - 
   - 

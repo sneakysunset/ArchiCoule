@@ -11,7 +11,7 @@
                     "id": "02066d2b-5b50-466f-b235-ec324bb8c8b0",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(pressPoint=1.401298E-45)",
+                    "interactions": "Hold(duration=0.4)",
                     "initialStateCheck": false
                 },
                 {
@@ -47,7 +47,7 @@
                     "id": "0add1625-4890-49ce-9ce2-ca63e4be52eb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold(duration=1E+09)",
                     "initialStateCheck": false
                 }
             ],
@@ -143,7 +143,7 @@
                 {
                     "name": "",
                     "id": "c06bf732-1021-42a9-9343-f75c8364fbc1",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -165,7 +165,7 @@
                 {
                     "name": "",
                     "id": "7186c6b9-0fa0-4ac4-81c7-1729f3b6d6cb",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
@@ -190,7 +190,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controller",
                     "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -201,7 +201,7 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyBoard And Mouse",
                     "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false

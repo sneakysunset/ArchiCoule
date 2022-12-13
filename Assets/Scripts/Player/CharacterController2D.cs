@@ -19,21 +19,25 @@ public class CharacterController2D : MonoBehaviour
     bool moving;
     private Vector2 playerVelocity;
     IEnumerator movingEnum;
-    bool jumping;
+    public bool jumping;
     [HideInInspector]public Vector2 moveValue;
     bool dashing;
     bool dashCDOver = true;
     [HideInInspector] public float wallJumpable;
+    private float axx, dxx;
     #endregion
     #region public variables
     [HideInInspector] public bool canDash;
     [HideInInspector] public bool canWallJump;
     [HideInInspector] public bool canJump;
+    [HideInInspector] public bool canAirControl;
     [HideInInspector] public bool canFastFall;
     [HideInInspector] public float maxXVelocity = 20;
     [HideInInspector] public float maxYVelocity = 20;
-    [HideInInspector] public float ax = 20;
-    [HideInInspector] public float dx = 8;
+    [HideInInspector] public float ax = 2;
+    [HideInInspector] public float dx = 5;
+    [HideInInspector] public float wJax = 20;
+    [HideInInspector] public float wJdx = 8;
     [HideInInspector] public float dashStrength = 10;
     [HideInInspector] public float dashCoolDown = 1;
     [HideInInspector] public GameObject meshObj;
@@ -42,7 +46,8 @@ public class CharacterController2D : MonoBehaviour
     [HideInInspector] public float wallJumpStrength;
     [HideInInspector] public Color colorJ1, colorJ2;
     [HideInInspector] public float moveSpeed;
-    [HideInInspector] public float gravityStrength;
+    [HideInInspector] public float lowJumpMultiplier = 2.5f;
+    [HideInInspector] public float fallMultiplier = 2;
     [HideInInspector] public float fastFallStrength = 100;
     [HideInInspector] public float ghostInputTimer;
     [HideInInspector] public float movementScaler;
@@ -54,6 +59,7 @@ public class CharacterController2D : MonoBehaviour
         collManager = GetComponent<PlayerCollisionManager>();
         ogGravity = rb.mass;
         playerTypeChange();
+        canMove = true;
         //if (!canJump) canWallJump = false;
     }
 
@@ -78,6 +84,10 @@ public class CharacterController2D : MonoBehaviour
         {
             jumping = true;
         }
+        else if(context.canceled || context.performed)
+        {
+            jumping = false;
+        }
     }
 
     public void OnMove(InputAction.CallbackContext value) => moveValue = value.ReadValue<Vector2>();
@@ -87,15 +97,38 @@ public class CharacterController2D : MonoBehaviour
         if(dashCDOver && !dashing && moveValue != Vector2.zero && context.started)
             dashing = true;
     }
-
+    bool flag;
+    [HideInInspector] public bool canMove = true;
     private void FixedUpdate()
     {
+        if(canMove)
         Move();
+
+
+        if (groundCheck || !canAirControl)
+        {
+            axx = ax;
+            dxx = dx;
+        }
+        else if(!groundCheck && wallJumpable != 0)
+        {
+            axx = wJax;
+            dxx = wJdx;
+        }
+        
 
         if (jumping && (groundCheck || (wallJumpable != 0 && canWallJump))) Jump();
         else if (!groundCheck)
         {
-            rb.velocity -= Vector2.up * Time.deltaTime * gravityStrength;
+            if(rb.velocity.y < 0)
+            {
+                rb.velocity += Vector2.up * Time.deltaTime * Physics2D.gravity.y * (fallMultiplier - 1);
+            }
+            else if(rb.velocity.y > 0 && !jumping)
+            {
+                rb.velocity += Vector2.up * Time.deltaTime * Physics2D.gravity.y * (lowJumpMultiplier - 1);
+            }
+
             if (moveValue.y < -.5f && canFastFall) rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(rb.velocity.x, -fastFallStrength), Time.deltaTime * 2);
         }
 
@@ -122,7 +155,7 @@ public class CharacterController2D : MonoBehaviour
             StopCoroutine(collManager.groundCheckEnum);
             collManager.groundCheckEnum = null;
         }
-        jumping = false;
+        //jumping = false;
    }
 
     private void Dash()
@@ -141,7 +174,7 @@ public class CharacterController2D : MonoBehaviour
     {
         Vector2 movementVector = Vector2.zero;
         movementVector.x = moveValue.x * moveSpeed * Time.deltaTime;
-        var acc = movementVector.x != 0 ? ax : dx;
+        var acc = movementVector.x != 0 ? axx : dxx;
 
 
         playerVelocity = Vector2.Lerp(rb.velocity, movementVector, acc * Time.deltaTime);
@@ -212,7 +245,7 @@ public class OnGUIEditorHide : Editor
         GUILayout.Label("Character Controller", bigTitle);
         EditorGUILayout.Space(spaceUnderTitle);
 
-        //base.OnInspectorGUI();
+        base.OnInspectorGUI();
         CharacterController2D script = target as CharacterController2D;
 
         //EditorGUILayout.Space(spaceBetweenTitles);
@@ -222,6 +255,7 @@ public class OnGUIEditorHide : Editor
         script.canWallJump = EditorGUILayout.Toggle("Can WallJump ?", script.canWallJump);
         script.canDash = EditorGUILayout.Toggle("Can Dash ?", script.canDash);
         script.canFastFall = EditorGUILayout.Toggle("Can FastFall ?", script.canFastFall);
+        script.canAirControl = EditorGUILayout.Toggle("Can Air Control ?", script.canAirControl);
         EditorGUILayout.Space(spaceBetweenParameters);
 
         EditorGUILayout.Space(spaceBetweenTitles);
@@ -265,6 +299,14 @@ public class OnGUIEditorHide : Editor
             script.ghostInputTimer = EditorGUILayout.FloatField("Ghost Input Timer", script.ghostInputTimer);
             EditorGUILayout.Space(spaceBetweenParameters);
 
+            GUILayout.Label("The higher this value is the faster the player will fall to the ground", parameter);
+            script.fallMultiplier = EditorGUILayout.FloatField("fallMultiplier", script.fallMultiplier);
+            EditorGUILayout.Space(spaceBetweenParameters);
+
+            GUILayout.Label("The higher this value is the faster the player will fall to the ground", parameter);
+            script.lowJumpMultiplier = EditorGUILayout.FloatField("lowJumpMultiplier", script.lowJumpMultiplier);
+            EditorGUILayout.Space(spaceBetweenParameters);
+
             if (script.canWallJump)
         {
             GUILayout.Label("The horizontal Strength of the wall jump", parameter);
@@ -292,10 +334,13 @@ public class OnGUIEditorHide : Editor
             EditorGUILayout.Space(spaceBetweenParameters);
         }
 
+        if (script.canAirControl)
+        {
+            script.wJax = EditorGUILayout.FloatField("Air Accelation", script.wJax);
+            script.wJdx = EditorGUILayout.FloatField("Air Deceleration", script.wJdx);
+        }
 
-        GUILayout.Label("The higher this value is the faster the player will fall to the ground", parameter);
-        script.gravityStrength = EditorGUILayout.FloatField("Gravity Strength", script.gravityStrength);
-        EditorGUILayout.Space(spaceBetweenParameters);
+
 
 
 

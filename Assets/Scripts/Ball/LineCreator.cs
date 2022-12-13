@@ -158,8 +158,8 @@ public class LineCreator : MonoBehaviour
     private void OnDestroy()
     {
         if(lineT)
-        Destroy(lineT.gameObject);
+            Destroy(lineT.gameObject);
 
-        Instantiate(ballPrefab, ogPos, Quaternion.identity);
+       // Instantiate(ballPrefab, ogPos, Quaternion.identity);
     }
 }
