@@ -69,12 +69,11 @@ public class Door : MonoBehaviour
     IEnumerator DoorOpen(Vector2 startPos)
     {
         float i = Vector2.Distance(ogPos, transform.position) / Vector2.Distance(ogPos, doorDestination) ;
-        print(i);
         while(i < 1)
         {
             i += Time.deltaTime * doorOpenSpeed;
             transform.position = Vector2.Lerp(startPos, doorDestination, openCurve.Evaluate(i));
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
         transform.position = doorDestination;
         yield return null;
@@ -82,7 +81,7 @@ public class Door : MonoBehaviour
 
     IEnumerator DoorClose(Vector2 startPos)
     {
-        float i = Vector2.Distance(ogPos, transform.position) / Vector2.Distance(ogPos, doorDestination);
+        float i = Vector2.Distance(doorDestination, transform.position) / Vector2.Distance(ogPos, doorDestination);
         while (i < 1)
         {
             i += Time.deltaTime * doorOpenSpeed;
