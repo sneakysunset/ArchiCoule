@@ -720,14 +720,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7
       objectReference: {fileID: 0}
@@ -770,18 +762,6 @@ PrefabInstance:
     - target: {fileID: 2783821950464963719, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_Name
       value: WallJump
-      objectReference: {fileID: 0}
-    - target: {fileID: 2783821951331835303, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2783821951331835303, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.95
-      objectReference: {fileID: 0}
-    - target: {fileID: 2783821951331835303, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.95
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
