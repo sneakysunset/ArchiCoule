@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1638003312}
-  - component: {fileID: 1638003313}
+  - component: {fileID: 2012075308}
   m_Layer: 10
   m_Name: DetectionSphere
   m_TagString: Untagged
@@ -63,19 +63,22 @@ Transform:
   m_Father: {fileID: 1775201043333655789}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1638003313
-SphereCollider:
+--- !u!58 &2012075308
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638003311}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1775201043333655785
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,8 +91,8 @@ GameObject:
   - component: {fileID: 1775201043333655794}
   - component: {fileID: 1074573358669061575}
   - component: {fileID: 6984929972057871670}
-  - component: {fileID: 7081149557659283005}
   - component: {fileID: 616959123}
+  - component: {fileID: 1363006960}
   m_Layer: 0
   m_Name: J1
   m_TagString: Player
@@ -136,27 +139,27 @@ MonoBehaviour:
   moveValue: {x: 0, y: 0}
   wallJumpable: 0
   canDash: 0
-  canWallJump: 0
-  canJump: 0
-  canAirControl: 0
+  canWallJump: 1
+  canJump: 1
+  canAirControl: 1
   canFastFall: 0
-  maxXVelocity: 20
+  maxXVelocity: 50
   maxYVelocity: 20
   ax: 20
   dx: 8
-  wJax: 20
-  wJdx: 8
-  dashStrength: 10
+  wJax: 1
+  wJdx: 5
+  dashStrength: 70
   dashCoolDown: 1
   meshObj: {fileID: 0}
-  playerType: 0
-  jumpStrength: 15
-  wallJumpStrength: 0
-  colorJ1: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
+  playerType: 1
+  jumpStrength: 14
+  wallJumpStrength: 30
+  colorJ1: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
   colorJ2: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
-  moveSpeed: 300
-  lowJumpMultiplier: 2.5
-  fallMultiplier: 2
+  moveSpeed: 350
+  lowJumpMultiplier: 10
+  fallMultiplier: 7
   fastFallStrength: 100
   ghostInputTimer: 0.3
   movementScaler: 0.3
@@ -177,8 +180,8 @@ MonoBehaviour:
   coll: {fileID: 0}
   holdableObjects: []
   holdingBall: 0
-  yNormalLineCollision: -0.15
-  normalYmaxInclinasion: 0.7
+  yGroundCheck: 0.15
+  yWallJump: 0.7
 --- !u!114 &6984929972057871670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,30 +292,26 @@ MonoBehaviour:
     m_ActionId: 0add1625-4890-49ce-9ce2-ca63e4be52eb
     m_ActionName: Movement/Throw[/DualSenseGamepadHID/buttonEast,/Mouse/rightButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UI_Pause, Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2c911e0d-1cb3-49c7-acfc-8865eb20cf97
-    m_ActionName: UI/Pause[/Keyboard/escape]
+    m_ActionName: UI/Pause[/Keyboard/escape,/DualSenseGamepadHID/start]
   m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Controller
   m_DefaultActionMap: Movement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!54 &7081149557659283005
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775201043333655785}
-  serializedVersion: 2
-  m_Mass: 1.3
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 120
-  m_CollisionDetection: 2
 --- !u!114 &616959123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,7 +326,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bB: {fileID: 0}
   holdPoint: {fileID: 666370479}
-  ThrowStrength: 500
+  ThrowStrength: 15
+--- !u!50 &1363006960
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775201043333655785}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1775201043343397428
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +440,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1775201044604555546}
-  - component: {fileID: 6796055593876848534}
+  - component: {fileID: 2012075310}
   m_Layer: 8
   m_Name: Collider
   m_TagString: Untagged
@@ -443,19 +463,22 @@ Transform:
   m_Father: {fileID: 1775201043333655789}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &6796055593876848534
-SphereCollider:
+--- !u!58 &2012075310
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775201044604555541}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5770110380794305094
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,7 +572,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5749451124352414424}
-  - component: {fileID: 760548266993657286}
+  - component: {fileID: 2012075309}
   m_Layer: 0
   m_Name: PassThrough
   m_TagString: Untagged
@@ -572,16 +595,19 @@ Transform:
   m_Father: {fileID: 1775201043333655789}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &760548266993657286
-SphereCollider:
+--- !u!58 &2012075309
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7926508496623730259}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}

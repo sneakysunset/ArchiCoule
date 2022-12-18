@@ -33,6 +33,10 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         LineCollisionEnter(collision);
         GroundCheckCollisionEnter(collision);
+        if (collision.contacts[0].normal.y > -yWallJump && collision.contacts[0].normal.y < yWallJump && collision.gameObject.CompareTag("Jumpable") /*|| collision.gameObject.CompareTag("LineCollider")*/)
+        {
+            charC.jumping = false;
+        }
     }
 
     private void LineCollisionEnter(Collision2D collision)
@@ -91,9 +95,11 @@ public class PlayerCollisionManager : MonoBehaviour
 
     void WallJumpCollisionStay(Collision2D collision)
     {
-        if (collision.contacts[0].normal.y > - yWallJump && collision.contacts[0].normal.y < yWallJump && collision.gameObject.CompareTag("Jumpable") || collision.gameObject.CompareTag("LineCollider"))
+        if (collision.contacts[0].normal.y > -yWallJump && collision.contacts[0].normal.y < yWallJump && collision.gameObject.CompareTag("Jumpable") /*|| collision.gameObject.CompareTag("LineCollider")*/)
         {
+            rb.velocity = new Vector3(rb.velocity.x, 0);
             charC.wallJumpable = collision.contacts[0].normal.x;
+            //charC.jumping = false;
         }
     }
 

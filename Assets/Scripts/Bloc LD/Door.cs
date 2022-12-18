@@ -11,12 +11,22 @@ public class Door : MonoBehaviour
     public float doorCloseSpeed = 1;
     public AnimationCurve openCurve;
     public AnimationCurve closeCurve;
-   public int nOpen;
+    int nOpen;
     private Vector2 ogPos;
     private IEnumerator doorOpening, doorClosing;
-
+    LineRenderer line;
+    public Color open, close;
+    bool isOpen;
     private void Start()
     {
+        line = gameObject.GetComponent<LineRenderer>();
+        line.positionCount = keys.Length + 1;
+        for (int i = 0; i < keys.Length; i++)
+        {
+            line.SetPosition(i, keys[i].transform.position);
+        }
+        line.SetPosition(keys.Length, transform.position);
+        
         foreach(KeyScript key in keys)
         {
             key.door = this;
@@ -24,8 +34,24 @@ public class Door : MonoBehaviour
         ogPos = transform.position;
         doorOpenSpeed = Mathf.Clamp(doorOpenSpeed, 0.01f, 100);
         doorCloseSpeed = Mathf.Clamp(doorCloseSpeed, 0.01f, 100);
+        line.startColor = open;
+        line.endColor = open;
     }
 
+    private void Update()
+    {
+        line.SetPosition(keys.Length, transform.position);
+        if (isOpen)
+        {
+            line.startColor = open;
+            line.endColor = open;
+        }
+        else
+        {
+            line.startColor = close;
+            line.endColor = close;
+        }
+    }
     public void KeyTriggered()
     {
 
@@ -43,7 +69,6 @@ public class Door : MonoBehaviour
             }
             if (doorOpening == null && (Vector2)transform.position != doorDestination)
             {
-                print(2);
                 doorOpening = DoorOpen(transform.position);
                 StartCoroutine(doorOpening);
             }
@@ -73,9 +98,12 @@ public class Door : MonoBehaviour
         {
             i += Time.deltaTime * doorOpenSpeed;
             transform.position = Vector2.Lerp(startPos, doorDestination, openCurve.Evaluate(i));
+            isOpen = true;
+
             yield return null;
         }
         transform.position = doorDestination;
+        isOpen = true;
         yield return null;
     }
 
@@ -86,9 +114,13 @@ public class Door : MonoBehaviour
         {
             i += Time.deltaTime * doorOpenSpeed;
             transform.position = Vector2.Lerp(startPos, ogPos, openCurve.Evaluate(i));
+            isOpen = false;
+
             yield return new WaitForEndOfFrame();
         }
         transform.position = ogPos;
+        isOpen = false;
+
         yield return null;
     }
 }

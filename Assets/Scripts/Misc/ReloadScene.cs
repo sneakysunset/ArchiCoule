@@ -10,13 +10,13 @@ public class ReloadScene : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void withScene()
+    public void TestScene()
     {
-        SceneManager.LoadScene("WithInput");
+        SceneManager.LoadScene("SceneTest");
     }
 
-    public void withoutScene()
+    public void PlayGround()
     {
-        SceneManager.LoadScene("NoInput");
+        SceneManager.LoadScene("PlayGround");
     }
 }

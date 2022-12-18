@@ -100,8 +100,10 @@ public class CharacterController2D : MonoBehaviour
         if(dashCDOver && !dashing && moveValue != Vector2.zero && context.started)
             dashing = true;
     }
+
     bool flag;
     [HideInInspector] public bool canMove = true;
+
     private void FixedUpdate()
     {
         if(canMove)
@@ -120,7 +122,7 @@ public class CharacterController2D : MonoBehaviour
         }
         
 
-        if (jumping && (groundCheck /*|| (wallJumpable != 0*/ && canWallJump)) Jump();
+        if (jumping && (groundCheck || (wallJumpable != 0 && canWallJump))) Jump();
         else if (!groundCheck)
         {
             if(rb.velocity.y < 0)
@@ -162,6 +164,7 @@ public class CharacterController2D : MonoBehaviour
             StopCoroutine(collManager.groundCheckEnum);
             collManager.groundCheckEnum = null;
         }
+
         //jumping = false;
    }
 

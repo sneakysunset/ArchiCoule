@@ -6,6 +6,12 @@ public class KeyScript : MonoBehaviour
 {
     public bool activated;
     [HideInInspector] public Door door;
+    Color ogCol;
+
+    private void Start()
+    {
+        ogCol = GetComponent<SpriteRenderer>().color;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -31,7 +37,7 @@ public class KeyScript : MonoBehaviour
         {
             activated = false;
             door.KeyTriggered();
-            GetComponent<SpriteRenderer>().color = Color.white;
+            GetComponent<SpriteRenderer>().color = ogCol;
 
         }
     }
