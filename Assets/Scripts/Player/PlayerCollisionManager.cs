@@ -12,8 +12,8 @@ public class PlayerCollisionManager : MonoBehaviour
     [HideInInspector] public List<Transform> holdableObjects;
     [HideInInspector] public bool holdingBall = false;
 
-    [Range(-1f, 1f)] public float yNormalLineCollision = -.15f;
-    [Range(-1f, 1f)] public float normalYmaxInclinasion = .7f;
+    [Range(-1f, 1f)] public float yGroundCheck = -.15f;
+    [Range(-1f, 1f)] public float yWallJump = .7f;
 
     private void Start()
     {
@@ -33,12 +33,16 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         LineCollisionEnter(collision);
         GroundCheckCollisionEnter(collision);
+        if (collision.contacts[0].normal.y > -yWallJump && collision.contacts[0].normal.y < yWallJump && collision.gameObject.CompareTag("Jumpable") /*|| collision.gameObject.CompareTag("LineCollider")*/)
+        {
+            charC.jumping = false;
+        }
     }
 
     private void LineCollisionEnter(Collision2D collision)
     {
         bool condition1 = collision.gameObject.tag == "LineCollider";
-        bool condition2 = collision.contacts[0].normal.y < yNormalLineCollision;
+        bool condition2 = collision.contacts[0].normal.y < yGroundCheck;
 
         if (condition1 && condition2)
         {
@@ -58,7 +62,7 @@ public class PlayerCollisionManager : MonoBehaviour
 
     private void GroundCheckCollisionEnter(Collision2D collision)
     {
-        if (collision.contacts[0].normal.y > normalYmaxInclinasion)
+        if (collision.contacts[0].normal.y > yGroundCheck)
         {
             charC.groundCheck = true;
             if (groundCheckEnum != null)
@@ -78,7 +82,7 @@ public class PlayerCollisionManager : MonoBehaviour
     void GroundCheckCollisionStay(Collision2D collision)
     {
         charC.groundCheck = false;
-        if (collision.contacts[0].normal.y > normalYmaxInclinasion)
+        if (collision.contacts[0].normal.y > yGroundCheck)
         {
             charC.groundCheck = true;
             if (groundCheckEnum != null)
@@ -91,9 +95,11 @@ public class PlayerCollisionManager : MonoBehaviour
 
     void WallJumpCollisionStay(Collision2D collision)
     {
-        if (collision.contacts[0].normal.y > -0.3 && collision.contacts[0].normal.y < 0.3 && collision.gameObject.CompareTag("Jumpable") || collision.gameObject.CompareTag("LineCollider"))
+        if (collision.contacts[0].normal.y > -yWallJump && collision.contacts[0].normal.y < yWallJump && collision.gameObject.CompareTag("Jumpable") /*|| collision.gameObject.CompareTag("LineCollider")*/)
         {
+            rb.velocity = new Vector3(rb.velocity.x, 0);
             charC.wallJumpable = collision.contacts[0].normal.x;
+            //charC.jumping = false;
         }
     }
 

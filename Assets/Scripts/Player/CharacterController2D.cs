@@ -20,6 +20,7 @@ public class CharacterController2D : MonoBehaviour
     private Vector2 playerVelocity;
     IEnumerator movingEnum;
     public bool jumping;
+    private bool wallJumping;
     [HideInInspector]public Vector2 moveValue;
     bool dashing;
     bool dashCDOver = true;
@@ -65,15 +66,15 @@ public class CharacterController2D : MonoBehaviour
 
     private void playerTypeChange()
     {
-        MeshRenderer pRend = GetComponentInChildren<MeshRenderer>();
+        SpriteRenderer pRend = GetComponentInChildren<SpriteRenderer>();
         if (playerType == Team.J1)
         {
-            pRend.material.color = colorJ1;
+            pRend.color = colorJ1;
             col = colorJ1;
         }
         else
         {
-            pRend.material.color = colorJ2;
+            pRend.color = colorJ2;
             col = colorJ2;
         }
     }
@@ -83,10 +84,12 @@ public class CharacterController2D : MonoBehaviour
         if (context.started && (groundCheck || wallJumpable != 0) && canJump)
         {
             jumping = true;
+            if (wallJumpable != 0) wallJumping = true;
         }
         else if(context.canceled || context.performed)
         {
             jumping = false;
+            wallJumping = false;
         }
     }
 
@@ -97,8 +100,10 @@ public class CharacterController2D : MonoBehaviour
         if(dashCDOver && !dashing && moveValue != Vector2.zero && context.started)
             dashing = true;
     }
+
     bool flag;
     [HideInInspector] public bool canMove = true;
+
     private void FixedUpdate()
     {
         if(canMove)
@@ -124,10 +129,14 @@ public class CharacterController2D : MonoBehaviour
             {
                 rb.velocity += Vector2.up * Time.deltaTime * Physics2D.gravity.y * (fallMultiplier - 1);
             }
-            else if(rb.velocity.y > 0 && !jumping)
+            else if(rb.velocity.y > 0 && !jumping && !wallJumping)
             {
                 rb.velocity += Vector2.up * Time.deltaTime * Physics2D.gravity.y * (lowJumpMultiplier - 1);
             }
+/*            else if(rb.velocity.y > 0 && !jumping && !wallJumping)
+            {
+                rb.velocity += Vector2.up * Time.deltaTime * Physics2D.gravity.y * (20 * lowJumpMultiplier - 1);
+            }*/
 
             if (moveValue.y < -.5f && canFastFall) rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(rb.velocity.x, -fastFallStrength), Time.deltaTime * 2);
         }
@@ -155,6 +164,7 @@ public class CharacterController2D : MonoBehaviour
             StopCoroutine(collManager.groundCheckEnum);
             collManager.groundCheckEnum = null;
         }
+
         //jumping = false;
    }
 
