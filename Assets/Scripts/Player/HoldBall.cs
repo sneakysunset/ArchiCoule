@@ -16,6 +16,9 @@ public class HoldBall : MonoBehaviour
     public Transform holdPoint;
     public float ThrowStrength = 5;
 
+    [HideInInspector]
+    public bool isHolding;
+
     private void Awake()
     {
         playerCollisionM = GetComponent<PlayerCollisionManager>();
@@ -28,7 +31,10 @@ public class HoldBall : MonoBehaviour
         if(bB != null && context.started /*&& playerCollisionM.holdableObjects.Count == 0*/)
         {
             bRb.isKinematic = false;
-            bCol.isTrigger = false;
+            bRb.velocity = Vector2.zero;
+            bRb.angularVelocity = 0;
+           // bCol.isTrigger = false;
+            isHolding = true;
 
             if (bB != null)
             {
@@ -52,7 +58,7 @@ public class HoldBall : MonoBehaviour
             lineC = bB.GetComponent<LineCreator>();
             bBT = bB.GetComponent<ThrowPreview>();
             lineC.lineT.name = "Mesh Ball Held";
-            bCol.isTrigger = true;
+           // bCol.isTrigger = true;
             bB.tag = "Held";
             bCol.tag = "Held";
             bB.GetComponentInChildren<Collider2D>().tag = "Held";
@@ -102,7 +108,7 @@ public class HoldBall : MonoBehaviour
         else if(bB != null && (context.performed || context.canceled))
         {
             bRb.isKinematic = false;
-            bCol.isTrigger = false;
+           // bCol.isTrigger = false;
             bB.tag = "Ball";
             bCol.tag = "Ball";
             playerCollisionM.holdableObjects.Add(bB);
@@ -113,6 +119,7 @@ public class HoldBall : MonoBehaviour
             sim = false;
             bRb = null;
             charC.canMove = true;
+            isHolding = false;
         }
     }
 
@@ -127,10 +134,11 @@ public class HoldBall : MonoBehaviour
         if (bB != null)
         {
             bRb.isKinematic = false;
-            bCol.isTrigger = false;
+           // bCol.isTrigger = false;
             bB.tag = "Ball";
             bB = null;
             bRb = null;
+            isHolding = false;
         }
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LineBallSpawner : MonoBehaviour
 {
+    [TextArea]
+    public string infoSpawner = "En appuyant sur P tu fais respawn la ball,NE PAS METTRE PLUSIEURS SPAWNER POUR LE MOMENT";
     public GameObject currentBall;
     public GameObject lineBallPrefab;
     public Transform spawnPoint;
