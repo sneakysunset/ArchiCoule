@@ -15,7 +15,7 @@ public class EditorBlocFunctions : MonoBehaviour
             transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
 
         if (!freeScale && previousScale != transform.localScale)
-            transform.localScale = new Vector3(Mathf.RoundToInt(transform.localScale.x), Mathf.RoundToInt(transform.localScale.y), 1);
+            transform.localScale = new Vector3(Mathf.RoundToInt(transform.localScale.x ), Mathf.RoundToInt(transform.localScale.y), 1);
 
         previousPos = transform.position;
         previousScale = transform.localScale;
