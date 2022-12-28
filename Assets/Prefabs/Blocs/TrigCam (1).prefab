@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7283577711857357575}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 56.855957, y: 32.094967, z: 18.695}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7283577712404757890}
@@ -109,9 +109,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7283577712404757889}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -109.13, y: -9.15, z: 0}
-  m_LocalScale: {x: 1.295834, y: 1.2793528, z: 1}
+  m_LocalScale: {x: 57.6, y: 32.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7283577711857357576}
@@ -135,25 +135,34 @@ MonoBehaviour:
   useOldCamSize: 1
   endPosition: {x: 0, y: 0}
   camSizeDestination: 16
-  speed: 0
+  speed: 1
   animCurveCam:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: -0.2569081
+      outSlope: -0.2569081
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.5537759
+    - serializedVersion: 3
+      time: 0.49128357
+      value: 0.75582224
+      inSlope: 1.7456658
+      outSlope: 1.7456658
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -232,7 +241,7 @@ Transform:
   m_GameObject: {fileID: 7283577712857925872}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 56.429947, y: 32.094967, z: 18.695}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7283577712404757890}
