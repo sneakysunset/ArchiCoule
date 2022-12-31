@@ -33,8 +33,9 @@ public class HoldBall : MonoBehaviour
             bRb.isKinematic = false;
             bRb.velocity = Vector2.zero;
             bRb.angularVelocity = 0;
-           // bCol.isTrigger = false;
-            isHolding = true;
+            // bCol.isTrigger = false;
+
+            isHolding = true;   
 
             if (bB != null)
             {
@@ -58,7 +59,9 @@ public class HoldBall : MonoBehaviour
             lineC = bB.GetComponent<LineCreator>();
             bBT = bB.GetComponent<ThrowPreview>();
             lineC.lineT.name = "Mesh Ball Held";
-           // bCol.isTrigger = true;
+            bCol.gameObject.layer = 14;
+
+            // bCol.isTrigger = true;
             bB.tag = "Held";
             bCol.tag = "Held";
             bB.GetComponentInChildren<Collider2D>().tag = "Held";
@@ -108,7 +111,8 @@ public class HoldBall : MonoBehaviour
         else if(bB != null && (context.performed || context.canceled))
         {
             bRb.isKinematic = false;
-           // bCol.isTrigger = false;
+            // bCol.isTrigger = false;
+            bCol.gameObject.layer = 7;
             bB.tag = "Ball";
             bCol.tag = "Ball";
             playerCollisionM.holdableObjects.Add(bB);
@@ -133,6 +137,8 @@ public class HoldBall : MonoBehaviour
     {
         if (bB != null)
         {
+            bCol.gameObject.layer = 7;
+
             bRb.isKinematic = false;
            // bCol.isTrigger = false;
             bB.tag = "Ball";
