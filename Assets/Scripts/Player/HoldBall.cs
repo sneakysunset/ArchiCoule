@@ -48,6 +48,7 @@ public class HoldBall : MonoBehaviour
             bRb = null;
             lineC = null;
             bBT = null;
+            bCol.gameObject.layer = 7;
             bCol.tag = "Ball";
 
             playerCollisionM.coll.layer = LayerMask.NameToLayer("PlayerOff");

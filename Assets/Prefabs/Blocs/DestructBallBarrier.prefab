@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6857838355405076076}
   - component: {fileID: 6857838355405076077}
   - component: {fileID: 6857838355405076074}
+  - component: {fileID: -1809724425511466555}
   m_Layer: 0
   m_Name: DestructBallBarrier
   m_TagString: Untagged
@@ -124,4 +125,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c74dfc30ba3db49973843d153206bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoDestructBallBarrier: "N'oublie pas pour le moment de pr\xE9ciser sur qu'elle
+    spawner tu veux que la balle r\xE9apparraise"
   spawner: {fileID: 0}
+--- !u!114 &-1809724425511466555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6857838355405076075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11bc48dd5b196f84db317d8529efb713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freeMove: 0
+  freeScale: 0
