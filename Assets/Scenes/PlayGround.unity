@@ -433,7 +433,7 @@ PrefabInstance:
       objectReference: {fileID: 99438573390550179, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
     - target: {fileID: 1339753458846042098, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
       propertyPath: lineResolution
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1339753458846042103, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
       propertyPath: BallPrefab
@@ -1132,6 +1132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d9cc789c27d73547a36a99a46a9773a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoSpawner: En appuyant sur P tu fais respawn la ball,NE PAS METTRE PLUSIEURS
+    SPAWNER POUR LE MOMENT
   currentBall: {fileID: 1682748900}
   lineBallPrefab: {fileID: 99438573390550179, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
   spawnPoint: {fileID: 1769947327}
