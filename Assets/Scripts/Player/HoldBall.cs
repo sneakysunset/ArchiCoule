@@ -48,6 +48,8 @@ public class HoldBall : MonoBehaviour
             bRb = null;
             lineC = null;
             bBT = null;
+            bCol.gameObject.layer = 7;
+
             bCol.tag = "Ball";
 
             playerCollisionM.coll.layer = LayerMask.NameToLayer("PlayerOff");
@@ -119,7 +121,8 @@ public class HoldBall : MonoBehaviour
             bBT._line.positionCount = 1;
             bB = null;
             bBT = null;
-            bRb.AddForce(GetComponent<CharacterController2D>().moveValue * ThrowStrength, ForceMode2D.Impulse);
+            bRb.velocity = GetComponent<CharacterController2D>().moveValue * ThrowStrength;
+            // bRb.AddForce(GetComponent<CharacterController2D>().moveValue * ThrowStrength, ForceMode2D.Impulse);
             sim = false;
             bRb = null;
             charC.canMove = true;

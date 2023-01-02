@@ -150,12 +150,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 163
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -447,6 +451,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1265525385}
     m_Modifications:
+    - target: {fileID: 1707793404255608450, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2783821950464963716, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -502,6 +510,10 @@ PrefabInstance:
     - target: {fileID: 2783821950464963719, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
       propertyPath: m_Name
       value: WallJump (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115852810073325255, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18e519482c686874db3ac35d5db286bf, type: 3}
