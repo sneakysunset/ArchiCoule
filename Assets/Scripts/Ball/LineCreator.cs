@@ -155,10 +155,13 @@ public class LineCreator : MonoBehaviour
         prevUpdatedIndex = -1;
         float posX = 0;
         int numOfAdded = 0;
+        var a = pPos.x - Mathf.FloorToInt(pPos.x);
+        var b = a - (a % lineResolution);
         if (pointList[0].x - pPos.x > lineResolution)
         {
-            if (pPos.x - Mathf.FloorToInt(pPos.x) > .5f) posX = Mathf.CeilToInt(pPos.x);
-            else posX = Mathf.FloorToInt(pPos.x) + .5f;
+            posX = Mathf.FloorToInt(pPos.x) + b + lineResolution;
+            //if (pPos.x - Mathf.FloorToInt(pPos.x) > .5f) posX = Mathf.CeilToInt(pPos.x);
+            //else posX = Mathf.FloorToInt(pPos.x) + .5f;
 
             for (float i = posX; i < pointList[0].x ; i += lineResolution)
             {
@@ -170,8 +173,9 @@ public class LineCreator : MonoBehaviour
         }
         else
         {
-            if (pPos.x - Mathf.FloorToInt(pPos.x) < .5f) posX = Mathf.FloorToInt(pPos.x);
-            else posX = Mathf.FloorToInt(pPos.x) + .5f;
+            posX = Mathf.FloorToInt(pPos.x) + b;
+            //if (pPos.x - Mathf.FloorToInt(pPos.x) < .5f) posX = Mathf.FloorToInt(pPos.x);
+            //else posX = Mathf.FloorToInt(pPos.x) + .5f;
 
             for (float i = posX; i > pointList[pointList.Count - 1].x; i -= lineResolution)
             {
@@ -182,7 +186,7 @@ public class LineCreator : MonoBehaviour
         }
     }
 
-    int prevUpdatedIndex;
+    public int prevUpdatedIndex;
 
     void UpdatePoint()
     {
@@ -194,10 +198,10 @@ public class LineCreator : MonoBehaviour
         int closestIndex = 10000;
         for (int i = 0; i < pointList.Count ; i++)
         {
-            if (Mathf.Abs(pointList[i].x - posX) < curDistance)
+            if (Mathf.Abs(pointList[i].x - pPos.x) < curDistance)
             {
                 closestIndex = i;
-                curDistance = Mathf.Abs(pointList[i].x - posX);
+                curDistance = Mathf.Abs(pointList[i].x - pPos.x);
             }
         }
 
@@ -211,7 +215,7 @@ public class LineCreator : MonoBehaviour
             {
                 for (int i = closestIndex; i < prevUpdatedIndex; i++)
                 {
-                    float posY = Mathf.Lerp(pointList[closestIndex].y, pointList[prevUpdatedIndex].y,  (i - closestIndex)/(prevUpdatedIndex - closestIndex));
+                    float posY = Mathf.Lerp(pointList[closestIndex].y, pointList[prevUpdatedIndex].y,  (Mathf.Abs(i) - Mathf.Abs(closestIndex))/(Mathf.Abs(prevUpdatedIndex - closestIndex)));
                     pointList[i] = new Vector2(pointList[i].x, posY);
                 }
             }
@@ -219,12 +223,15 @@ public class LineCreator : MonoBehaviour
             {
                 for (int i = closestIndex; i > prevUpdatedIndex; i--)
                 {
-                    float posY = Mathf.Lerp(pointList[prevUpdatedIndex].y, pointList[closestIndex].y, (i - prevUpdatedIndex) / (closestIndex - prevUpdatedIndex));
+                    float posY = Mathf.Lerp(pointList[prevUpdatedIndex].y, pointList[closestIndex].y, (Mathf.Abs(i) - Mathf.Abs(prevUpdatedIndex)) / (Mathf.Abs(closestIndex - prevUpdatedIndex)));
                     pointList[i] = new Vector2(pointList[i].x, posY);
                 }
             }
         }
-        else pointList[closestIndex] = newPos;
+        else
+        {
+            pointList[closestIndex] = newPos;
+        }
 
         prevUpdatedIndex = closestIndex;
     }
