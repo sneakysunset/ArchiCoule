@@ -59,3 +59,8 @@ sysinfo.txt
 crashlytics-build.properties
 
 fmod_editor.log
+Assets/Don't Care/Plugins/FMOD/platforms/mac/lib/fmodstudio.bundle/Contents/Info.plist
+Assets/Don't Care/Plugins/FMOD/platforms/mac/lib/fmodstudioL.bundle/Contents/Info.plist
+Assets/Don't Care/Plugins/FMOD/platforms/mac/lib/resonanceaudio.bundle/Contents/Info.plist
+Assets/Don't Care/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
+Assets/Don't Care/Plugins/FMOD/Resources/FMODStudioSettings.asset
