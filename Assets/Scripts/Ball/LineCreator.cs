@@ -65,16 +65,20 @@ public class LineCreator : MonoBehaviour
     {
         var list = pointList;
         list = pointList.OrderBy(v => v.x).ToList();
+        pointList = list;
 
-        if (!UpdatePointList()) return;
+        if (!newUpdatePointList()) return;
+
+        list = pointList.OrderBy(v => v.x).ToList();
+        pointList = list;
 
         if (list.Count < 4 || edgeC.gameObject.layer == 10) return;
 
-        lineR.positionCount = list.Count;
-        Vector3[] vector3s = new Vector3[list.Count];
+        lineR.positionCount = pointList.Count;
+        Vector3[] vector3s = new Vector3[pointList.Count];
         for (int i = 0; i < vector3s.Length; i++)
         {
-            vector3s[i] = list[i];
+            vector3s[i] = pointList[i];
         }
         lineR.SetPositions(vector3s);
         StartCoroutine(afterPhysics(list));
@@ -83,7 +87,7 @@ public class LineCreator : MonoBehaviour
     IEnumerator afterPhysics(List<Vector2> list)
     {
         yield return new WaitForFixedUpdate();
-        edgeC.SetPoints(list);
+        edgeC.SetPoints(pointList);
         prevPos = transform.position;
     }
 
@@ -127,6 +131,111 @@ public class LineCreator : MonoBehaviour
         }
     }
 
+    public bool newUpdatePointList()
+    {
+        Vector2 pPos = new Vector2(transform.position.x, transform.position.y);
+        //condition1 = Le joueur est en dehors de la liste de point
+        bool condition1 = pointList[0].x - pPos.x > lineResolution || pPos.x - pointList[pointList.Count - 1].x > lineResolution;
+        bool condition2 = pointList[0].x - pPos.x < lineResolution && pPos.x - pointList[pointList.Count - 1].x < lineResolution;
+        if (condition1)
+        {
+            AddPoint();
+        }
+        else if (condition2)
+        {
+            UpdatePoint();
+        }
+
+        return true;
+    }
+
+    void AddPoint()
+    {
+        Vector2 pPos = new Vector2(transform.position.x, transform.position.y);
+        prevUpdatedIndex = -1;
+        float posX = 0;
+        int numOfAdded = 0;
+        var a = pPos.x - Mathf.FloorToInt(pPos.x);
+        var b = a - (a % lineResolution);
+        if (pointList[0].x - pPos.x > lineResolution)
+        {
+            posX = Mathf.FloorToInt(pPos.x) + b + lineResolution;
+            //if (pPos.x - Mathf.FloorToInt(pPos.x) > .5f) posX = Mathf.CeilToInt(pPos.x);
+            //else posX = Mathf.FloorToInt(pPos.x) + .5f;
+
+            for (float i = posX; i < pointList[0].x; i += lineResolution)
+            {
+                float posY = Mathf.Lerp(pPos.y, pointList[0].y, numOfAdded / ((pointList[0].x - pPos.x) / lineResolution));
+                pointList.Add(new Vector2(i, posY));
+                numOfAdded++;
+            }
+
+        }
+        else
+        {
+            posX = Mathf.FloorToInt(pPos.x) + b;
+            //if (pPos.x - Mathf.FloorToInt(pPos.x) < .5f) posX = Mathf.FloorToInt(pPos.x);
+            //else posX = Mathf.FloorToInt(pPos.x) + .5f;
+
+            for (float i = posX; i > pointList[pointList.Count - 1].x; i -= lineResolution)
+            {
+                float posY = Mathf.Lerp(pPos.y, pointList[0].y, numOfAdded / ((pPos.x - pointList[pointList.Count - 1].x) / lineResolution));
+                pointList.Add(new Vector2(i, posY));
+                numOfAdded++;
+            }
+        }
+    }
+
+    public int prevUpdatedIndex;
+
+    void UpdatePoint()
+    {
+        Vector2 pPos = new Vector2(transform.position.x, transform.position.y);
+
+        float posX = Mathf.FloorToInt(pPos.x);
+
+        float curDistance = 100000;
+        int closestIndex = 10000;
+        for (int i = 0; i < pointList.Count; i++)
+        {
+            if (Mathf.Abs(pointList[i].x - pPos.x) < curDistance)
+            {
+                closestIndex = i;
+                curDistance = Mathf.Abs(pointList[i].x - pPos.x);
+            }
+        }
+
+
+        Vector2 newPos = new Vector2(pointList[closestIndex].x, pPos.y);
+        pointList[closestIndex] = newPos;
+
+        if (prevUpdatedIndex != -1)
+        {
+            if (closestIndex - prevUpdatedIndex < 0)
+            {
+                for (int i = closestIndex; i < prevUpdatedIndex; i++)
+                {
+                    float posY = Mathf.Lerp(pointList[closestIndex].y, pointList[prevUpdatedIndex].y, (Mathf.Abs(i) - Mathf.Abs(closestIndex)) / (Mathf.Abs(prevUpdatedIndex - closestIndex)));
+                    pointList[i] = new Vector2(pointList[i].x, posY);
+                }
+            }
+            else
+            {
+                for (int i = closestIndex; i > prevUpdatedIndex; i--)
+                {
+                    float posY = Mathf.Lerp(pointList[prevUpdatedIndex].y, pointList[closestIndex].y, (Mathf.Abs(i) - Mathf.Abs(prevUpdatedIndex)) / (Mathf.Abs(closestIndex - prevUpdatedIndex)));
+                    pointList[i] = new Vector2(pointList[i].x, posY);
+                }
+            }
+        }
+        else
+        {
+            pointList[closestIndex] = newPos;
+        }
+
+        prevUpdatedIndex = closestIndex;
+    }
+
     private Vector2 prevPos;
     private void InstantiateLine()
     {
@@ -157,10 +266,10 @@ public class LineCreator : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(lineT)
+        if (lineT)
             Destroy(lineT.gameObject);
 
-       // Instantiate(ballPrefab, ogPos, Quaternion.identity);
+        // Instantiate(ballPrefab, ogPos, Quaternion.identity);
     }
 
 
