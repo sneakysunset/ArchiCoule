@@ -433,7 +433,11 @@ PrefabInstance:
       objectReference: {fileID: 99438573390550179, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
     - target: {fileID: 1339753458846042098, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
       propertyPath: lineResolution
-      value: 0.2
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339753458846042098, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
+      propertyPath: threshHoldToUpdatePoints
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 1339753458846042102, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
