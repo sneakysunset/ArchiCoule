@@ -6,6 +6,7 @@ public class Door : MonoBehaviour
 {
     public enum doorTypes { KeyDoor, ButtonDoor};
     public KeyScript[] keys;
+    private FMOD.Studio.EventInstance slidingSound;
     public Vector2 doorDestination;
     public float doorOpenSpeed = 1;
     public float doorCloseSpeed = 1;
@@ -90,11 +91,23 @@ public class Door : MonoBehaviour
         }
     }
 
+    bool IsPlaying(FMOD.Studio.EventInstance instance)
+    {
+        FMOD.Studio.PLAYBACK_STATE state;
+        instance.getPlaybackState(out state);
+        return state != FMOD.Studio.PLAYBACK_STATE.STOPPED;
+    }
 
     IEnumerator DoorOpen(Vector2 startPos)
     {
         float i = Vector2.Distance(ogPos, transform.position) / Vector2.Distance(ogPos, doorDestination) ;
-        while(i < 1)
+        if (!IsPlaying(slidingSound))
+        {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/BlockLd/DoorOpen");
+            slidingSound = FMODUnity.RuntimeManager.CreateInstance("event:/MouvementCorde/LineSound");
+            slidingSound.start();
+        }
+        while (i < 1)
         {
             i += Time.deltaTime * doorOpenSpeed;
             transform.position = Vector2.Lerp(startPos, doorDestination, openCurve.Evaluate(i));
@@ -104,12 +117,21 @@ public class Door : MonoBehaviour
         }
         transform.position = doorDestination;
         isOpen = true;
+        slidingSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        slidingSound.release();
+        FMODUnity.RuntimeManager.PlayOneShot("event:/BlockLd/DoorClose");
         yield return null;
     }
 
     IEnumerator DoorClose(Vector2 startPos)
     {
         float i = Vector2.Distance(doorDestination, transform.position) / Vector2.Distance(ogPos, doorDestination);
+        if (!IsPlaying(slidingSound))
+        {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/BlockLd/DoorOpen");
+            slidingSound = FMODUnity.RuntimeManager.CreateInstance("event:/MouvementCorde/LineSound");
+            slidingSound.start();
+        }
         while (i < 1)
         {
             i += Time.deltaTime * doorOpenSpeed;
@@ -119,8 +141,11 @@ public class Door : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         transform.position = ogPos;
-        isOpen = false;
 
+        isOpen = false;
+        slidingSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        slidingSound.release();
+        FMODUnity.RuntimeManager.PlayOneShot("event:/BlockLd/DoorClose");
         yield return null;
     }
 }

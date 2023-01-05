@@ -18,6 +18,7 @@ public class KeyScript : MonoBehaviour
         if (collision.CompareTag("LineCollider"))
         {
             activated = true;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/BlockLd/SwitchOn");
             door.KeyTriggered();
             GetComponent<SpriteRenderer>().color = Color.blue;
         }
@@ -36,6 +37,8 @@ public class KeyScript : MonoBehaviour
         if (collision.CompareTag("LineCollider"))
         {
             activated = false;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/BlockLd/SwitchOff");
+
             door.KeyTriggered();
             GetComponent<SpriteRenderer>().color = ogCol;
 

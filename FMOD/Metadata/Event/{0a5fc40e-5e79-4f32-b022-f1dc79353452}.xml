@@ -122,11 +122,14 @@
 	</object>
 	<object class="MixerBusPanner" id="{21e2d7ab-7e00-450b-ad70-44870c3be4cc}" />
 	<object class="SingleSound" id="{fd220603-5bef-4c8f-8e1e-cab9749f7749}">
+		<property name="startOffset">
+			<value>0.5</value>
+		</property>
 		<property name="volume">
-			<value>-17</value>
+			<value>-10</value>
 		</property>
 		<property name="pitch">
-			<value>4</value>
+			<value>-3.79999995</value>
 		</property>
 		<relationship name="modulators">
 			<destination>{b6c40c00-9260-4a56-b6e8-c63dedb4f92b}</destination>

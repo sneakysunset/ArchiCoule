@@ -69,10 +69,10 @@ MonoBehaviour:
   Path: FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638085299480964936
+  lastModified: 638085331237066396
   FileSizes:
   - Name: Desktop
-    Value: 1520
+    Value: 1558
   Exists: 1
 --- !u!114 &-7203884038682630990
 MonoBehaviour:
@@ -101,7 +101,34 @@ MonoBehaviour:
   - {fileID: 2656594220212873252}
   MinDistance: 1
   MaxDistance: 20
-  Length: 14000
+  Length: 60500
+--- !u!114 &-3953482513393760115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BlockLd/DoorSliding
+  m_EditorClassIdentifier: 
+  Path: event:/BlockLd/DoorSliding
+  Guid:
+    Data1: -1648872932
+    Data2: 1162887127
+    Data3: -620941174
+    Data4: 1431433884
+  Banks:
+  - {fileID: 2541334307547349915}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5982
 --- !u!114 &-2751061779629709004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,12 +296,13 @@ MonoBehaviour:
   - {fileID: -1970495123385385607}
   - {fileID: 3009853214481162094}
   - {fileID: -8722539572443755784}
+  - {fileID: -3953482513393760115}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2541334307547349915}
   StringsBanks:
   - {fileID: -8612663258027236983}
-  cacheTime: 638085299480964936
+  cacheTime: 638085331237066396
   cacheVersion: 131591
 --- !u!114 &659191199513886373
 MonoBehaviour:
@@ -426,10 +454,10 @@ MonoBehaviour:
   Path: FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638085299480945005
+  lastModified: 638085331237036472
   FileSizes:
   - Name: Desktop
-    Value: 2988768
+    Value: 3012032
   Exists: 1
 --- !u!114 &2656594220212873252
 MonoBehaviour:
