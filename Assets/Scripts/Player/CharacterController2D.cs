@@ -217,7 +217,7 @@ public class CharacterController2D : MonoBehaviour
 
     IEnumerator moveSound(float timer)
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Deplacement");
+        //FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Deplacement");
         yield return new WaitForSeconds(timer);
         if (moving)
         {

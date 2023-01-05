@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 168b90bcb6863ac4bb459c6ad7295df6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundUpdateTimer: 0.2
+  soundUpdateTimer: 0.02
   visualPrefab: {fileID: 5727735672955443796, guid: 225a3375bd35c5943827f08731b55c81, type: 3}
 --- !u!1 &105943973
 GameObject:
@@ -1804,6 +1804,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: canDash
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: colorJ1.b
       value: 0.4245283
       objectReference: {fileID: 0}
@@ -1818,6 +1822,10 @@ PrefabInstance:
     - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: playerType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: canFastFall
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: fallMultiplier
@@ -1856,6 +1864,10 @@ PrefabInstance:
     - target: {fileID: 8640188198168901580, guid: 823a3425dee506d4abfb34b0953f14a5, type: 3}
       propertyPath: m_Name
       value: Platform (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8640188198168901580, guid: 823a3425dee506d4abfb34b0953f14a5, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8640188198168901580, guid: 823a3425dee506d4abfb34b0953f14a5, type: 3}
       propertyPath: m_TagString

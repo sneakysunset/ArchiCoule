@@ -51,7 +51,7 @@ public class PlayerCollisionManager : MonoBehaviour
         }
         else if (condition1 && !condition2 && enterAgain)
         {
-            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/Landcorde");
+            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/LineLand");
             enterAgain = false;
         }
         else if (!condition1)

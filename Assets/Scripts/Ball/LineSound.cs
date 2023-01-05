@@ -21,6 +21,7 @@ public class LineSound : MonoBehaviour
 
     public void PlaySound()
     {
+        lineC = FindObjectOfType<LineCreator>();
         if (IsPlaying())
         {
             sound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
@@ -37,9 +38,9 @@ public class LineSound : MonoBehaviour
 
         soundEnum = soundControl();
         
-        lineC = FindObjectOfType<LineCreator>();
-        sound = FMODUnity.RuntimeManager.CreateInstance("event:/");
+        sound = FMODUnity.RuntimeManager.CreateInstance("event:/MouvementCorde/LineSound");
         sound.start();
+        GetMaxHeight();
         StartCoroutine(soundEnum);
     }
 
@@ -52,20 +53,27 @@ public class LineSound : MonoBehaviour
 
     void GetMaxHeight()
     {
-        RaycastHit2D hitTop = Physics2D.Raycast(lineC.transform.position, Vector2.up, Mathf.Infinity, 15); 
-        RaycastHit2D hitBottom = Physics2D.Raycast(lineC.transform.position, Vector2.down, Mathf.Infinity, 15);
-        maxHeight = hitTop.point.y - hitBottom.point.y;
-        minHeight = hitBottom.point.y;
+        RaycastHit2D hitTop = Physics2D.Raycast((Vector2)lineC.transform.position, Vector2.up, 1000, 15); 
+        RaycastHit2D hitBottom = Physics2D.Raycast((Vector2)lineC.transform.position, Vector2.down, 1000, 15);
+
+        //print(hitTop.transform.name + " " + hitTop.point.y);
+        //print(hitBottom.transform.name + " " + hitBottom.point.y);
+        //maxHeight = hitTop.point.y - hitBottom.point.y;
+        //minHeight = hitBottom.point.y;
+        maxHeight = 47;
+        minHeight = 0;
     }
 
     IEnumerator soundControl()
     {
+        yield return new WaitForSeconds(1);
         int i = 0;
         while(i < lineC.pointList.Count - 1)
         {
             i++;
-            sound.setParameterByName("parameterName", (lineC.pointList[i].y - minHeight)/ maxHeight);
+            sound.setParameterByName("Pitch", (lineC.pointList[i].y - minHeight)/ maxHeight, true);
             currentVisual.position = lineC.pointList[i];
+
             yield return waiter;
         }
         sound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
