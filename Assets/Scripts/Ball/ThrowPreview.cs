@@ -8,52 +8,8 @@ public class ThrowPreview : MonoBehaviour
     private Scene _simulatedScene;
     private PhysicsScene2D _physicsScene;
     public GameObject BallPrefab;
-    private void Start()
-    {
-       //CreatePhysicsScene();
-    }
+    public LineRenderer _line;
 
-    void CreatePhysicsScene()
-    {
-        _simulatedScene = SceneManager.CreateScene("Simulation", new CreateSceneParameters(LocalPhysicsMode.Physics2D));
-        _physicsScene = _simulatedScene.GetPhysicsScene2D();
-
-        foreach(Transform obj in SolidesParent)
-        {
-            var ghostObj =  Instantiate(obj.gameObject, obj.position, obj.rotation);
-            ghostObj.GetComponentInChildren<Renderer>().enabled = false;
-            SceneManager.MoveGameObjectToScene(ghostObj, _simulatedScene);  
-        }
-    }
-
-     public LineRenderer _line;
-    public int _maxPhysicsFrameIterations = 100;
-
-    public void SimulateTrajectory(float throwStrength, Vector2 direction)
-    {
-        print(1);
-        var ghostObj = Instantiate(this.gameObject, transform.position, transform.rotation);
-        SceneManager.MoveGameObjectToScene(ghostObj, _simulatedScene);
-
-        ghostObj.GetComponent<LineCreator>().enabled = false;
-        ghostObj.GetComponent<BallBehavior>().enabled = false;
-
-        ghostObj.GetComponent<Rigidbody2D>().AddForce(direction * throwStrength, ForceMode2D.Impulse);
-        
-        _line.positionCount = _maxPhysicsFrameIterations;
-        for (int i = 0; i < _maxPhysicsFrameIterations; i++)
-        {
-            _physicsScene.Simulate(Time.fixedDeltaTime);
-            _line.SetPosition(i, ghostObj.transform.position);
-        }
-
-        Destroy(ghostObj);
-    }
-
-    private void Update()
-    {
-        //_line.SetPosition(0, transform.position);
-    }
 
     public void Sim(Vector2 velocity)
     {
@@ -86,4 +42,40 @@ public class ThrowPreview : MonoBehaviour
         }
         return results;
     }
+
+    #region Not Used
+    void CreatePhysicsScene()
+    {
+        _simulatedScene = SceneManager.CreateScene("Simulation", new CreateSceneParameters(LocalPhysicsMode.Physics2D));
+        _physicsScene = _simulatedScene.GetPhysicsScene2D();
+
+        foreach(Transform obj in SolidesParent)
+        {
+            var ghostObj =  Instantiate(obj.gameObject, obj.position, obj.rotation);
+            ghostObj.GetComponentInChildren<Renderer>().enabled = false;
+            SceneManager.MoveGameObjectToScene(ghostObj, _simulatedScene);  
+        }
+    }
+    public int _maxPhysicsFrameIterations = 100;
+    public void SimulateTrajectory(float throwStrength, Vector2 direction)
+    {
+        print(1);
+        var ghostObj = Instantiate(this.gameObject, transform.position, transform.rotation);
+        SceneManager.MoveGameObjectToScene(ghostObj, _simulatedScene);
+
+        ghostObj.GetComponent<LineCreator>().enabled = false;
+        ghostObj.GetComponent<BallBehavior>().enabled = false;
+
+        ghostObj.GetComponent<Rigidbody2D>().AddForce(direction * throwStrength, ForceMode2D.Impulse);
+        
+        _line.positionCount = _maxPhysicsFrameIterations;
+        for (int i = 0; i < _maxPhysicsFrameIterations; i++)
+        {
+            _physicsScene.Simulate(Time.fixedDeltaTime);
+            _line.SetPosition(i, ghostObj.transform.position);
+        }
+
+        Destroy(ghostObj);
+    }
+    #endregion
 }

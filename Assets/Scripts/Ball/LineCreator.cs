@@ -21,6 +21,7 @@ public class LineCreator : MonoBehaviour
     [Space(5)]
     public GameObject linePrefab;
     Vector2 ogPos;
+    int prevUpdatedIndex;
     public GameObject ballPrefab;
 
 
@@ -45,7 +46,6 @@ public class LineCreator : MonoBehaviour
 
     private void Start()
     {
-        prevPos = transform.position;
         lineFolder = GameObject.FindGameObjectWithTag("LineFolder").transform;
         pointArray = Utils_Points.GeneratePointArray(pointArray, lineBeginningX, lineEndX, lineResolution);
         if (GetComponent<CharacterController2D>())
@@ -61,13 +61,25 @@ public class LineCreator : MonoBehaviour
         InstantiateLine();
     }
 
+    private void InstantiateLine()
+    {
+        lineT = Instantiate(linePrefab, lineFolder).transform;
+        lineR = lineT.GetComponentInChildren<LineRenderer>();
+        edgeC = lineT.GetComponentInChildren<EdgeCollider2D>();
+        lineR.material.color = col;
+        lineT.name = "Mesh " + pType.ToString() + " Off";
+        edgeC.gameObject.layer = 6;
+        if (pType != CharacterController2D.Team.Ball)
+            charC.meshObj = lineT.gameObject;
+    }
+
     public void LineUpdater()
     {
         var list = pointList;
         list = pointList.OrderBy(v => v.x).ToList();
         pointList = list;
 
-        if (!newUpdatePointList()) return;
+        if (!UpdatePointList()) return;
 
         list = pointList.OrderBy(v => v.x).ToList();
         pointList = list;
@@ -81,72 +93,26 @@ public class LineCreator : MonoBehaviour
             vector3s[i] = pointList[i];
         }
         lineR.SetPositions(vector3s);
-        StartCoroutine(afterPhysics(list));
-    }
-
-    IEnumerator afterPhysics(List<Vector2> list)
-    {
-        yield return new WaitForFixedUpdate();
-        edgeC.SetPoints(pointList);
-        prevPos = transform.position;
+        StartCoroutine(afterPhysics());
     }
 
     public bool UpdatePointList()
     {
-        int closestVertexIndex = Utils_Points.ClosestPointInList(pointList, transform.position.x, pointArray);
-        float closestVertexX = pointList[closestVertexIndex].x;
-
-        BandAidRemovePoints();
-
-        closestVertexIndex = Utils_Points.ClosestPointInList(pointList, transform.position.x, pointArray);
-        closestVertexX = pointList[closestVertexIndex].x;
-
-        bool condition2 = false;
-        bool condition1 = Mathf.Abs(transform.position.x - closestVertexX) > lineResolution;
-        if (pointList.Count > 4)
-        {
-            condition2 = Mathf.Abs(transform.position.y - pointList[closestVertexIndex].y) > threshHoldToUpdatePoints;
-        }
-
-
-        if (condition1)
-        {
-            int numOfPointAdded = Utils_Points.AddPoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet);
-            if (pType != CharacterController2D.Team.Ball)
-                charC.transform.localScale -= Vector3.one * charC.movementScaler / 100 * numOfPointAdded;
-            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCorde/TirageCorde");
-            return true;
-        }
-        else if (!condition1 && condition2)
-        {
-            //var startPos = pointList[closestVertexIndex];
-            //var endPos = (Vector2)transform.position - (Vector2.up * lineYOffSet);
-            Utils_Points.UpdatePoints(pointArray, pointList, closestVertexX, transform.position - Vector3.up * lineYOffSet, lineResolution, lineYOffSet, prevPos);
-            //StartCoroutine(Utils_Anim.AnimationLerp(startPos, endPos, endPos, updateAnim, updateAnimSpeed, returnValue => { pointList[closestVertexIndex] = returnValue; }));
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public bool newUpdatePointList()
-    {
         Vector2 pPos = new Vector2(transform.position.x, transform.position.y);
-        //condition1 = Le joueur est en dehors de la liste de point
         bool condition1 = pointList[0].x - pPos.x > lineResolution || pPos.x - pointList[pointList.Count - 1].x > lineResolution;
         bool condition2 = pointList[0].x - pPos.x < lineResolution && pPos.x - pointList[pointList.Count - 1].x < lineResolution;
+        bool condition3 = transform.position.x != prevUpdatedIndex;
         if (condition1)
         {
             AddPoint();
+            return true;
         }
-        else if (condition2)
+        else if (condition2 && condition3)
         {
             UpdatePoint();
+            return true;
         }
-
-        return true;
+        else return false;
     }
 
     void AddPoint()
@@ -160,8 +126,6 @@ public class LineCreator : MonoBehaviour
         if (pointList[0].x - pPos.x > lineResolution)
         {
             posX = Mathf.FloorToInt(pPos.x) + b + lineResolution;
-            //if (pPos.x - Mathf.FloorToInt(pPos.x) > .5f) posX = Mathf.CeilToInt(pPos.x);
-            //else posX = Mathf.FloorToInt(pPos.x) + .5f;
 
             for (float i = posX; i < pointList[0].x; i += lineResolution)
             {
@@ -174,8 +138,6 @@ public class LineCreator : MonoBehaviour
         else
         {
             posX = Mathf.FloorToInt(pPos.x) + b;
-            //if (pPos.x - Mathf.FloorToInt(pPos.x) < .5f) posX = Mathf.FloorToInt(pPos.x);
-            //else posX = Mathf.FloorToInt(pPos.x) + .5f;
 
             for (float i = posX; i > pointList[pointList.Count - 1].x; i -= lineResolution)
             {
@@ -185,8 +147,6 @@ public class LineCreator : MonoBehaviour
             }
         }
     }
-
-    public int prevUpdatedIndex;
 
     void UpdatePoint()
     {
@@ -236,32 +196,10 @@ public class LineCreator : MonoBehaviour
         prevUpdatedIndex = closestIndex;
     }
 
-    private Vector2 prevPos;
-    private void InstantiateLine()
+    IEnumerator afterPhysics()
     {
-        lineT = Instantiate(linePrefab, lineFolder).transform;
-        lineR = lineT.GetComponentInChildren<LineRenderer>();
-        edgeC = lineT.GetComponentInChildren<EdgeCollider2D>();
-        lineR.material.color = col;
-        lineT.name = "Mesh " + pType.ToString() + " Off";
-        edgeC.gameObject.layer = 6;
-        if (pType != CharacterController2D.Team.Ball)
-            charC.meshObj = lineT.gameObject;
-    }
-
-    //Enleve les doublons, il faut trouver une alternative
-    void BandAidRemovePoints()
-    {
-        for (int i = 1; i < pointList.Count; i++)
-        {
-            if (Mathf.Abs(pointList[i].x - pointList[i - 1].x) < lineResolution * .9f)
-            {
-                pointList.RemoveAt(i);
-                if (pType != CharacterController2D.Team.Ball)
-                    charC.transform.localScale += Vector3.one * charC.movementScaler / 100;
-                return;
-            }
-        }
+        yield return new WaitForFixedUpdate();
+        edgeC.SetPoints(pointList);
     }
 
     private void OnDestroy()
@@ -271,6 +209,5 @@ public class LineCreator : MonoBehaviour
 
         // Instantiate(ballPrefab, ogPos, Quaternion.identity);
     }
-
 
 }

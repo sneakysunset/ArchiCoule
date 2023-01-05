@@ -92,12 +92,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 356941409344012204}
-  - component: {fileID: 2184092281833350269}
-  - component: {fileID: 1238972101}
-  - component: {fileID: 1339753458846042091}
-  - component: {fileID: 1339753458846042102}
   - component: {fileID: 1339753458846042098}
+  - component: {fileID: 1238972101}
   - component: {fileID: 1339753458846042103}
+  - component: {fileID: 1339753458846042102}
+  - component: {fileID: 1339753458846042091}
   - component: {fileID: -5115322315258834901}
   m_Layer: 0
   m_Name: LineBall
@@ -124,14 +123,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2184092281833350269
-MeshFilter:
+--- !u!114 &1339753458846042098
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99438573390550179}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f00882fb5dbac45a325abd0179a369, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointList: []
+  lineR: {fileID: 0}
+  edgeC: {fileID: 0}
+  lineT: {fileID: 0}
+  linePrefab: {fileID: 8470138877869589839, guid: ff770ce5c4b76214ab8f01110640449d, type: 3}
+  ballPrefab: {fileID: 99438573390550179}
+  lineResolution: 0.2
+  lineBeginningX: -100
+  lineEndX: 100
+  width: 0.25
+  lineYOffSet: 0
+  threshHoldToUpdatePoints: 0.1
+  updateSoundFrequency: 0
+  updateAnim:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  updateAnimSpeed: 0
+  prevUpdatedIndex: 0
 --- !u!114 &1238972101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,27 +186,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52743c3aebeb2e64e9bb60db903a5f77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &1339753458846042091
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!114 &1339753458846042103
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99438573390550179}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 77af3e31c246fda4f935c88763c3764c, type: 2}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c474d0968fff0b42afde6aa22bc9086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SolidesParent: {fileID: 0}
+  BallPrefab: {fileID: 99438573390550179}
+  _line: {fileID: 1339753458846042102}
+  _maxPhysicsFrameIterations: 1500
 --- !u!120 &1339753458846042102
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -263,72 +300,27 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &1339753458846042098
-MonoBehaviour:
+--- !u!50 &1339753458846042091
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99438573390550179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1f00882fb5dbac45a325abd0179a369, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointList: []
-  lineR: {fileID: 0}
-  edgeC: {fileID: 0}
-  lineT: {fileID: 0}
-  linePrefab: {fileID: 8470138877869589839, guid: ff770ce5c4b76214ab8f01110640449d, type: 3}
-  ballPrefab: {fileID: 99438573390550179}
-  lineResolution: 0.2
-  lineBeginningX: -100
-  lineEndX: 100
-  width: 0.25
-  lineYOffSet: 0
-  threshHoldToUpdatePoints: 0.1
-  updateSoundFrequency: 0
-  updateAnim:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  updateAnimSpeed: 0
---- !u!114 &1339753458846042103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 99438573390550179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c474d0968fff0b42afde6aa22bc9086, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SolidesParent: {fileID: 0}
-  BallPrefab: {fileID: 99438573390550179}
-  _line: {fileID: 1339753458846042102}
-  _maxPhysicsFrameIterations: 1500
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: 77af3e31c246fda4f935c88763c3764c, type: 2}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!114 &-5115322315258834901
 MonoBehaviour:
   m_ObjectHideFlags: 0
