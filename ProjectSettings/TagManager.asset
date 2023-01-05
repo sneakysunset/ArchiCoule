@@ -5,8 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Resp
-  - MeshFolder
   - LineCollider
+  - Ball
+  - Held
+  - Jumpable
+  - LineFolder
   layers:
   - Default
   - TransparentFX
@@ -14,16 +17,16 @@ TagManager:
   - 
   - Water
   - UI
-  - ColliderJ1
-  - Player1
-  - ColliderJ2
-  - Player2
-  - NoCollisionPlayer
-  - GoThroughP1
-  - GoThroughP2
-  - 
-  - 
-  - 
+  - LineCollider
+  - Ball
+  - Player
+  - PlayerOff
+  - BallDetector
+  - Pass Through
+  - BallWall
+  - PlayerWall
+  - BallHeld
+  - RoomTopWall
   - 
   - 
   - 

@@ -9,4 +9,14 @@ public class ReloadScene : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void TestScene()
+    {
+        SceneManager.LoadScene("SceneTest");
+    }
+
+    public void PlayGround()
+    {
+        SceneManager.LoadScene("PlayGround");
+    }
 }
