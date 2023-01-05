@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Resp
+  - LineCollider
+  - Ball
+  - Held
+  - Jumpable
+  - LineFolder
   layers:
   - Default
   - TransparentFX
@@ -11,16 +17,16 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - LineCollider
+  - Ball
+  - Player
+  - PlayerOff
+  - BallDetector
+  - Pass Through
+  - BallWall
+  - PlayerWall
+  - BallHeld
+  - RoomTopWall
   - 
   - 
   - 
@@ -38,6 +44,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: edge
+    uniqueID: 2797769707
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
