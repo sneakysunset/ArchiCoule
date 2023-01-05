@@ -48,8 +48,9 @@ public class HoldBall : MonoBehaviour
             bRb = null;
             lineC = null;
             bBT = null;
-            bCol.gameObject.layer = 7;
 
+            bCol.gameObject.layer = 7;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Grab");
             bCol.tag = "Ball";
 
             playerCollisionM.coll.layer = LayerMask.NameToLayer("PlayerOff");
@@ -66,6 +67,7 @@ public class HoldBall : MonoBehaviour
             // bCol.isTrigger = true;
             bB.tag = "Held";
             bCol.tag = "Held";
+            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Catch");
             bB.GetComponentInChildren<Collider2D>().tag = "Held";
             bRb = bB.GetComponent<Rigidbody2D>();
             bRb.isKinematic = true;
@@ -122,6 +124,7 @@ public class HoldBall : MonoBehaviour
             bB = null;
             bBT = null;
             bRb.velocity = GetComponent<CharacterController2D>().moveValue * ThrowStrength;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Throw");
             // bRb.AddForce(GetComponent<CharacterController2D>().moveValue * ThrowStrength, ForceMode2D.Impulse);
             sim = false;
             bRb = null;
@@ -141,6 +144,7 @@ public class HoldBall : MonoBehaviour
         if (bB != null)
         {
             bCol.gameObject.layer = 7;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/MouvementCharacter/Grab");
 
             bRb.isKinematic = false;
            // bCol.isTrigger = false;

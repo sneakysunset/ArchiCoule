@@ -14,6 +14,7 @@ public class PlayerCollisionManager : MonoBehaviour
 
     [Range(-1f, 1f)] public float yGroundCheck = -.15f;
     [Range(-1f, 1f)] public float yWallJump = .7f;
+    public float bounce = 1.5f;
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         LineCollisionEnter(collision);
         GroundCheckCollisionEnter(collision);
+        CollisionWithPlayer(collision);
         if (collision.contacts[0].normal.y > -yWallJump && collision.contacts[0].normal.y < yWallJump && collision.gameObject.CompareTag("Jumpable") /*|| collision.gameObject.CompareTag("LineCollider")*/)
         {
             charC.jumping = false;
@@ -70,6 +72,15 @@ public class PlayerCollisionManager : MonoBehaviour
                 StopCoroutine(groundCheckEnum);
                 groundCheckEnum = null;
             }
+        }
+    }
+    
+    private void CollisionWithPlayer(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Player") && collision.contacts[0].normal.y > .65f)
+        {
+            rb.AddForce(Vector2.up * bounce, ForceMode2D.Impulse);
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Ball/Bounce");
         }
     }
 

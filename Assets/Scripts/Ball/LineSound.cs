@@ -13,7 +13,8 @@ public class LineSound : MonoBehaviour
     public GameObject visualPrefab;
     private Transform currentVisual;
     IEnumerator soundEnum;
-
+    public bool pingpong;
+    public float startTimer;
     private void Start()
     {
         waiter = new WaitForSeconds(soundUpdateTimer);
@@ -66,7 +67,7 @@ public class LineSound : MonoBehaviour
 
     IEnumerator soundControl()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(startTimer);
         int i = 0;
         while(i < lineC.pointList.Count - 1)
         {
@@ -76,10 +77,32 @@ public class LineSound : MonoBehaviour
 
             yield return waiter;
         }
-        sound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        sound.release();
-        Destroy(currentVisual.gameObject);
-        StopCoroutine(soundEnum);
-        soundEnum = null;
+        while (i > 0)
+        {
+            i--;
+            sound.setParameterByName("Pitch", (lineC.pointList[i].y - minHeight) / maxHeight, true);
+            currentVisual.position = lineC.pointList[i];
+
+            yield return waiter;
+        }
+        if (!pingpong)
+        {
+            sound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            sound.release();
+            Destroy(currentVisual.gameObject);
+            StopCoroutine(soundEnum);
+            soundEnum = null;
+        }
+        else
+        {
+            PingPongSoundControl();
+
+        }
+    }
+
+    void PingPongSoundControl()
+    {
+        startTimer = 0;
+        StartCoroutine(soundControl());
     }
 }

@@ -309,6 +309,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundUpdateTimer: 0.02
   visualPrefab: {fileID: 5727735672955443796, guid: 225a3375bd35c5943827f08731b55c81, type: 3}
+  pingpong: 0
+  startTimer: 1
 --- !u!1 &105943973
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +443,10 @@ PrefabInstance:
     - target: {fileID: 356941409344012204, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339753458846042092, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
+      propertyPath: m_Material
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1339753458846042098, guid: cd4f2825f5afbf7438792119cc4993a3, type: 3}
       propertyPath: ballPrefab
@@ -2132,6 +2138,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1074573358669061575, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: bounce
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074573358669061575, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: yWallJump
       value: 0.2
       objectReference: {fileID: 0}
@@ -2202,6 +2212,10 @@ PrefabInstance:
     - target: {fileID: 1775201043333655794, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: wallJumpStrength
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775201044604555541, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6984929972057871670, guid: 68e705da722cadc4facc4552e86f197c, type: 3}
       propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target

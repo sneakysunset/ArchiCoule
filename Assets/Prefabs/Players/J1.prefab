@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 6984929972057871670}
   - component: {fileID: 616959123}
   - component: {fileID: 1363006960}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: J1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -182,6 +182,7 @@ MonoBehaviour:
   holdingBall: 0
   yGroundCheck: 0.15
   yWallJump: 0.7
+  bounce: 1.5
 --- !u!114 &6984929972057871670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +328,7 @@ MonoBehaviour:
   bB: {fileID: 0}
   holdPoint: {fileID: 666370479}
   ThrowStrength: 15
+  isHolding: 0
 --- !u!50 &1363006960
 Rigidbody2D:
   serializedVersion: 4
@@ -443,7 +445,7 @@ GameObject:
   - component: {fileID: 2012075310}
   m_Layer: 8
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
