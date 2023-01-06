@@ -22,12 +22,9 @@ public class BallBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //colInstance.setParameterByName("Volume", rb.velocity.magnitude);
+
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("VolumeColBall", rb.velocity.magnitude);
         FMODUnity.RuntimeManager.PlayOneShot("event:/Ball/Collision");
-   
-        //print(rb.velocity.magnitude);
-        //colInstance.start();
     }
 
 }

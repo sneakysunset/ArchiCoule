@@ -37,7 +37,7 @@ public class LineSound : MonoBehaviour
 
         }
 
-        soundEnum = soundControl();
+        soundEnum = SoundControl();
         
         sound = FMODUnity.RuntimeManager.CreateInstance("event:/MouvementCorde/LineSound");
         sound.start();
@@ -65,7 +65,7 @@ public class LineSound : MonoBehaviour
         minHeight = 0;
     }
 
-    IEnumerator soundControl()
+    IEnumerator SoundControl()
     {
         yield return new WaitForSeconds(startTimer);
         int i = 0;
@@ -103,6 +103,6 @@ public class LineSound : MonoBehaviour
     void PingPongSoundControl()
     {
         startTimer = 0;
-        StartCoroutine(soundControl());
+        StartCoroutine(SoundControl());
     }
 }

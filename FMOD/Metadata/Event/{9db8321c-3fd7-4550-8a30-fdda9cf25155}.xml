@@ -107,6 +107,9 @@
 		<property name="length">
 			<value>5.9820408163265304</value>
 		</property>
+		<property name="startOffset">
+			<value>7</value>
+		</property>
 		<property name="volume">
 			<value>-7.5</value>
 		</property>
@@ -192,7 +195,7 @@
 			<value>0</value>
 		</property>
 		<property name="curveShape">
-			<value>-0.2547189</value>
+			<value>-1.00000048</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{0e0ba502-74fd-47bc-bc0c-5b580e82ec44}">

@@ -76,8 +76,6 @@ public class Door : MonoBehaviour
         }
         else
         {
-
-
             if (doorOpening != null)
             {
                 StopCoroutine(doorOpening);

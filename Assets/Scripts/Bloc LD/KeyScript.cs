@@ -41,7 +41,6 @@ public class KeyScript : MonoBehaviour
 
             door.KeyTriggered();
             GetComponent<SpriteRenderer>().color = ogCol;
-
         }
     }
 }
