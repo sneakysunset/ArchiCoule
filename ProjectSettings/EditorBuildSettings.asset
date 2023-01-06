@@ -8,22 +8,28 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/PlayGround.unity
+    path: Assets/Scenes/Build/PlayGround.unity
     guid: 23fdd570a2d8402418f72640dcdb70db
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/SceneTest.unity
+    path: Assets/Scenes/Build/SceneTest.unity
     guid: c3fbfb1e251a88c4583aaadbae4669e5
+  - enabled: 1
+    path: Assets/Scenes/Build/LD_MainTest.unity
+    guid: 1623d62243a7e6f46a8982d14266d086
+  - enabled: 1
+    path: Assets/Scenes/Build/Sound Test.unity
+    guid: 0fee96c8b6d8c994486a714c5547907e
   m_configObjects: {}

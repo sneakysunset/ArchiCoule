@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class LineSound : MonoBehaviour
 {
     private LineCreator lineC;
-    private FMOD.Studio.EventInstance sound;
+    [HideInInspector] public FMOD.Studio.EventInstance sound;
     public float soundUpdateTimer;
     WaitForSeconds waiter;
     private float maxHeight;
@@ -15,6 +15,7 @@ public class LineSound : MonoBehaviour
     IEnumerator soundEnum;
     public bool pingpong;
     public float startTimer;
+
     private void Start()
     {
         waiter = new WaitForSeconds(soundUpdateTimer);
@@ -105,4 +106,6 @@ public class LineSound : MonoBehaviour
         startTimer = 0;
         StartCoroutine(SoundControl());
     }
+
+   
 }
